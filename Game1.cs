@@ -9,6 +9,65 @@ namespace MonogameWindows
     /// </summary>
     public class Game1 : Game
     {
+
+
+
+        private const short WORLD_WIDTH = 128;
+        private const short WORLD_HEIGHT = 128;
+        private const short WORLD_DEPTH = 128;
+
+        private const short BUFFER_WIDTH = 1280;
+        private const short BUFFER_HEIGHT = 720;
+
+        private const float SPEED = 0.3f;
+
+        public struct WorldDimensions {
+            public int width
+            {
+                get; private set;
+            }
+
+            public int height
+            {
+                get; private set;
+            }
+            public int depth
+            {
+                get; private set;
+            }
+
+            public Vector3 origin
+            {
+                get; private set;
+            }
+
+            public WorldDimensions(int width, int height, int depth, Vector3 origin)
+            {
+                this.width = width;
+                this.height = height;
+                this.depth = depth;
+                this.origin = origin;
+            }
+
+
+        }
+
+        private WorldDimensions _worldDimensions;
+        public WorldDimensions worldDimensions
+        {
+            get
+            {
+                return _worldDimensions;
+            }
+            set
+            {
+                _worldDimensions = value; 
+            }
+        }
+
+
+        private Vector3 origin = new Vector3(0f, 0f, 0f);
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -22,15 +81,22 @@ namespace MonogameWindows
         Matrix worldMatrix;
 
         VertexPositionColor[] triangle;
+        VertexPositionColor[] floorTile;
         VertexBuffer vertexBuffer;
+        VertexBuffer floorBuffer;
 
         BasicEffect basicEffect;
+        Grid grid;
 
         bool orbit = false;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = BUFFER_WIDTH;
+            graphics.PreferredBackBufferHeight = BUFFER_HEIGHT;
+            graphics.PreferMultiSampling = true;
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -46,30 +112,51 @@ namespace MonogameWindows
 
             base.Initialize();
 
+            worldDimensions = new WorldDimensions(WORLD_WIDTH, WORLD_WIDTH,WORLD_DEPTH,origin);
+
             basicEffect = new BasicEffect(GraphicsDevice);
             basicEffect.Alpha = 1f;
             basicEffect.VertexColorEnabled = true;
             basicEffect.LightingEnabled = false;
 
-            cameraDirection = new Vector3(0f, 0f, 0f);
-            cameraPosition = new Vector3(0f, 0f, -100f);
+            cameraDirection = new Vector3(0f, 1f, 0f);
+            cameraPosition = new Vector3(0f, 5f, -64f);
 
             // MATRIZEN
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), GraphicsDevice.DisplayMode.AspectRatio, 1f, 1000f);
+            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), GraphicsDevice.DisplayMode.AspectRatio, 1f, 32f);
             viewMatrix = Matrix.CreateLookAt(cameraPosition, cameraDirection, new Vector3(0f, 1f, 0f));
             worldMatrix = Matrix.CreateWorld(cameraDirection, Vector3.Forward, Vector3.Up);
 
+            //FLOOR TILE
+            floorTile = new VertexPositionColor[6];
+            floorTile[0].Position = new Vector3(-20, -20,0);
+            floorTile[1].Position = new Vector3(-20, 20,0);
+            floorTile[2].Position = new Vector3(20, -20,0);
+            floorTile[3].Position = floorTile[1].Position;
+            floorTile[4].Position = new Vector3(20, 20,0);
+            floorTile[5].Position = floorTile[2].Position;
 
             //TRIANGLE
-            triangle = new VertexPositionColor[3];
-            triangle[0] = new VertexPositionColor(new Vector3(0f, 20f, 0), Color.Red);
-            triangle[1] = new VertexPositionColor(new Vector3(-20f, -20f, 0), Color.Green);
-            triangle[2] = new VertexPositionColor(new Vector3(20f, -20f, 0), Color.Blue);
+            triangle = new VertexPositionColor[6];
+            triangle[0] = new VertexPositionColor(new Vector3(-64f, 0f, -64f), Color.Red);
+            triangle[1] = new VertexPositionColor(new Vector3(64f, 0f, -64f), Color.Green);
+            triangle[2] = new VertexPositionColor(new Vector3(-64f, 0f, 64f), Color.Blue);
+
+
+            triangle[3] = new VertexPositionColor(new Vector3(64f, 0f, -64f), Color.Green);
+            triangle[4] = new VertexPositionColor(new Vector3(64f, 0f, 64f), Color.Red);
+            triangle[5] = new VertexPositionColor(new Vector3(-64f, 0f, 64f), Color.Blue);
+
+            grid = new Grid(worldDimensions,this);
 
 
             //VERTEX BUFFER
-            vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), 3, BufferUsage.WriteOnly);
+            vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), 6, BufferUsage.WriteOnly);
             vertexBuffer.SetData<VertexPositionColor>(triangle);
+
+            floorBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), 6, BufferUsage.WriteOnly);
+            floorBuffer.SetData<VertexPositionColor>(floorTile);
+
 
         }
 
@@ -122,15 +209,15 @@ namespace MonogameWindows
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                cameraPosition.Y -= 1f;
-                cameraDirection.Y -= 1f;
+                cameraPosition.Z -= SPEED;
+                cameraDirection.Z -= SPEED;
             }
 
 
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                cameraPosition.Y += 1f;
-                cameraDirection.Y += 1f;
+                cameraPosition.Z += SPEED;
+                cameraDirection.Z += SPEED;
             }
 
 
@@ -144,15 +231,16 @@ namespace MonogameWindows
                 cameraPosition.Z -= 1f;
             }
 
-            if(Keyboard.GetState().IsKeyDown(Keys.Space))
-            {
+            if(Mouse.GetState().LeftButton.Equals(ButtonState.Pressed)) {
+
                 orbit = !orbit;
             }
 
             if(orbit)
             {
-                Matrix rotationMatrix = Matrix.CreateRotationY(MathHelper.ToRadians(2f));
+                Matrix rotationMatrix = Matrix.CreateRotationY(MathHelper.ToRadians(0.25f));
                 cameraPosition = Vector3.Transform(cameraPosition, rotationMatrix);
+
             }
 
             viewMatrix = Matrix.CreateLookAt(cameraPosition, cameraDirection, Vector3.Up);
@@ -171,7 +259,7 @@ namespace MonogameWindows
             basicEffect.World = worldMatrix;
 
 
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.Purple);
             GraphicsDevice.SetVertexBuffer(vertexBuffer);
 
             RasterizerState state = new RasterizerState();
@@ -185,7 +273,18 @@ namespace MonogameWindows
             }
 
 
+            GraphicsDevice.SetVertexBuffer(grid.vertexBuffer);
+
+            foreach(EffectPass pass in basicEffect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                GraphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, grid.vertexBuffer.VertexCount / 2);
+            }
+
+
             base.Draw(gameTime);
         }
+
+
     }
 }
