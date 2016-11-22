@@ -32,15 +32,16 @@ namespace MonogameWindows.Models.GraphComponents
         // METHDODS & FUNCTIONS
         // -----------------------------------------------
 
-        public void Update()
+        public virtual void Update()
         {
 
         }
 
-        public void Draw()
+        public virtual void Draw(GraphicsDevice device)
         {
 
         }
+
 
         public float GetDistanceToCamera()
         {

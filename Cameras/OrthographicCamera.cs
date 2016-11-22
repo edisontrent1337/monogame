@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MonogameWindows.Cameras
 {
-    class OrthographicCamera
+    class OrthographicCamera : Camera
     {
     }
 }

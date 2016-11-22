@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MonogameWindows.Models.Graph
+namespace MonogameWindows.Cameras
 {
-    class Graph
+    class PerspectiveCamera : Camera
     {
     }
 }

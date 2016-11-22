@@ -8,5 +8,15 @@ namespace MonogameWindows.Controller
 {
     class InputHandler
     {
+
+        // CONSTRUCTOR
+        // -----------------------------------------------
+
+        // METHODS & FUNCTIONS
+        // -----------------------------------------------
+
+
+        // PROPERTIES
+        // -----------------------------------------------
     }
 }
