@@ -61,5 +61,24 @@ namespace MonogameWindows
 
 
 
+        // DRAW METHOD
+
+        public void Draw(FirstPersonCamera camera, BasicEffect effect)
+        {
+            effect.VertexColorEnabled = true;
+            effect.View = camera.View;
+            effect.Projection = camera.Projection;
+            effect.World = Matrix.Identity;
+
+
+            foreach(EffectPass pass in effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                game.GraphicsDevice.SetVertexBuffer(vertexBuffer);
+                game.GraphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, vertexBuffer.VertexCount / 2);
+            }
+        }
+
+
     }
 }

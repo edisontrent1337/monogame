@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace MonogameWindows
+
+
+
+
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
     public class Game1 : Game
     {
 
@@ -71,14 +72,11 @@ namespace MonogameWindows
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+     
 
         //CAMERA SETUP
-        Vector3 cameraDirection;
-        Vector3 cameraPosition;
+        FirstPersonCamera firstPersonCamera;
 
-        Matrix projectionMatrix;
-        Matrix viewMatrix;
-        Matrix worldMatrix;
 
         VertexPositionColor[] triangle;
         VertexPositionColor[] floorTile;
@@ -119,13 +117,8 @@ namespace MonogameWindows
             basicEffect.VertexColorEnabled = true;
             basicEffect.LightingEnabled = false;
 
-            cameraDirection = new Vector3(0f, 1f, 0f);
-            cameraPosition = new Vector3(0f, 5f, -64f);
+            firstPersonCamera = new FirstPersonCamera(this, new Vector3(0, 1f, -64f), Vector3.Zero, 3);
 
-            // MATRIZEN
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), GraphicsDevice.DisplayMode.AspectRatio, 1f, 32f);
-            viewMatrix = Matrix.CreateLookAt(cameraPosition, cameraDirection, new Vector3(0f, 1f, 0f));
-            worldMatrix = Matrix.CreateWorld(cameraDirection, Vector3.Forward, Vector3.Up);
 
             //FLOOR TILE
             floorTile = new VertexPositionColor[6];
@@ -138,14 +131,14 @@ namespace MonogameWindows
 
             //TRIANGLE
             triangle = new VertexPositionColor[6];
-            triangle[0] = new VertexPositionColor(new Vector3(-64f, 0f, -64f), Color.Red);
-            triangle[1] = new VertexPositionColor(new Vector3(64f, 0f, -64f), Color.Green);
-            triangle[2] = new VertexPositionColor(new Vector3(-64f, 0f, 64f), Color.Blue);
+            triangle[0] = new VertexPositionColor(new Vector3(-WORLD_WIDTH, 0f, -WORLD_DEPTH), Color.Red);
+            triangle[1] = new VertexPositionColor(new Vector3(WORLD_WIDTH, 0f, -WORLD_DEPTH), Color.Green);
+            triangle[2] = new VertexPositionColor(new Vector3(-WORLD_WIDTH, 0f, WORLD_DEPTH), Color.Blue);
 
 
-            triangle[3] = new VertexPositionColor(new Vector3(64f, 0f, -64f), Color.Green);
-            triangle[4] = new VertexPositionColor(new Vector3(64f, 0f, 64f), Color.Red);
-            triangle[5] = new VertexPositionColor(new Vector3(-64f, 0f, 64f), Color.Blue);
+            triangle[3] = new VertexPositionColor(new Vector3(WORLD_WIDTH, 0f, -WORLD_DEPTH), Color.Green);
+            triangle[4] = new VertexPositionColor(new Vector3(WORLD_WIDTH, 0f, WORLD_DEPTH), Color.Red);
+            triangle[5] = new VertexPositionColor(new Vector3(-WORLD_WIDTH, 0f, WORLD_DEPTH), Color.Blue);
 
             grid = new Grid(worldDimensions,this);
 
@@ -193,35 +186,7 @@ namespace MonogameWindows
 
             // TODO: Add your update logic here
 
-            if(Keyboard.GetState().IsKeyDown(Keys.Left))
-            {
-                cameraPosition.X -= 1f;
-                cameraDirection.X -= 1f;
-            }
-
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
-            {
-                cameraPosition.X += 1f;
-                cameraDirection.X += 1f;
-            }
-
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
-            {
-                cameraPosition.Z -= SPEED;
-                cameraDirection.Z -= SPEED;
-            }
-
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
-            {
-                cameraPosition.Z += SPEED;
-                cameraDirection.Z += SPEED;
-            }
-
-
-            if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
+            /*if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
             {
                 cameraPosition.Z += 1f;
             }
@@ -243,8 +208,9 @@ namespace MonogameWindows
 
             }
 
-            viewMatrix = Matrix.CreateLookAt(cameraPosition, cameraDirection, Vector3.Up);
+            viewMatrix = Matrix.CreateLookAt(cameraPosition, cameraDirection, Vector3.Up);*/
 
+            firstPersonCamera.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -254,9 +220,9 @@ namespace MonogameWindows
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            basicEffect.Projection = projectionMatrix;
-            basicEffect.View = viewMatrix;
-            basicEffect.World = worldMatrix;
+            basicEffect.Projection = firstPersonCamera.Projection;
+            basicEffect.View = firstPersonCamera.View;
+            basicEffect.World = Matrix.Identity;
 
 
             GraphicsDevice.Clear(Color.Purple);
@@ -272,15 +238,7 @@ namespace MonogameWindows
                 GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, 3);
             }
 
-
-            GraphicsDevice.SetVertexBuffer(grid.vertexBuffer);
-
-            foreach(EffectPass pass in basicEffect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                GraphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, grid.vertexBuffer.VertexCount / 2);
-            }
-
+            grid.Draw(firstPersonCamera, basicEffect);
 
             base.Draw(gameTime);
         }

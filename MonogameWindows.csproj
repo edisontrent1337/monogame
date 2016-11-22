@@ -38,8 +38,24 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Cameras\Camera.cs" />
+    <Compile Include="Cameras\OrthographicCamera.cs" />
+    <Compile Include="Cameras\PerspektiveCamera.cs" />
+    <Compile Include="Controller\InputHandler.cs" />
+    <Compile Include="Controller\RenderingEngine.cs" />
+    <Compile Include="Controller\WorldContainer.cs" />
+    <Compile Include="Controller\WorldController.cs" />
+    <Compile Include="FirstPersonCamera.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Models\GraphComponents\Edge\Edge.cs" />
+    <Compile Include="Models\GraphComponents\Edge\LineSegment.cs" />
+    <Compile Include="Models\GraphComponents\GraphComponent.cs" />
+    <Compile Include="Models\GraphComponents\Node\Node.cs" />
+    <Compile Include="Models\Graph\Graph.cs" />
+    <Compile Include="Models\Room\Room.cs" />
+    <Compile Include="Node.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -55,6 +71,10 @@
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Game\" />
+    <Folder Include="Models\Tango\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
