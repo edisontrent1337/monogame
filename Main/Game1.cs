@@ -2,7 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace MonogameWindows
+using MonogameWindows.Controller;
+
+using System;
+
+
+namespace MonogameWindows.Main
 
 
 
@@ -11,6 +16,13 @@ namespace MonogameWindows
     public class Game1 : Game
     {
 
+
+        // CONTROLLER
+
+
+        private RenderingEngine renderingEngine;
+        private WorldContainer worldContainer;
+        private WorldController worldController;
 
 
         private const short WORLD_WIDTH = 128;
@@ -23,24 +35,8 @@ namespace MonogameWindows
         private const float SPEED = 0.3f;
 
         public struct WorldDimensions {
-            public int width
-            {
-                get; private set;
-            }
-
-            public int height
-            {
-                get; private set;
-            }
-            public int depth
-            {
-                get; private set;
-            }
-
-            public Vector3 origin
-            {
-                get; private set;
-            }
+            public int width, height, depth;
+            public Vector3 origin;
 
             public WorldDimensions(int width, int height, int depth, Vector3 origin)
             {
@@ -84,10 +80,12 @@ namespace MonogameWindows
         VertexBuffer floorBuffer;
 
         BasicEffect basicEffect;
-        Grid grid;
+        Floor grid;
 
         bool orbit = false;
 
+        // CONSTRUCTOR
+        // -----------------------------------------------
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -96,6 +94,9 @@ namespace MonogameWindows
             graphics.PreferMultiSampling = true;
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
+
+
+
         }
 
         /// <summary>
@@ -104,11 +105,25 @@ namespace MonogameWindows
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
+        /// 
+
+
+        // METHODS & FUNCTIONS
+        // -----------------------------------------------
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
 
             base.Initialize();
+
+            /**
+             * Controllers can be created only here, not in Game1's constructor,
+             * because GraphicsDevice has not been initialized up there yet.
+             **/
+            worldContainer = new WorldContainer();
+            worldController = new WorldController(this, worldContainer);
+            renderingEngine = new RenderingEngine(worldContainer, GraphicsDevice);
+
 
             worldDimensions = new WorldDimensions(WORLD_WIDTH, WORLD_WIDTH,WORLD_DEPTH,origin);
 
@@ -117,7 +132,7 @@ namespace MonogameWindows
             basicEffect.VertexColorEnabled = true;
             basicEffect.LightingEnabled = false;
 
-            firstPersonCamera = new FirstPersonCamera(this, new Vector3(0, 1f, -64f), Vector3.Zero, 3);
+            firstPersonCamera = new FirstPersonCamera(this, new Vector3(0, 1f, 0f), Vector3.Zero, 3);
 
 
             //FLOOR TILE
@@ -140,7 +155,7 @@ namespace MonogameWindows
             triangle[4] = new VertexPositionColor(new Vector3(WORLD_WIDTH, 0f, WORLD_DEPTH), Color.Red);
             triangle[5] = new VertexPositionColor(new Vector3(-WORLD_WIDTH, 0f, WORLD_DEPTH), Color.Blue);
 
-            grid = new Grid(worldDimensions,this);
+            grid = new Floor(worldDimensions,this);
 
 
             //VERTEX BUFFER
@@ -150,6 +165,7 @@ namespace MonogameWindows
             floorBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), 6, BufferUsage.WriteOnly);
             floorBuffer.SetData<VertexPositionColor>(floorTile);
 
+            
 
         }
 
@@ -211,6 +227,7 @@ namespace MonogameWindows
             viewMatrix = Matrix.CreateLookAt(cameraPosition, cameraDirection, Vector3.Up);*/
 
             firstPersonCamera.Update(gameTime);
+            //Console.WriteLine(firstPersonCamera.Position);
             base.Update(gameTime);
         }
 
@@ -220,23 +237,25 @@ namespace MonogameWindows
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+
+            renderingEngine.Draw();
             basicEffect.Projection = firstPersonCamera.Projection;
             basicEffect.View = firstPersonCamera.View;
             basicEffect.World = Matrix.Identity;
 
 
-            GraphicsDevice.Clear(Color.Purple);
+            GraphicsDevice.Clear(Color.Black);
             GraphicsDevice.SetVertexBuffer(vertexBuffer);
 
             RasterizerState state = new RasterizerState();
             state.CullMode = CullMode.None;
             GraphicsDevice.RasterizerState = state;
 
-            foreach(EffectPass pass in basicEffect.CurrentTechnique.Passes)
+           /* foreach(EffectPass pass in basicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, 3);
-            }
+            }*/
 
             grid.Draw(firstPersonCamera, basicEffect);
 

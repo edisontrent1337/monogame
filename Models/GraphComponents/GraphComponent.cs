@@ -6,16 +6,23 @@ using System.Threading.Tasks;
 
 using MonogameWindows.Cameras;
 
+
+using MonogameWindows.Models;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using MonogameWindows.ModelComponents;
+
 namespace MonogameWindows.Models.GraphComponents
 {
-    class GraphComponent 
+    class GraphComponent : Entity
     {
         private Color color;
         private short id;
         private Texture2D texture;
         private float distanceToCamera;
+
 
         // CONSTRUCTOR
         // -----------------------------------------------

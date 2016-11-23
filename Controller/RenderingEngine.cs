@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using MonogameWindows.Cameras;
+using MonogameWindows.Models;
+
+using MonogameWindows.ModelComponents;
 
 namespace MonogameWindows.Controller
 {
@@ -31,7 +34,15 @@ namespace MonogameWindows.Controller
         // METHODS & FUNCTIONS
         // -----------------------------------------------
 
-        public void draw()
+        public void InitVertexBuffers(Graphics g)
+        {
+            VertexBuffer vb = new VertexBuffer(graphicsDevice, typeof(VertexPositionColor),g.GetVertexPositionColor().Length, BufferUsage.WriteOnly);
+            g.SetVertexBuffer(vb);
+
+        }
+
+
+        public void Draw()
         {
 
         }

@@ -17,6 +17,8 @@ namespace MonogameWindows.Models.Room
         private float width, height, depth;
         private HashSet<Graph> graphs;
 
+        private Floor floor;
+
         // CONSTRUCTOR
         // -----------------------------------------------
         public Room(Vector3 origin, float width, float height, float depth)
@@ -25,6 +27,8 @@ namespace MonogameWindows.Models.Room
             this.width = width;
             this.height = height;
             this.depth = depth;
+
+            //floor = new Floor(origin, width, depth);
         }
 
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MonogameWindows
+namespace MonogameWindows.Main
 {
 #if WINDOWS || LINUX
     /// <summary>

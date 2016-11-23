@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MonogameWindows.Models.Room;
 using Microsoft.Xna.Framework;
 using MonogameWindows.Models.Graphs;
+using MonogameWindows.Models.GraphComponents;
 
 namespace MonogameWindows.Controller
 {
@@ -16,6 +17,7 @@ namespace MonogameWindows.Controller
         private Room room;
         private HashSet<Graph> graphs;
 
+
         // CONSTRUCTOR
         // -----------------------------------------------
 
@@ -24,6 +26,12 @@ namespace MonogameWindows.Controller
             this.room = new Room(Vector3.Zero, 20,20,20);
             this.graphs = room.GetGraphs();
 
+        }
+
+        public WorldContainer(int width, int height, int depth)
+        {
+            this.room = new Room(Vector3.Zero, width, height, depth);
+            this.graphs = room.GetGraphs();
         }
 
         // METHODS & FUNCTIONS
