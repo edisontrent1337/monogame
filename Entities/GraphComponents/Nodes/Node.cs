@@ -25,7 +25,7 @@ namespace MonogameWindows.Entities.GraphComponents.Nodes
         // -----------------------------------------------
 
         // Default display type is 2D
-        public Node(Vector3 position, DisplayType displayType = DisplayType.MODEL3D, float size = 1)
+        public Node(Vector3 position, Color color, DisplayType displayType = DisplayType.MODEL3D, float size = 0.03f)
         {
             this.position = position;
             this.displayType = displayType;
@@ -64,57 +64,57 @@ namespace MonogameWindows.Entities.GraphComponents.Nodes
 
                 // BOTTOM FACE
 
-                faceData[0] = new VertexPositionColor(vertices[3], Color.Yellow);
-                faceData[1] = new VertexPositionColor(vertices[0], Color.Yellow);
-                faceData[2] = new VertexPositionColor(vertices[1], Color.Yellow);
-                faceData[3] = new VertexPositionColor(vertices[0], Color.Yellow);
-                faceData[4] = new VertexPositionColor(vertices[1], Color.Yellow);
-                faceData[5] = new VertexPositionColor(vertices[2], Color.Yellow);
+                faceData[0] = new VertexPositionColor(vertices[0], color);
+                faceData[1] = new VertexPositionColor(vertices[3], color);
+                faceData[2] = new VertexPositionColor(vertices[1], color);
+                faceData[3] = new VertexPositionColor(vertices[3], color);
+                faceData[4] = new VertexPositionColor(vertices[2], color);
+                faceData[5] = new VertexPositionColor(vertices[1], color);
 
                 // FRONT FACE
 
-                faceData[6] = new VertexPositionColor(vertices[4], Color.Yellow);
-                faceData[7] = new VertexPositionColor(vertices[0], Color.Yellow);
-                faceData[8] = new VertexPositionColor(vertices[5], Color.Yellow);
-                faceData[9] = new VertexPositionColor(vertices[0], Color.Yellow);
-                faceData[10] = new VertexPositionColor(vertices[1], Color.Yellow);
-                faceData[11] = new VertexPositionColor(vertices[5], Color.Yellow);
+                faceData[6] = new VertexPositionColor(vertices[4], color);
+                faceData[7] = new VertexPositionColor(vertices[0], color);
+                faceData[8] = new VertexPositionColor(vertices[5], color);
+                faceData[9] = new VertexPositionColor(vertices[0], color);
+                faceData[10] = new VertexPositionColor(vertices[1], color);
+                faceData[11] = new VertexPositionColor(vertices[5], color);
 
                 // TOP FACE
 
-                faceData[12] = new VertexPositionColor(vertices[7], Color.Yellow);
-                faceData[13] = new VertexPositionColor(vertices[4], Color.Yellow);
-                faceData[14] = new VertexPositionColor(vertices[6], Color.Yellow);
-                faceData[15] = new VertexPositionColor(vertices[4], Color.Yellow);
-                faceData[16] = new VertexPositionColor(vertices[5], Color.Yellow);
-                faceData[17] = new VertexPositionColor(vertices[6], Color.Yellow);
+                faceData[12] = new VertexPositionColor(vertices[7], color);
+                faceData[13] = new VertexPositionColor(vertices[4], color);
+                faceData[14] = new VertexPositionColor(vertices[6], color);
+                faceData[15] = new VertexPositionColor(vertices[4], color);
+                faceData[16] = new VertexPositionColor(vertices[5], color);
+                faceData[17] = new VertexPositionColor(vertices[6], color);
 
                 // RIGHT FACE
 
-                faceData[18] = new VertexPositionColor(vertices[5], Color.Yellow);
-                faceData[19] = new VertexPositionColor(vertices[1], Color.Yellow);
-                faceData[20] = new VertexPositionColor(vertices[6], Color.Yellow);
-                faceData[21] = new VertexPositionColor(vertices[1], Color.Yellow);
-                faceData[22] = new VertexPositionColor(vertices[2], Color.Yellow);
-                faceData[23] = new VertexPositionColor(vertices[6], Color.Yellow);
+                faceData[18] = new VertexPositionColor(vertices[5], color);
+                faceData[19] = new VertexPositionColor(vertices[1], color);
+                faceData[20] = new VertexPositionColor(vertices[6], color);
+                faceData[21] = new VertexPositionColor(vertices[1], color);
+                faceData[22] = new VertexPositionColor(vertices[2], color);
+                faceData[23] = new VertexPositionColor(vertices[6], color);
 
                 // LEFT FACE
 
-                faceData[24] = new VertexPositionColor(vertices[7], Color.Yellow);
-                faceData[25] = new VertexPositionColor(vertices[3], Color.Yellow);
-                faceData[26] = new VertexPositionColor(vertices[4], Color.Yellow);
-                faceData[27] = new VertexPositionColor(vertices[3], Color.Yellow);
-                faceData[28] = new VertexPositionColor(vertices[0], Color.Yellow);
-                faceData[29] = new VertexPositionColor(vertices[4], Color.Yellow);
+                faceData[24] = new VertexPositionColor(vertices[7], color);
+                faceData[25] = new VertexPositionColor(vertices[3], color);
+                faceData[26] = new VertexPositionColor(vertices[4], color);
+                faceData[27] = new VertexPositionColor(vertices[3], color);
+                faceData[28] = new VertexPositionColor(vertices[0], color);
+                faceData[29] = new VertexPositionColor(vertices[4], color);
 
                 // BACK FACE
 
-                faceData[30] = new VertexPositionColor(vertices[6], Color.Yellow);
-                faceData[31] = new VertexPositionColor(vertices[2], Color.Yellow);
-                faceData[32] = new VertexPositionColor(vertices[7], Color.Yellow);
-                faceData[33] = new VertexPositionColor(vertices[2], Color.Yellow);
-                faceData[34] = new VertexPositionColor(vertices[3], Color.Yellow);
-                faceData[35] = new VertexPositionColor(vertices[7], Color.Yellow);
+                faceData[30] = new VertexPositionColor(vertices[6], color);
+                faceData[31] = new VertexPositionColor(vertices[2], color);
+                faceData[32] = new VertexPositionColor(vertices[7], color);
+                faceData[33] = new VertexPositionColor(vertices[2], color);
+                faceData[34] = new VertexPositionColor(vertices[3], color);
+                faceData[35] = new VertexPositionColor(vertices[7], color);
 
 
                 graphics.SetVertexPositionColor(faceData);
@@ -152,7 +152,7 @@ namespace MonogameWindows.Entities.GraphComponents.Nodes
             else if (displayType.Equals(DisplayType.MODEL3D))
             {
 
-                
+
                 foreach(EffectPass pass in effect.CurrentTechnique.Passes)
                 {
                     pass.Apply();

@@ -19,7 +19,7 @@ namespace MonogameWindows.Entities.GraphComponents.Egde
         private List<LineSegment> linesegments = new List<LineSegment>();
 
         private float thickness = 1f;
-        private float quality = 1/16f;
+        private float quality = 1/32f;
         private short segmentQuality = 2;
 
         private const short MAX_QUALITY = 64;
@@ -39,12 +39,13 @@ namespace MonogameWindows.Entities.GraphComponents.Egde
             this.destination = destination;
             this.displayType = displayType;
 
-            graphics = new Graphics(this, PrimitiveType.LineStrip);
-
             this.startPoint = source.GetPosition();
             this.endPoint = destination.GetPosition();
 
-            linesegments.Add(new LineSegment(startPoint, Vector3.Zero , endPoint));
+            graphics = new Graphics(this, PrimitiveType.LineStrip);
+
+           // linesegments.Add(new LineSegment(startPoint, (endPoint-startPoint) / 2 + new Vector3(0,10f,0), endPoint));
+            linesegments.Add(new LineSegment(startPoint, Vector3.Zero, endPoint));
 
             for(float step = 0; step <= 1; step += quality)
             {
@@ -52,9 +53,6 @@ namespace MonogameWindows.Entities.GraphComponents.Egde
             }
 
             VertexPositionColor[] vertexColorData = new VertexPositionColor[points.Count];
-            
-            /*vertexColorData[0] = new VertexPositionColor(startPoint, Color.Red);
-            vertexColorData[1] = new VertexPositionColor(endPoint, Color.Red);*/
 
             Console.WriteLine("SIZE OF POINTS :" +  points.Count);
 
