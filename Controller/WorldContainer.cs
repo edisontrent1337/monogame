@@ -38,14 +38,18 @@ namespace MonogameWindows.Controller
             this.room = new Room(Vector3.Zero, 20,20,20);
             this.graphs = room.GetGraphs();
 
-            this.source = new Node(new Vector3(0,3,0));
-            this.destination = new Node(new Vector3(3,0,3));
+            this.source = new Node(new Vector3(0,0,0));
+            this.destination = new Node(new Vector3(1,0,1));
             Floor floor = room.GetFloor();
-            entities.Add(floor.GetID(),floor);
-            entities.Add(source.GetID(), source);
-            entities.Add(destination.GetID(), destination);
 
-            foreach(Entity e in entities.Values) {
+            RegisterEntity(floor);
+            RegisterEntity(source);
+            RegisterEntity(destination);
+            RegisterEntity(new Edge(source, destination,1));
+            RegisterEntity(new Edge(new Vector3(1,2,2), destination.GetPosition()));
+            RegisterEntity(new Edge(new Vector3(1,2,2), source.GetPosition()));
+
+            foreach (Entity e in entities.Values) {
                 Console.WriteLine(e.GetID());
             }
 
@@ -76,6 +80,12 @@ namespace MonogameWindows.Controller
         {
             return new List<Entity>(entities.Values);
         }
+
+        public void RegisterEntity(Entity e)
+        {
+            entities.Add(e.GetID(), e);
+        }
+
 
         // PROPERTIES
         // -----------------------------------------------

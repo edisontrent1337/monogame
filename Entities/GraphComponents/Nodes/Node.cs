@@ -63,6 +63,13 @@ namespace MonogameWindows.Entities.GraphComponents.Nodes
             base.Update();
         }
 
+
+        public Vector3 GetPosition()
+        {
+            return position;
+        }
+
+
         // PROPERTIES
         // -----------------------------------------------
     }

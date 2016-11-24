@@ -46,16 +46,16 @@
     <Compile Include="Controller\WorldContainer.cs" />
     <Compile Include="Controller\WorldController.cs" />
     <Compile Include="Cameras\FirstPersonCamera.cs" />
-    <Compile Include="Models\Entity.cs" />
-    <Compile Include="ModelComponents\Graphics.cs" />
-    <Compile Include="Models\Room\Floor.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="EntityComponents\Graphics.cs" />
+    <Compile Include="Entities\Room\Floor.cs" />
     <Compile Include="Main\Game1.cs" />
-    <Compile Include="Models\GraphComponents\Edge\Edge.cs" />
-    <Compile Include="Models\GraphComponents\Edge\LineSegment.cs" />
-    <Compile Include="Models\GraphComponents\GraphComponent.cs" />
-    <Compile Include="Models\GraphComponents\Nodes\Node.cs" />
-    <Compile Include="Models\Graphs\Graph.cs" />
-    <Compile Include="Models\Room\Room.cs" />
+    <Compile Include="Entities\GraphComponents\Edge\Edge.cs" />
+    <Compile Include="Entities\GraphComponents\Edge\LineSegment.cs" />
+    <Compile Include="Entities\GraphComponents\GraphComponent.cs" />
+    <Compile Include="Entities\GraphComponents\Nodes\Node.cs" />
+    <Compile Include="Entities\Graphs\Graph.cs" />
+    <Compile Include="Entities\Room\Room.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Main\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,7 +74,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\Tango\" />
+    <Folder Include="Entities\Tango\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
