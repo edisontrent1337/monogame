@@ -28,7 +28,7 @@ namespace MonogameWindows.Models.Room
             this.height = height;
             this.depth = depth;
 
-            //floor = new Floor(origin, width, depth);
+            floor = new Floor(origin, width, depth);
         }
 
 
@@ -70,6 +70,12 @@ namespace MonogameWindows.Models.Room
         public float Depth
         {
             get { return depth; }
+        }
+
+
+        public Floor GetFloor()
+        {
+            return floor;
         }
 
     }

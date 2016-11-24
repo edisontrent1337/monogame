@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-namespace MonogameWindows
+using Microsoft.Xna.Framework.Graphics;
+namespace MonogameWindows.Cameras
 {
-    class FirstPersonCamera : GameComponent
+    class FirstPersonCamera
     {
         private Vector3 cameraPosition;
         private Vector3 cameraRotation;
@@ -22,6 +23,7 @@ namespace MonogameWindows
         private MouseState currentMouseState;
         private MouseState previousMouseState;
 
+        private GraphicsDevice graphicsDevice;
 
         public Vector3 Velocity
         {
@@ -95,13 +97,14 @@ namespace MonogameWindows
         }
 
 
-        public FirstPersonCamera(Game game, Vector3 position, Vector3 rotation, float cameraSpeed) : base(game)
+        public FirstPersonCamera(Vector3 position, Vector3 rotation, float cameraSpeed, GraphicsDevice device)
         {
             this.cameraPosition = position;
             this.cameraRotation = rotation;
             this.cameraSpeed = cameraSpeed;
+            this.graphicsDevice = device;
             this.Projection = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.PiOver4, Game.GraphicsDevice.Viewport.AspectRatio,
+                MathHelper.PiOver4, graphicsDevice.Viewport.AspectRatio,
                 0.05f,
                 1000f
                 );
@@ -138,7 +141,7 @@ namespace MonogameWindows
         }
 
         // UPDATE METHOD
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -203,20 +206,8 @@ namespace MonogameWindows
             if (acceleration.Z == 0)
                 velocity.Z *= DAMPING;
 
-
-            /*Console.WriteLine("ACCEL" + acceleration);
-            Console.WriteLine("VELO" + velocity);*/
-
             Move(velocity, delta);
 
-
-            /* if (moveVector != Vector3.Zero)
-             {
-                 mo
-                 moveVector *= delta * cameraSpeed;
-                 Move(moveVector);
-
-             }*/
 
             float deltaX;
             float deltaY;
@@ -224,8 +215,8 @@ namespace MonogameWindows
             if(currentMouseState != previousMouseState)
             {
                 //Cache mouse location
-                deltaX = currentMouseState.X - (Game.GraphicsDevice.Viewport.Width / 2);
-                deltaY = currentMouseState.Y - (Game.GraphicsDevice.Viewport.Height / 2);
+                deltaX = currentMouseState.X - (graphicsDevice.Viewport.Width / 2);
+                deltaY = currentMouseState.Y - (graphicsDevice.Viewport.Height / 2);
 
                 mouseRotationBuffer.X -= 0.1f * deltaX * delta;
                 mouseRotationBuffer.Y -= 0.1f * deltaY * delta;
@@ -243,13 +234,12 @@ namespace MonogameWindows
             deltaX = 0;
             deltaY = 0;
 
-            Mouse.SetPosition(Game.GraphicsDevice.Viewport.Width / 2, Game.GraphicsDevice.Viewport.Height / 2);
+            Mouse.SetPosition(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
 
             previousMouseState = currentMouseState;
 
 
 
-            base.Update(gameTime);
         }
 
 

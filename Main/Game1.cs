@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
 using MonogameWindows.Controller;
-
+using MonogameWindows.Models.Room;
 using System;
 
+using MonogameWindows.Models;
 
 namespace MonogameWindows.Main
 
@@ -71,7 +71,6 @@ namespace MonogameWindows.Main
      
 
         //CAMERA SETUP
-        FirstPersonCamera firstPersonCamera;
 
 
         VertexPositionColor[] triangle;
@@ -132,7 +131,7 @@ namespace MonogameWindows.Main
             basicEffect.VertexColorEnabled = true;
             basicEffect.LightingEnabled = false;
 
-            firstPersonCamera = new FirstPersonCamera(this, new Vector3(0, 1f, 0f), Vector3.Zero, 3);
+          
 
 
             //FLOOR TILE
@@ -155,7 +154,7 @@ namespace MonogameWindows.Main
             triangle[4] = new VertexPositionColor(new Vector3(WORLD_WIDTH, 0f, WORLD_DEPTH), Color.Red);
             triangle[5] = new VertexPositionColor(new Vector3(-WORLD_WIDTH, 0f, WORLD_DEPTH), Color.Blue);
 
-            grid = new Floor(worldDimensions,this);
+           // grid = new Floor(worldDimensions,this);
 
 
             //VERTEX BUFFER
@@ -165,7 +164,10 @@ namespace MonogameWindows.Main
             floorBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), 6, BufferUsage.WriteOnly);
             floorBuffer.SetData<VertexPositionColor>(floorTile);
 
-            
+            foreach (Entity e in worldContainer.GetEntities())
+            {
+                renderingEngine.InitGraphics(e);
+            }
 
         }
 
@@ -226,7 +228,7 @@ namespace MonogameWindows.Main
 
             viewMatrix = Matrix.CreateLookAt(cameraPosition, cameraDirection, Vector3.Up);*/
 
-            firstPersonCamera.Update(gameTime);
+            //firstPersonCamera.Update(gameTime);
             //Console.WriteLine(firstPersonCamera.Position);
             base.Update(gameTime);
         }
@@ -238,8 +240,8 @@ namespace MonogameWindows.Main
         protected override void Draw(GameTime gameTime)
         {
 
-            renderingEngine.Draw();
-            basicEffect.Projection = firstPersonCamera.Projection;
+            renderingEngine.Draw(gameTime);
+            /*basicEffect.Projection = firstPersonCamera.Projection;
             basicEffect.View = firstPersonCamera.View;
             basicEffect.World = Matrix.Identity;
 
@@ -249,7 +251,7 @@ namespace MonogameWindows.Main
 
             RasterizerState state = new RasterizerState();
             state.CullMode = CullMode.None;
-            GraphicsDevice.RasterizerState = state;
+            GraphicsDevice.RasterizerState = state;*/
 
            /* foreach(EffectPass pass in basicEffect.CurrentTechnique.Passes)
             {
@@ -257,7 +259,7 @@ namespace MonogameWindows.Main
                 GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, 3);
             }*/
 
-            grid.Draw(firstPersonCamera, basicEffect);
+            //grid.Draw(firstPersonCamera, basicEffect);
 
             base.Draw(gameTime);
         }

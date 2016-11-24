@@ -9,13 +9,15 @@ using Microsoft.Xna.Framework;
 using MonogameWindows.Models.Graphs;
 using MonogameWindows.Models.GraphComponents;
 
+using MonogameWindows.Models;
 namespace MonogameWindows.Controller
 {
     class WorldContainer
     {
         //TODO: implement tango stuff
         private Room room;
-        private HashSet<Graph> graphs;
+        private HashSet<Graph> graphs = new HashSet<Graph>();
+        private HashSet<Entity> entities = new HashSet<Entity>();
 
 
         // CONSTRUCTOR
@@ -25,7 +27,7 @@ namespace MonogameWindows.Controller
         {
             this.room = new Room(Vector3.Zero, 20,20,20);
             this.graphs = room.GetGraphs();
-
+            entities.Add(room.GetFloor());
         }
 
         public WorldContainer(int width, int height, int depth)
@@ -40,6 +42,11 @@ namespace MonogameWindows.Controller
         public Room GetRoom()
         {
             return room;
+        }
+
+        public HashSet<Entity> GetEntities()
+        {
+            return entities;
         }
 
         // PROPERTIES

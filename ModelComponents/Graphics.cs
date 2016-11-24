@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonogameWindows.Models;
 namespace MonogameWindows.ModelComponents
 {
     class Graphics
@@ -15,9 +16,11 @@ namespace MonogameWindows.ModelComponents
         protected VertexBuffer vertexBuffer;
         protected VertexPositionColor[] vertexPositionColor;
 
-        protected PrimitiveType type;
+        protected PrimitiveType primitiveType;
 
         private int primitiveCount = 0;
+
+        private Entity entity;
 
         public VertexBuffer VertexBuffer {
             get { return vertexBuffer; }
@@ -25,15 +28,19 @@ namespace MonogameWindows.ModelComponents
         }
 
 
-        public Graphics(PrimitiveType type)
+        public Graphics(Entity entity, PrimitiveType type)
         {
-            this.type = type;
+            this.entity = entity;
+            this.primitiveType = type;
+            entity.EnableGraphics();
         }
 
-        public Graphics(PrimitiveType type, VertexPositionColor[] vertexPositionColor, int primitiveCount)
+        public Graphics(Entity entity, PrimitiveType type, VertexPositionColor[] vertexPositionColor, int primitiveCount)
         {
+            this.entity = entity;
             this.vertexPositionColor = vertexPositionColor;
             this.primitiveCount = primitiveCount;
+            entity.EnableGraphics();
         }
 
         public void SetVertexBuffer(VertexBuffer vertexBuffer)
@@ -64,11 +71,17 @@ namespace MonogameWindows.ModelComponents
             return primitiveCount;
         }
 
-
-        public void Draw(BasicEffect effect)
+        public void SetPrimitiveType(PrimitiveType type)
         {
-
+            this.primitiveType = type;
         }
+
+        public PrimitiveType GetPrimitiveType()
+        {
+            return primitiveType;
+        }
+
+
 
     }
 }

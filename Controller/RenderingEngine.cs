@@ -8,13 +8,14 @@ using MonogameWindows.Cameras;
 using MonogameWindows.Models;
 
 using MonogameWindows.ModelComponents;
+using Microsoft.Xna.Framework;
 
 namespace MonogameWindows.Controller
 {
     class RenderingEngine
     {
 
-        private Camera camera;
+        private FirstPersonCamera camera;
         private GraphicsDevice graphicsDevice;
         private SpriteBatch sb;
         private BasicEffect basicEffect;
@@ -25,7 +26,7 @@ namespace MonogameWindows.Controller
         {
             this.graphicsDevice = graphicsDevice;
             this.worldContainer = worldContainer;
-            this.camera = new PerspectiveCamera();
+            this.camera = new FirstPersonCamera(new Vector3(0, 1f, 0f), Vector3.Zero, 3, graphicsDevice);
             this.sb = new SpriteBatch(graphicsDevice);
             this.basicEffect = new BasicEffect(graphicsDevice);
         }
@@ -34,17 +35,30 @@ namespace MonogameWindows.Controller
         // METHODS & FUNCTIONS
         // -----------------------------------------------
 
-        public void InitVertexBuffers(Graphics g)
+        public void InitGraphics(Entity e)
         {
+            Graphics g = e.GetGraphics();
             VertexBuffer vb = new VertexBuffer(graphicsDevice, typeof(VertexPositionColor),g.GetVertexPositionColor().Length, BufferUsage.WriteOnly);
             g.SetVertexBuffer(vb);
-
         }
 
 
-        public void Draw()
+        public void Draw(GameTime gameTime)
         {
 
+            camera.Update(gameTime);
+
+            basicEffect.VertexColorEnabled = true;
+            basicEffect.Projection = camera.Projection;
+            basicEffect.View = camera.View;
+            basicEffect.World = Matrix.Identity;
+
+            graphicsDevice.Clear(Color.Black);
+
+            foreach (Entity e in worldContainer.GetEntities())
+            {
+                e.Draw(graphicsDevice, basicEffect);
+            }
         }
 
         // PROPERTIES

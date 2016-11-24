@@ -45,9 +45,9 @@
     <Compile Include="Controller\RenderingEngine.cs" />
     <Compile Include="Controller\WorldContainer.cs" />
     <Compile Include="Controller\WorldController.cs" />
-    <Compile Include="FirstPersonCamera.cs" />
+    <Compile Include="Cameras\FirstPersonCamera.cs" />
     <Compile Include="Models\Entity.cs" />
-    <Compile Include="ModelComponents\GraphicsComponent.cs" />
+    <Compile Include="ModelComponents\Graphics.cs" />
     <Compile Include="Models\Room\Floor.cs" />
     <Compile Include="Main\Game1.cs" />
     <Compile Include="Models\GraphComponents\Edge\Edge.cs" />
