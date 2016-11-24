@@ -29,7 +29,6 @@ namespace MonogameWindows.Entities.GraphComponents.Egde
         private Vector3 startPoint;
         private Vector3 endPoint;
 
-
         // CONSTRUCTOR
         // -----------------------------------------------
 
@@ -54,7 +53,7 @@ namespace MonogameWindows.Entities.GraphComponents.Egde
 
             VertexPositionColor[] vertexColorData = new VertexPositionColor[points.Count];
 
-            Console.WriteLine("SIZE OF POINTS :" +  points.Count);
+            //Console.WriteLine("SIZE OF POINTS :" +  points.Count);
 
             for(int i = 0; i < points.Count; i++)
             {
