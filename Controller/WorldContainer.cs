@@ -11,6 +11,7 @@ using MonogameWindows.Entities;
 
 using MonogameWindows.Entities.GraphComponents.Egde;
 using MonogameWindows.Entities.GraphComponents.Nodes;
+using MonogameWindows.Entities.GraphComponents;
 
 
 namespace MonogameWindows.Controller
@@ -22,12 +23,9 @@ namespace MonogameWindows.Controller
         private HashSet<Graph> graphs = new HashSet<Graph>();
         private Dictionary<int,Entity> entities = new Dictionary<int,Entity>();
 
-
         // TESTING
 
-        private Edge edge;
-        private Node source;
-        private Node destination;
+        private Node source, destination, test;
 
 
         // CONSTRUCTOR
@@ -38,16 +36,20 @@ namespace MonogameWindows.Controller
             this.room = new Room(Vector3.Zero, 20,20,20);
             this.graphs = room.GetGraphs();
 
-            this.source = new Node(new Vector3(0,0,0));
-            this.destination = new Node(new Vector3(1,0,1));
+            this.source = new Node(new Vector3(0,0,0), GraphComponent.DisplayType.MODEL3D, 0.05f);
+            this.destination = new Node(new Vector3(1,0,1), GraphComponent.DisplayType.MODEL3D, 0.05f);
+            this.test = new Node(new Vector3(2, 1, 7), GraphComponent.DisplayType.MODEL3D, 0.05f);
             Floor floor = room.GetFloor();
 
             RegisterEntity(floor);
             RegisterEntity(source);
             RegisterEntity(destination);
-            RegisterEntity(new Edge(source, destination,1));
-            RegisterEntity(new Edge(new Vector3(1,2,2), destination.GetPosition()));
-            RegisterEntity(new Edge(new Vector3(1,2,2), source.GetPosition()));
+            RegisterEntity(test);
+            RegisterEntity(new Edge(source, destination));
+            RegisterEntity(new Edge(test, destination));
+            RegisterEntity(new Edge(test, source));
+            //RegisterEntity(new Edge(new Vector3(1,2,2), destination.GetPosition()));
+            //RegisterEntity(new Edge(new Vector3(1,2,2), source.GetPosition()));
 
             foreach (Entity e in entities.Values) {
                 Console.WriteLine(e.GetID());

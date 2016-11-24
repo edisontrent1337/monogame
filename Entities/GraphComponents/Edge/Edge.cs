@@ -16,15 +16,15 @@ namespace MonogameWindows.Entities.GraphComponents.Egde
 
 
         private Node source, destination;
-        private List<LineSegment> linesegments;
+        private List<LineSegment> linesegments = new List<LineSegment>();
 
         private float thickness = 1f;
-        private short quality = 2;
+        private float quality = 1/16f;
         private short segmentQuality = 2;
 
         private const short MAX_QUALITY = 64;
 
-        private List<Vector3> points;
+        private List<Vector3> points = new List<Vector3>();
 
         private Vector3 startPoint;
         private Vector3 endPoint;
@@ -33,33 +33,43 @@ namespace MonogameWindows.Entities.GraphComponents.Egde
         // CONSTRUCTOR
         // -----------------------------------------------
 
-        public Edge(Node source, Node destination, short quality, DisplayType displayType = DisplayType.SPRITE2D)
+        public Edge(Node source, Node destination, DisplayType displayType = DisplayType.SPRITE2D)
         {
             this.source = source;
             this.destination = destination;
-
             this.displayType = displayType;
 
-            graphics = new Graphics(this, PrimitiveType.LineList);
+            graphics = new Graphics(this, PrimitiveType.LineStrip);
 
             this.startPoint = source.GetPosition();
             this.endPoint = destination.GetPosition();
 
-            VertexPositionColor[] test = new VertexPositionColor[2];
+            linesegments.Add(new LineSegment(startPoint, Vector3.Zero , endPoint));
 
-            test[0] = new VertexPositionColor(startPoint, Color.Red);
-            test[1] = new VertexPositionColor(endPoint, Color.Red);
+            for(float step = 0; step <= 1; step += quality)
+            {
+                points.Add(GetQuadraticBezierPoint(linesegments[0],step));
+            }
+
+            VertexPositionColor[] vertexColorData = new VertexPositionColor[points.Count];
+            
+            /*vertexColorData[0] = new VertexPositionColor(startPoint, Color.Red);
+            vertexColorData[1] = new VertexPositionColor(endPoint, Color.Red);*/
+
+            Console.WriteLine("SIZE OF POINTS :" +  points.Count);
+
+            for(int i = 0; i < points.Count; i++)
+            {
+                vertexColorData[i] = new VertexPositionColor(points[i], Color.Red);
+                Console.WriteLine(points[i]);
+            }
 
 
-            graphics.SetVertexPositionColor(test);
-            graphics.SetPrimitiveCount(1);
+            graphics.SetVertexPositionColor(vertexColorData);
+            graphics.SetPrimitiveCount(points.Count - 1);
         }
 
 
-        public Edge(Vector3 start, Vector3 end) : this(new Node(start), new Node(end), 1)
-        {
-
-        }
         
 
         // METHODS & FUNCTIONS
@@ -98,6 +108,21 @@ namespace MonogameWindows.Entities.GraphComponents.Egde
         public Node GetDestination()
         {
             return destination;
+        }
+
+
+        private Vector3 GetQuadraticBezierPoint(LineSegment l, float t)
+        {
+
+            Vector3 start = l.Start;
+            Vector3 control = l.Control;
+            Vector3 end = l.End;
+
+            float x = (1 - t) * (1 - t) * start.X + (2 - 2 * t) * t + control.X + t * t * end.X;
+            float y = (1 - t) * (1 - t) * start.Y + (2 - 2 * t) * t + control.Y + t * t * end.Y;
+            float z = (1 - t) * (1 - t) * start.Z + (2 - 2 * t) * t + control.Z + t * t * end.Z;
+
+            return new Vector3(x, y, z);
         }
 
         // PROPERTIES

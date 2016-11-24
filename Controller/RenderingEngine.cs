@@ -56,6 +56,8 @@ namespace MonogameWindows.Controller
             basicEffect.View = camera.View;
             basicEffect.World = Matrix.Identity;
 
+          //  basicEffect.EnableDefaultLighting();
+
             graphicsDevice.Clear(Color.Black);
 
             foreach (Entity e in worldContainer.GetEntities().Values)
