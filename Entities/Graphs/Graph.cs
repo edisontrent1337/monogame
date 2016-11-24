@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using MonogameWindows.Models.GraphComponents;
+using MonogameWindows.Entities.GraphComponents;
+using MonogameWindows.Entities.GraphComponents.Nodes;
 
-namespace MonogameWindows.Models.Graphs
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace MonogameWindows.Entities.Graphs
 {
     class Graph
     {
@@ -49,6 +53,15 @@ namespace MonogameWindows.Models.Graphs
         public short GetNumberOfNodes()
         {
             return numberOfNodes;
+        }
+
+
+        public void Draw(GraphicsDevice graphicsDevice, BasicEffect basicEffect)
+        {
+            foreach (GraphComponent gc in graphComponents)
+            {
+                gc.Draw(graphicsDevice,basicEffect);
+            }
         }
 
 

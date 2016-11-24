@@ -4,21 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using MonogameWindows.ModelComponents;
+using MonogameWindows.EntityComponents;
 using Microsoft.Xna.Framework.Graphics;
-namespace MonogameWindows.Models
+namespace MonogameWindows.Entities
 {
     class Entity
     {
         protected Graphics graphics;
         private bool hasGraphics = false;
 
+        public static short entityCount = 0;
 
+        private short ID;
+
+ 
 
 
         public Entity()
         {
 
+            ID = (short) (entityCount + 1);
+
+            /*byte[] guidAsBytes = ID.ToByteArray();
+            int test = new int(guidAsBytes);*/
+
+
+            entityCount++;
         }
 
         public void EnableGraphics()
@@ -45,6 +56,11 @@ namespace MonogameWindows.Models
         public Graphics GetGraphics()
         {
             return graphics;
+        }
+
+        public int GetID()
+        {
+            return ID;
         }
 
     }

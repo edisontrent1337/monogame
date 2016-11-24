@@ -7,19 +7,17 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using MonogameWindows.Models;
-namespace MonogameWindows.ModelComponents
+using MonogameWindows.Entities;
+namespace MonogameWindows.EntityComponents
 {
     class Graphics
     {
 
         protected VertexBuffer vertexBuffer;
         protected VertexPositionColor[] vertexPositionColor;
-
         protected PrimitiveType primitiveType;
 
         private int primitiveCount = 0;
-
         private Entity entity;
 
         public VertexBuffer VertexBuffer {

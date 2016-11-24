@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using MonogameWindows.Cameras;
-using MonogameWindows.Models;
+using MonogameWindows.Entities;
 
-using MonogameWindows.ModelComponents;
+using MonogameWindows.EntityComponents;
 using Microsoft.Xna.Framework;
 
 namespace MonogameWindows.Controller
@@ -37,9 +37,12 @@ namespace MonogameWindows.Controller
 
         public void InitGraphics(Entity e)
         {
-            Graphics g = e.GetGraphics();
-            VertexBuffer vb = new VertexBuffer(graphicsDevice, typeof(VertexPositionColor),g.GetVertexPositionColor().Length, BufferUsage.WriteOnly);
-            g.SetVertexBuffer(vb);
+            if (e.HasGraphics())
+            {
+                Graphics g = e.GetGraphics();
+                VertexBuffer vb = new VertexBuffer(graphicsDevice, typeof(VertexPositionColor), g.GetVertexPositionColor().Length, BufferUsage.WriteOnly);
+                g.SetVertexBuffer(vb);
+            }
         }
 
 
@@ -55,7 +58,7 @@ namespace MonogameWindows.Controller
 
             graphicsDevice.Clear(Color.Black);
 
-            foreach (Entity e in worldContainer.GetEntities())
+            foreach (Entity e in worldContainer.GetEntities().Values)
             {
                 e.Draw(graphicsDevice, basicEffect);
             }

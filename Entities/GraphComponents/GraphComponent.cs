@@ -7,28 +7,36 @@ using System.Threading.Tasks;
 using MonogameWindows.Cameras;
 
 
-using MonogameWindows.Models;
+using MonogameWindows.Entities;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using MonogameWindows.ModelComponents;
+using MonogameWindows.EntityComponents;
 
-namespace MonogameWindows.Models.GraphComponents
+namespace MonogameWindows.Entities.GraphComponents
 {
     class GraphComponent : Entity
     {
         private Color color;
-        private short id;
         private Texture2D texture;
         private float distanceToCamera;
 
+
+        public enum DisplayType
+        {
+            SPRITE2D,
+            MODEL3D
+        }
+
+
+        protected DisplayType displayType;
 
         // CONSTRUCTOR
         // -----------------------------------------------
         public GraphComponent()
         {
-
+           
         }
 
         public GraphComponent(Texture2D texture)
@@ -38,17 +46,6 @@ namespace MonogameWindows.Models.GraphComponents
 
         // METHDODS & FUNCTIONS
         // -----------------------------------------------
-
-        public virtual void Update()
-        {
-
-        }
-
-        public virtual void Draw(GraphicsDevice device)
-        {
-
-        }
-
 
         public float GetDistanceToCamera()
         {
@@ -76,9 +73,10 @@ namespace MonogameWindows.Models.GraphComponents
         }
         
 
-        public short ID
+        public void SetDisplayType(DisplayType displayType)
         {
-            get { return id; }
+            this.displayType = displayType;
         }
+
     }
 }

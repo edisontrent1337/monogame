@@ -9,11 +9,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MonogameWindows.Main;
-using MonogameWindows.Models;
+using MonogameWindows.Entities;
 
-using MonogameWindows.ModelComponents;
+using MonogameWindows.EntityComponents;
 
-namespace MonogameWindows.Models.Room
+namespace MonogameWindows.Entities.Room
 {
     class Floor : Entity
     {

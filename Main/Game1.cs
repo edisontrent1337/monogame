@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonogameWindows.Controller;
-using MonogameWindows.Models.Room;
+using MonogameWindows.Entities.Room;
 using System;
 
-using MonogameWindows.Models;
+using MonogameWindows.Entities;
 
 namespace MonogameWindows.Main
 
@@ -164,7 +164,7 @@ namespace MonogameWindows.Main
             floorBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), 6, BufferUsage.WriteOnly);
             floorBuffer.SetData<VertexPositionColor>(floorTile);
 
-            foreach (Entity e in worldContainer.GetEntities())
+            foreach (Entity e in worldContainer.GetEntityList())
             {
                 renderingEngine.InitGraphics(e);
             }

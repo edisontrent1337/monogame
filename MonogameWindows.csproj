@@ -56,7 +56,6 @@
     <Compile Include="Models\GraphComponents\Nodes\Node.cs" />
     <Compile Include="Models\Graphs\Graph.cs" />
     <Compile Include="Models\Room\Room.cs" />
-    <Compile Include="Node.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Main\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

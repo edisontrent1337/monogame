@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
-using MonogameWindows.Models.Graphs;
+using MonogameWindows.Entities.Graphs;
 
-namespace MonogameWindows.Models.Room
+namespace MonogameWindows.Entities.Room
 {
     class Room
     {

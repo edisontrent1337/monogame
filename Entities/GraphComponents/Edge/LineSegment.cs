@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MonogameWindows.Models.GraphComponents.Nodes
+namespace MonogameWindows.Entities.GraphComponents.Egde
 {
-    class Node : GraphComponent
+    class LineSegment
     {
 
         // CONSTRUCTOR

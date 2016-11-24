@@ -4,19 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using MonogameWindows.Models.GraphComponents.Nodes;
+using MonogameWindows.Entities.GraphComponents.Nodes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MonogameWindows.Models.GraphComponents.Egde
+namespace MonogameWindows.Entities.GraphComponents.Egde
 {
     class Edge : GraphComponent
     {
 
-        public enum EdgeType
-        {
-            LINE, TUBE
-        }
+
 
         private Node source, destination;
         private List<LineSegment> linesegments;
@@ -28,7 +25,6 @@ namespace MonogameWindows.Models.GraphComponents.Egde
         private const short MAX_QUALITY = 64;
 
         private List<Vector3> points;
-        private EdgeType type;
 
 
         // CONSTRUCTOR
@@ -43,10 +39,10 @@ namespace MonogameWindows.Models.GraphComponents.Egde
 
         // METHODS & FUNCTIONS
         // -----------------------------------------------
-        public override void Draw(GraphicsDevice graphicsDevice)
+        public override void Draw(GraphicsDevice graphicsDevice, BasicEffect effect)
         {
 
-            if(type.Equals(EdgeType.LINE))
+            if(displayType.Equals(DisplayType.SPRITE2D))
             {
 
             }
@@ -54,13 +50,15 @@ namespace MonogameWindows.Models.GraphComponents.Egde
             {
 
             }
-            base.Draw(graphicsDevice);
+            base.Draw(graphicsDevice,effect);
         }
 
         public override void Update()
         {
             base.Update();
         }
+
+
 
         public Node GetSource()
         {
