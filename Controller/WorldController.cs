@@ -6,26 +6,38 @@ using System.Threading.Tasks;
 
 using MonogameWindows.Entities.Room;
 using MonogameWindows.Main;
+using Rain;
+using Microsoft.Xna.Framework;
 
 namespace MonogameWindows.Controller
 {
     class WorldController
     {
-        private Game1 game;
-        private WorldContainer worldContainer;
+        private RainWindows rainWindows;
+        private RainAndroid rainAndroid;
 
+        private WorldContainer worldContainer;
         private Room room;
 
         // CONSTRUCTOR
         // -----------------------------------------------
 
-        public WorldController(Game1 game, WorldContainer worldContainer)
+        // WINDOWS
+        public WorldController(RainWindows rainWindows, WorldContainer worldContainer)
         {
-            this.game = game;
+            this.rainWindows = rainWindows;
             this.worldContainer = worldContainer;
         }
 
+        // ANDROID
+        public WorldController(RainAndroid rainMain, WorldContainer container)
+        {
+            // TODO: Complete member initialization
+            this.rainAndroid = rainMain;
+            this.worldContainer = container;
+        }
 
+   
         // METHODS & FUNCTIONS
         // -----------------------------------------------
 

@@ -13,12 +13,11 @@ namespace MonogameWindows.Main
 
 
 {
-    public class Game1 : Game
+    public class RainWindows : Game
     {
 
 
         // CONTROLLER
-
 
         private RenderingEngine renderingEngine;
         private WorldContainer worldContainer;
@@ -85,7 +84,7 @@ namespace MonogameWindows.Main
 
         // CONSTRUCTOR
         // -----------------------------------------------
-        public Game1()
+        public RainWindows()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = BUFFER_WIDTH;

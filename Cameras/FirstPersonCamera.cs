@@ -18,7 +18,6 @@ namespace MonogameWindows.Cameras
         private Vector3 velocity;
         private Vector3 acceleration;
 
-
         private Vector3 mouseRotationBuffer;
         private MouseState currentMouseState;
         private MouseState previousMouseState;

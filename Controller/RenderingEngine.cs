@@ -62,7 +62,8 @@ namespace MonogameWindows.Controller
 
             foreach (Entity e in worldContainer.GetEntities().Values)
             {
-                e.Draw(graphicsDevice, basicEffect);
+                if(e.HasGraphics())
+                    e.Draw(graphicsDevice, basicEffect);
             }
         }
 

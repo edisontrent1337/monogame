@@ -77,11 +77,11 @@ namespace MonogameWindows.Controller
             //RegisterEntity(new Edge(new Vector3(1,2,2), source.GetPosition()));
 
             foreach (Entity e in entities.Values) {
-                Console.WriteLine(e.GetID());
+                //Console.WriteLine(e.GetID());
             }
 
 
-            Console.WriteLine("ENTITY COUNT :" + Entity.entityCount);
+            //Console.WriteLine("ENTITY COUNT :" + Entity.entityCount);
         }
 
         public WorldContainer(int width, int height, int depth)

@@ -9,14 +9,14 @@
     <ProjectGuid>{41B1FD35-0A08-4014-893F-98ECCA79BF48}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MonogameWindows</RootNamespace>
+    <RootNamespace>RainWindows</RootNamespace>
     <AssemblyName>MonogameWindows</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -49,7 +49,7 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="EntityComponents\Graphics.cs" />
     <Compile Include="Entities\Room\Floor.cs" />
-    <Compile Include="Main\Game1.cs" />
+    <Compile Include="Main\RainWindows.cs" />
     <Compile Include="Entities\GraphComponents\Edge\Edge.cs" />
     <Compile Include="Entities\GraphComponents\Edge\LineSegment.cs" />
     <Compile Include="Entities\GraphComponents\GraphComponent.cs" />
@@ -75,6 +75,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\Tango\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Rain\RainAndroid.csproj">
+      <Project>{56170683-b97b-4136-bb01-c5b4471cd3a9}</Project>
+      <Name>RainAndroid</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

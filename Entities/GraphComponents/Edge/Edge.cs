@@ -19,7 +19,7 @@ namespace MonogameWindows.Entities.GraphComponents.Egde
         private List<LineSegment> linesegments = new List<LineSegment>();
 
         private float thickness = 1f;
-        private float quality = 1/32f;
+        private float quality = 1/128f;
         private short segmentQuality = 2;
 
         private const short MAX_QUALITY = 64;
@@ -58,7 +58,6 @@ namespace MonogameWindows.Entities.GraphComponents.Egde
             for(int i = 0; i < points.Count; i++)
             {
                 vertexColorData[i] = new VertexPositionColor(points[i], Color.Red);
-                Console.WriteLine(points[i]);
             }
 
 
