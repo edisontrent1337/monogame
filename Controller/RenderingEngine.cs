@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
-using MonogameWindows.Cameras;
-using MonogameWindows.Entities;
+using RainBase.Cameras;
+using RainBase.Entities;
 
-using MonogameWindows.EntityComponents;
+using RainBase.EntityComponents;
 using Microsoft.Xna.Framework;
 
-namespace MonogameWindows.Controller
+namespace RainBase.Controller
 {
     class RenderingEngine
     {
@@ -20,10 +20,12 @@ namespace MonogameWindows.Controller
         private SpriteBatch sb;
         private BasicEffect basicEffect;
         private WorldContainer worldContainer;
+        private string OS;
         // CONSTRUCTOR
         // -----------------------------------------------
-        public RenderingEngine(WorldContainer worldContainer, GraphicsDevice graphicsDevice)
+        public RenderingEngine(string OS, WorldContainer worldContainer, GraphicsDevice graphicsDevice)
         {
+            this.OS = OS;
             this.graphicsDevice = graphicsDevice;
             this.worldContainer = worldContainer;
             this.camera = new FirstPersonCamera(new Vector3(0, 1f, 0f), Vector3.Zero, 3, graphicsDevice);
@@ -56,9 +58,11 @@ namespace MonogameWindows.Controller
             basicEffect.View = camera.View;
             basicEffect.World = Matrix.Identity;
 
-          //  basicEffect.EnableDefaultLighting();
 
-            graphicsDevice.Clear(Color.Black);
+            if(OS == "WINDOWS")
+                graphicsDevice.Clear(Color.Black);
+            if(OS == "ANDROID")
+                graphicsDevice.Clear(Color.Transparent);
 
             foreach (Entity e in worldContainer.GetEntities().Values)
             {

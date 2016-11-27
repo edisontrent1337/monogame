@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using MonogameWindows.Cameras;
+using RainBase.Cameras;
 
 
-using MonogameWindows.Entities;
+using RainBase.Entities;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using MonogameWindows.EntityComponents;
+using RainBase.EntityComponents;
 
-namespace MonogameWindows.Entities.GraphComponents
+namespace RainBase.Entities.GraphComponents
 {
     class GraphComponent : Entity
     {

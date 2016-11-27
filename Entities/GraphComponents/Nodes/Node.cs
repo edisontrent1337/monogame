@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonogameWindows.Entities.GraphComponents.Egde;
-using MonogameWindows.EntityComponents;
+using RainBase.Entities.GraphComponents.Egde;
+using RainBase.EntityComponents;
 
-namespace MonogameWindows.Entities.GraphComponents.Nodes
+namespace RainBase.Entities.GraphComponents.Nodes
 {
     class Node : GraphComponent
     {

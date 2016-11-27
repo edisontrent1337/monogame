@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using MonogameWindows.Entities.GraphComponents;
-using MonogameWindows.Entities.GraphComponents.Nodes;
+using RainBase.Entities.GraphComponents;
+using RainBase.Entities.GraphComponents.Nodes;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MonogameWindows.Entities.Graphs
+namespace RainBase.Entities.Graphs
 {
     class Graph
     {

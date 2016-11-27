@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-namespace MonogameWindows.Cameras
+namespace RainBase.Cameras
 {
     class FirstPersonCamera
     {

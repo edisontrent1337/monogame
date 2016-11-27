@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
-using MonogameWindows.Entities.Graphs;
+using RainBase.Entities.Graphs;
 
-namespace MonogameWindows.Entities.Room
+namespace RainBase.Entities.Room
 {
     class Room
     {

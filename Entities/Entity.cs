@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using MonogameWindows.EntityComponents;
+using RainBase.EntityComponents;
 using Microsoft.Xna.Framework.Graphics;
-namespace MonogameWindows.Entities
+namespace RainBase.Entities
 {
     class Entity
     {

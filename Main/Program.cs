@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MonogameWindows.Main
+namespace RainBase.Main
 {
 #if WINDOWS || LINUX
     /// <summary>

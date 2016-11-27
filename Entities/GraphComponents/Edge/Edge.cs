@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using MonogameWindows.Entities.GraphComponents.Nodes;
+using RainBase.Entities.GraphComponents.Nodes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonogameWindows.EntityComponents;
-namespace MonogameWindows.Entities.GraphComponents.Egde
+using RainBase.EntityComponents;
+namespace RainBase.Entities.GraphComponents.Egde
 {
     class Edge : GraphComponent
     {

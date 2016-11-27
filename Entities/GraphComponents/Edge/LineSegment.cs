@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 
-namespace MonogameWindows.Entities.GraphComponents.Egde
+namespace RainBase.Entities.GraphComponents.Egde
 {
     class LineSegment
     {

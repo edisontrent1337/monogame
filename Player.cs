@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 
-namespace MonogameWindows
+namespace RainBase
 {
     class Player
     {

@@ -4,38 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using MonogameWindows.Entities.Room;
-using MonogameWindows.Main;
+using RainBase.Entities.Room;
+using RainBase.Main;
 using Rain;
 using Microsoft.Xna.Framework;
 
-namespace MonogameWindows.Controller
+namespace RainBase.Controller
 {
     class WorldController
     {
-        private RainWindows rainWindows;
-        private RainAndroid rainAndroid;
 
         private WorldContainer worldContainer;
-        private Room room;
 
+        private Game rain;
         // CONSTRUCTOR
         // -----------------------------------------------
 
         // WINDOWS
-        public WorldController(RainWindows rainWindows, WorldContainer worldContainer)
+        public WorldController(Game rain, WorldContainer worldContainer)
         {
-            this.rainWindows = rainWindows;
+            //this.rainWindows = rainWindows;
+            this.rain = rain;
             this.worldContainer = worldContainer;
         }
 
         // ANDROID
-        public WorldController(RainAndroid rainMain, WorldContainer container)
+        /*public WorldController(RainAndroid rainMain, WorldContainer container)
         {
             // TODO: Complete member initialization
             this.rainAndroid = rainMain;
             this.worldContainer = container;
-        }
+        }*/
 
    
         // METHODS & FUNCTIONS

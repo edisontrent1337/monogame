@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using MonogameWindows.Entities;
-namespace MonogameWindows.EntityComponents
+using RainBase.Entities;
+namespace RainBase.EntityComponents
 {
     class Graphics
     {

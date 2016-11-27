@@ -8,12 +8,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using MonogameWindows.Main;
-using MonogameWindows.Entities;
+using RainBase.Main;
+using RainBase.Entities;
 
-using MonogameWindows.EntityComponents;
+using RainBase.EntityComponents;
 
-namespace MonogameWindows.Entities.Room
+namespace RainBase.Entities.Room
 {
     class Floor : Entity
     {
