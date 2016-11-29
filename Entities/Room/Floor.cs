@@ -12,6 +12,7 @@ using RainBase.Main;
 using RainBase.Entities;
 
 using RainBase.EntityComponents;
+using RainBase.Test;
 
 namespace RainBase.Entities.Room
 {
@@ -19,11 +20,11 @@ namespace RainBase.Entities.Room
     {
 
         private Color pink = new Color(1f, 0f, 195f / 255f, 1f);
-     
+
         private const int GRID_CELL_WIDTH = 1;
         private const int GRID_CELL_HEIGHT = 1;
 
-        List<VertexPositionColor> vertexList = new List<VertexPositionColor>();
+        List<VertexPositionNormalColor> vertexList = new List<VertexPositionNormalColor>();
 
         private Game game;
         private Vector3 origin;
@@ -42,17 +43,17 @@ namespace RainBase.Entities.Room
 
             for (int x = 0; x <= columns; ++x)
             {
-                vertexList.Add(new VertexPositionColor(new Vector3(xOrigin + x * GRID_CELL_WIDTH, 0f, zOrigin), Color.White));
-                vertexList.Add(new VertexPositionColor(new Vector3(xOrigin + x * GRID_CELL_WIDTH, 0f, zOrigin + depth), Color.White));
+                vertexList.Add(new VertexPositionNormalColor(new Vector3(xOrigin + x * GRID_CELL_WIDTH, 0f, zOrigin), Vector3.UnitZ, Color.White));
+                vertexList.Add(new VertexPositionNormalColor(new Vector3(xOrigin + x * GRID_CELL_WIDTH, 0f, zOrigin + depth), Vector3.UnitZ, Color.White));
             }
 
             for (int z = 0; z <= rows; ++z)
             {
-                vertexList.Add(new VertexPositionColor(new Vector3(xOrigin, 0f , zOrigin + z * GRID_CELL_HEIGHT), Color.White));
-                vertexList.Add(new VertexPositionColor(new Vector3(xOrigin + depth, 0f, zOrigin + z * GRID_CELL_HEIGHT), Color.White));
+                vertexList.Add(new VertexPositionNormalColor(new Vector3(xOrigin, 0f , zOrigin + z * GRID_CELL_HEIGHT), Vector3.UnitZ, Color.White));
+                vertexList.Add(new VertexPositionNormalColor(new Vector3(xOrigin + depth, 0f, zOrigin + z * GRID_CELL_HEIGHT), Vector3.UnitZ, Color.White));
             }
 
-            graphics.SetVertexPositionColor(vertexList.ToArray());
+            graphics.SetVertexPositionNormalColor(vertexList.ToArray());
             graphics.SetPrimitiveCount(vertexList.Count / 2);
 
         }
@@ -77,7 +78,7 @@ namespace RainBase.Entities.Room
             }
         }
 
-        
+
 
     }
 }

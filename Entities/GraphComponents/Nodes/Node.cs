@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RainBase.Entities.GraphComponents.Egde;
 using RainBase.EntityComponents;
+using RainBase.Entities.Primitives;
 
 namespace RainBase.Entities.GraphComponents.Nodes
 {
@@ -18,8 +19,11 @@ namespace RainBase.Entities.GraphComponents.Nodes
         private Vector3 position;
         private float size = 0;
 
+        private VertexPositionColor[] faceData;
+        private Vector3[] vertices = new Vector3[8];
         // Set of edges this node belongs to
         private Dictionary<int, Edge> edges = new Dictionary<int, Edge>();
+
 
         // CONSTRUCTOR
         // -----------------------------------------------
@@ -36,11 +40,6 @@ namespace RainBase.Entities.GraphComponents.Nodes
             float y = position.Y;
             float z = position.Z;
 
-            VertexPositionColor[] faceData;
-
-            Vector3[] vertices = new Vector3[8];
-            Vector3[] normals = new Vector3[6];
-
             int numberOfPrimitives = 12;
 
             graphics = new Graphics(this, PrimitiveType.TriangleList);
@@ -48,76 +47,8 @@ namespace RainBase.Entities.GraphComponents.Nodes
 
             if (displayType.Equals(DisplayType.MODEL3D))
             {
-                faceData = new VertexPositionColor[numberOfPrimitives * 3];
-
-                vertices[0] = position + new Vector3(-1, -1, -1) * size;
-                vertices[1] = position + new Vector3(1, -1, -1) * size;
-                vertices[2] = position + new Vector3(1, -1, 1) * size;
-                vertices[3] = position + new Vector3(-1, -1, 1) * size;
-
-                vertices[4] = position + new Vector3(-1, 1, -1) * size;
-                vertices[5] = position + new Vector3(1, 1, -1) * size;
-                vertices[6] = position + new Vector3(1, 1, 1) * size;
-                vertices[7] = position + new Vector3(-1, 1, 1) * size;
-
-
-
-                // BOTTOM FACE
-
-                faceData[0] = new VertexPositionColor(vertices[0], color);
-                faceData[1] = new VertexPositionColor(vertices[3], color);
-                faceData[2] = new VertexPositionColor(vertices[1], color);
-                faceData[3] = new VertexPositionColor(vertices[3], color);
-                faceData[4] = new VertexPositionColor(vertices[2], color);
-                faceData[5] = new VertexPositionColor(vertices[1], color);
-
-                // FRONT FACE
-
-                faceData[6] = new VertexPositionColor(vertices[4], color);
-                faceData[7] = new VertexPositionColor(vertices[0], color);
-                faceData[8] = new VertexPositionColor(vertices[5], color);
-                faceData[9] = new VertexPositionColor(vertices[0], color);
-                faceData[10] = new VertexPositionColor(vertices[1], color);
-                faceData[11] = new VertexPositionColor(vertices[5], color);
-
-                // TOP FACE
-
-                faceData[12] = new VertexPositionColor(vertices[7], color);
-                faceData[13] = new VertexPositionColor(vertices[4], color);
-                faceData[14] = new VertexPositionColor(vertices[6], color);
-                faceData[15] = new VertexPositionColor(vertices[4], color);
-                faceData[16] = new VertexPositionColor(vertices[5], color);
-                faceData[17] = new VertexPositionColor(vertices[6], color);
-
-                // RIGHT FACE
-
-                faceData[18] = new VertexPositionColor(vertices[5], color);
-                faceData[19] = new VertexPositionColor(vertices[1], color);
-                faceData[20] = new VertexPositionColor(vertices[6], color);
-                faceData[21] = new VertexPositionColor(vertices[1], color);
-                faceData[22] = new VertexPositionColor(vertices[2], color);
-                faceData[23] = new VertexPositionColor(vertices[6], color);
-
-                // LEFT FACE
-
-                faceData[24] = new VertexPositionColor(vertices[7], color);
-                faceData[25] = new VertexPositionColor(vertices[3], color);
-                faceData[26] = new VertexPositionColor(vertices[4], color);
-                faceData[27] = new VertexPositionColor(vertices[3], color);
-                faceData[28] = new VertexPositionColor(vertices[0], color);
-                faceData[29] = new VertexPositionColor(vertices[4], color);
-
-                // BACK FACE
-
-                faceData[30] = new VertexPositionColor(vertices[6], color);
-                faceData[31] = new VertexPositionColor(vertices[2], color);
-                faceData[32] = new VertexPositionColor(vertices[7], color);
-                faceData[33] = new VertexPositionColor(vertices[2], color);
-                faceData[34] = new VertexPositionColor(vertices[3], color);
-                faceData[35] = new VertexPositionColor(vertices[7], color);
-
-
-                graphics.SetVertexPositionColor(faceData);
+                Cube cube = new Cube(position, Color.White,0.03f);
+                graphics.SetVertexPositionNormalColor(cube.GetVertexPositionNormalColor());
             }
             else
             {

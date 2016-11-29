@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using RainBase.Entities;
+using RainBase.Test;
+
 namespace RainBase.EntityComponents
 {
     class Graphics
@@ -15,6 +17,7 @@ namespace RainBase.EntityComponents
 
         protected VertexBuffer vertexBuffer;
         protected VertexPositionColor[] vertexPositionColor;
+        protected VertexPositionNormalColor[] vertexPositionNormalColor;
         protected PrimitiveType primitiveType;
 
         private int primitiveCount = 0;
@@ -44,7 +47,7 @@ namespace RainBase.EntityComponents
         public void SetVertexBuffer(VertexBuffer vertexBuffer)
         {
             this.vertexBuffer = vertexBuffer;
-            vertexBuffer.SetData<VertexPositionColor>(vertexPositionColor);
+            vertexBuffer.SetData<VertexPositionNormalColor>(vertexPositionNormalColor);
         }
 
         public void SetVertexPositionColor(VertexPositionColor[] vertexPositionColor)
@@ -52,12 +55,20 @@ namespace RainBase.EntityComponents
             this.vertexPositionColor = vertexPositionColor;
         }
 
+        public void SetVertexPositionNormalColor(VertexPositionNormalColor[] vertexPositionNormalColor)
+        {
+            this.vertexPositionNormalColor = vertexPositionNormalColor;
+        }
 
         public VertexPositionColor[] GetVertexPositionColor()
         {
             return vertexPositionColor;
         }
 
+
+        public VertexPositionNormalColor[] GetVertexPositionNormalColor() {
+            return vertexPositionNormalColor;
+        }
 
         public void SetPrimitiveCount(int primitiveCount)
         {

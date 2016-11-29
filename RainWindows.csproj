@@ -40,6 +40,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|x86'">
     <OutputPath>bin\x86\Test\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWindows|x86'">
+    <OutputPath>bin\x86\DebugWindows\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugAndroid|x86'">
+    <OutputPath>bin\x86\DebugAndroid\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Cameras\Camera.cs" />
     <Compile Include="Cameras\OrthographicCamera.cs" />
@@ -51,6 +57,7 @@
     <Compile Include="Controller\WorldController.cs" />
     <Compile Include="Cameras\FirstPersonCamera.cs" />
     <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\Primitives\Cube.cs" />
     <Compile Include="EntityComponents\Graphics.cs" />
     <Compile Include="Entities\Room\Floor.cs" />
     <Compile Include="Main\RainWindows.cs" />
@@ -63,6 +70,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="Main\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\VertexPositionNormalColor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

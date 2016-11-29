@@ -9,6 +9,6 @@ namespace RainWindows.Controller
 {
     interface IMotionTracking
     {
-        public Vector3 GetPosition();
+        Vector3 GetPosition();
     }
 }

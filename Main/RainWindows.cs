@@ -23,7 +23,7 @@ namespace RainBase.Main
         private const short BUFFER_HEIGHT = 720;
 
         private const float SPEED = 0.3f;
-
+        
         private Vector3 origin = new Vector3(0f, 0f, 0f);
 
         GraphicsDeviceManager graphics;

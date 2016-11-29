@@ -8,6 +8,7 @@ using RainBase.Cameras;
 using RainBase.Entities;
 
 using RainBase.EntityComponents;
+using RainBase.Test;
 using Microsoft.Xna.Framework;
 
 namespace RainBase.Controller
@@ -42,7 +43,7 @@ namespace RainBase.Controller
             if (e.HasGraphics())
             {
                 Graphics g = e.GetGraphics();
-                VertexBuffer vb = new VertexBuffer(graphicsDevice, typeof(VertexPositionColor), g.GetVertexPositionColor().Length, BufferUsage.WriteOnly);
+                VertexBuffer vb = new VertexBuffer(graphicsDevice, typeof(VertexPositionNormalColor), g.GetVertexPositionNormalColor().Length, BufferUsage.WriteOnly);
                 g.SetVertexBuffer(vb);
             }
         }
@@ -55,6 +56,7 @@ namespace RainBase.Controller
 
             basicEffect.VertexColorEnabled = true;
             basicEffect.Projection = camera.Projection;
+            basicEffect.EnableDefaultLighting();
             basicEffect.View = camera.View;
             basicEffect.World = Matrix.Identity;
 

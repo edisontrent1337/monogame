@@ -33,7 +33,7 @@ namespace RainBase.Controller
 
         public WorldContainer()
         {
-            this.room = new Room(Vector3.Zero, 20,20,20);
+            this.room = new Room(Vector3.Zero, 7,3,30);
             this.graphs = room.GetGraphs();
 
             /*this.source = new Node(new Vector3(0,0,0), GraphComponent.DisplayType.MODEL3D);
@@ -42,18 +42,28 @@ namespace RainBase.Controller
 
             Random random = new Random();
 
-            for(int i = 0; i < 100; i++)
+            /*for(int i = 0; i < 3; i++)
             {
                 int x = random.Next(0, (int)room.Width);
                 int y = random.Next(0, (int)room.Height);
                 int z = random.Next(0, (int)room.Depth);
 
+
+
                 int r = random.Next(0, 255);
                 int g = random.Next(0, 255);
                 int b = random.Next(0, 255);
                 nodes.Add(new Node(new Vector3(x, y, z), new Color(r,g,b,255), GraphComponent.DisplayType.MODEL3D));
-            }
+            }*/
 
+
+            nodes.Add(new Node(new Vector3(1, 1, 5), Color.White, GraphComponent.DisplayType.MODEL3D));
+            nodes.Add(new Node(new Vector3(5, 3, 10), Color.White, GraphComponent.DisplayType.MODEL3D));
+
+
+            Node origin = new Node(Vector3.Zero, Color.Red, GraphComponent.DisplayType.MODEL3D);
+
+            nodes.Add(origin);
             Floor floor = room.GetFloor();
 
             RegisterEntity(floor);
@@ -64,12 +74,18 @@ namespace RainBase.Controller
             }
 
 
-            for(int i = 0; i < 500; i++)
+            /*for(int i = 0; i < 5; i++)
             {
-                Edge e = new Edge(nodes[random.Next(0, nodes.Count - 1)], nodes[random.Next(0, nodes.Count - 1)]);
+                Edge e = new Edge(nodes[random.Next(0, nodes.Count - 1)], nodes[random.Next(0, nodes.Count - 1)], GraphComponent.DisplayType.SPRITE2D);
                 RegisterEntity(e);
-            }
+            }*/
 
+            Edge a = new Edge(nodes[1], nodes[0], GraphComponent.DisplayType.MODEL3D);
+            Edge b = new Edge(nodes[1], nodes[0]);
+            Edge c = new Edge(nodes[1], origin);
+            RegisterEntity(a);
+            RegisterEntity(b);
+            RegisterEntity(c);
             /*RegisterEntity(new Edge(source, destination));
             RegisterEntity(new Edge(test, destination));
             RegisterEntity(new Edge(test, source));*/
