@@ -25,7 +25,7 @@ namespace RainBase.Entities.GraphComponents
 
         public enum DisplayType
         {
-            SPRITE2D,
+            MODEL2D,
             MODEL3D
         }
 

@@ -6,10 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RainBase.Test
+namespace RainBase.VertexType
 {
- 
-
         public struct VertexPositionNormalColor : IVertexType
         {
             public Color Color;

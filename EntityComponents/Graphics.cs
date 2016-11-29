@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using RainBase.Entities;
-using RainBase.Test;
+using RainBase.VertexType;
 
 namespace RainBase.EntityComponents
 {

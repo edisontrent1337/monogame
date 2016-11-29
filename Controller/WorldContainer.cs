@@ -26,6 +26,7 @@ namespace RainBase.Controller
         // TESTING
 
         private Node source, destination, test;
+        Random random = new Random();
 
         private List<Node> nodes = new List<Node>();
         // CONSTRUCTOR
@@ -33,32 +34,21 @@ namespace RainBase.Controller
 
         public WorldContainer()
         {
-            this.room = new Room(Vector3.Zero, 7,3,30);
+            //this.room = new Room(Vector3.Zero, 5f,3.5f,10f);
+            this.room = new Room(Vector3.Zero, 25f,25f,25f);
             this.graphs = room.GetGraphs();
 
-            /*this.source = new Node(new Vector3(0,0,0), GraphComponent.DisplayType.MODEL3D);
-            this.destination = new Node(new Vector3(1,0,1), GraphComponent.DisplayType.MODEL3D);
-            this.test = new Node(new Vector3(2, 1, 7), GraphComponent.DisplayType.MODEL3D);*/
 
-            Random random = new Random();
-
-            /*for(int i = 0; i < 3; i++)
+            for(int i = 0; i < 500; i++)
             {
-                int x = random.Next(0, (int)room.Width);
-                int y = random.Next(0, (int)room.Height);
-                int z = random.Next(0, (int)room.Depth);
+                float x = (float)random.NextDouble()*room.Width;
+                float y = (float)random.NextDouble()*room.Height;
+                float z = (float)random.NextDouble()*room.Depth;
 
 
+                nodes.Add(new Node(new Vector3(x, y, z), GetRandomColor(), GraphComponent.DisplayType.MODEL3D, 0.1f));
+            }
 
-                int r = random.Next(0, 255);
-                int g = random.Next(0, 255);
-                int b = random.Next(0, 255);
-                nodes.Add(new Node(new Vector3(x, y, z), new Color(r,g,b,255), GraphComponent.DisplayType.MODEL3D));
-            }*/
-
-
-            nodes.Add(new Node(new Vector3(1, 1, 5), Color.White, GraphComponent.DisplayType.MODEL3D));
-            nodes.Add(new Node(new Vector3(5, 3, 10), Color.White, GraphComponent.DisplayType.MODEL3D));
 
 
             Node origin = new Node(Vector3.Zero, Color.Red, GraphComponent.DisplayType.MODEL3D);
@@ -74,31 +64,32 @@ namespace RainBase.Controller
             }
 
 
-            /*for(int i = 0; i < 5; i++)
+            for(int i = 0; i < 800; i++)
             {
-                Edge e = new Edge(nodes[random.Next(0, nodes.Count - 1)], nodes[random.Next(0, nodes.Count - 1)], GraphComponent.DisplayType.SPRITE2D);
+                Edge e = new Edge(nodes[random.Next(0, nodes.Count - 1)], nodes[random.Next(0, nodes.Count - 1)], 0.0075f, GraphComponent.DisplayType.MODEL3D, GetRandomColor());
                 RegisterEntity(e);
-            }*/
+            }
 
-            Edge a = new Edge(nodes[1], nodes[0], GraphComponent.DisplayType.MODEL3D);
-            Edge b = new Edge(nodes[1], nodes[0]);
-            Edge c = new Edge(nodes[1], origin);
+            /*
+            Edge a = new Edge(nodes[0], nodes[1],0.01f, GraphComponent.DisplayType.MODEL3D);
+            Edge b = new Edge(nodes[0], nodes[1], 0.01f, GraphComponent.DisplayType.MODEL2D);
+            Edge c = new Edge(nodes[2], nodes[1], 0.01f, GraphComponent.DisplayType.MODEL3D);
+            Edge d = new Edge(nodes[1], origin, 0.01f, GraphComponent.DisplayType.MODEL3D);
             RegisterEntity(a);
             RegisterEntity(b);
             RegisterEntity(c);
+            RegisterEntity(d);
             /*RegisterEntity(new Edge(source, destination));
             RegisterEntity(new Edge(test, destination));
             RegisterEntity(new Edge(test, source));*/
             //RegisterEntity(new Edge(new Vector3(1,2,2), destination.GetPosition()));
             //RegisterEntity(new Edge(new Vector3(1,2,2), source.GetPosition()));
 
-            foreach (Entity e in entities.Values) {
-                //Console.WriteLine(e.GetID());
-            }
-
 
             //Console.WriteLine("ENTITY COUNT :" + Entity.entityCount);
         }
+
+
 
         public WorldContainer(int width, int height, int depth)
         {
@@ -108,6 +99,15 @@ namespace RainBase.Controller
 
         // METHODS & FUNCTIONS
         // -----------------------------------------------
+
+        private Color GetRandomColor()
+        {
+            int r = random.Next(0, 255);
+            int g = random.Next(0, 255);
+            int b = random.Next(0, 255);
+
+            return new Color(r, g, b, 255);
+        }
 
         public Room GetRoom()
         {

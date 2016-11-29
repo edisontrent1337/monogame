@@ -8,7 +8,7 @@ using RainBase.Cameras;
 using RainBase.Entities;
 
 using RainBase.EntityComponents;
-using RainBase.Test;
+using RainBase.VertexType;
 using Microsoft.Xna.Framework;
 
 namespace RainBase.Controller

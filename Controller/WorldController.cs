@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using RainBase.Entities.Room;
 using RainBase.Main;
-using Rain;
 using Microsoft.Xna.Framework;
 
 namespace RainBase.Controller
@@ -23,18 +22,9 @@ namespace RainBase.Controller
         // WINDOWS
         public WorldController(Game rain, WorldContainer worldContainer)
         {
-            //this.rainWindows = rainWindows;
             this.rain = rain;
             this.worldContainer = worldContainer;
         }
-
-        // ANDROID
-        /*public WorldController(RainAndroid rainMain, WorldContainer container)
-        {
-            // TODO: Complete member initialization
-            this.rainAndroid = rainMain;
-            this.worldContainer = container;
-        }*/
 
    
         // METHODS & FUNCTIONS

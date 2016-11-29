@@ -12,7 +12,7 @@ using RainBase.Main;
 using RainBase.Entities;
 
 using RainBase.EntityComponents;
-using RainBase.Test;
+using RainBase.VertexType;
 
 namespace RainBase.Entities.Room
 {

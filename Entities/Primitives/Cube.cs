@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using RainBase.Test;
+using RainBase.VertexType;
 
 namespace RainBase.Entities.Primitives
 {
@@ -33,7 +33,7 @@ namespace RainBase.Entities.Primitives
             this.scaling = Matrix.CreateScale(size);
             this.translation = Matrix.CreateTranslation(position);
             this.color = color;
-
+            this.rotation = Matrix.Identity;
             SetupVertexAndFaceData();
         }
 

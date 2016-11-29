@@ -47,7 +47,7 @@ namespace RainBase.Entities.GraphComponents.Nodes
 
             if (displayType.Equals(DisplayType.MODEL3D))
             {
-                Cube cube = new Cube(position, Color.White,0.03f);
+                Cube cube = new Cube(position, color , 0.03f);
                 graphics.SetVertexPositionNormalColor(cube.GetVertexPositionNormalColor());
             }
             else
@@ -75,7 +75,7 @@ namespace RainBase.Entities.GraphComponents.Nodes
 
         public override void Draw(GraphicsDevice graphicsDevice, BasicEffect effect)
         {
-            if (displayType.Equals(DisplayType.SPRITE2D))
+            if (displayType.Equals(DisplayType.MODEL2D))
             {
 
             }
