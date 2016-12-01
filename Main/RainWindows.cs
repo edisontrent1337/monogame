@@ -43,9 +43,10 @@ namespace RainBase.Main
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
 
-
-
         }
+
+        // METHODS & FUNCTIONS
+        // -----------------------------------------------
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -55,9 +56,6 @@ namespace RainBase.Main
         /// </summary>
         /// 
 
-
-        // METHODS & FUNCTIONS
-        // -----------------------------------------------
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -69,9 +67,7 @@ namespace RainBase.Main
              **/
             worldContainer = new WorldContainer();
             worldController = new WorldController(this, worldContainer);
-            renderingEngine = new RenderingEngine(OS, worldContainer);
-
-            renderingEngine.SetGraphicsDevice(GraphicsDevice);
+            renderingEngine = new RenderingEngine(OS, worldContainer, GraphicsDevice);
 
             basicEffect = new BasicEffect(GraphicsDevice);
             basicEffect.Alpha = 1f;

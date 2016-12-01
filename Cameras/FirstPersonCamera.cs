@@ -25,12 +25,21 @@ namespace RainBase.Cameras
 
         private Vector3 mouseRotationBuffer = new Vector3(0,0,0);
 
-        private Vector3 cameraReference = Vector3.UnitZ;
+        private Vector3 cameraReference =  Vector3.UnitZ;
 
         private MouseState currentMouseState;
         private MouseState previousMouseState;
 
         private GraphicsDevice graphicsDevice;
+
+
+        private Matrix tangoPositionTransform = new Matrix(
+            //new Vector4(-1, 0, 0, 1),
+    new Vector4(-1, 0, 0, 1),
+    new Vector4(0, 0, 1, 0),
+    new Vector4(0, 1, 0, 0),
+    new Vector4(0, 0, 0, 1)
+    );
 
 
         private const float SENSITIVITY = 0.01f;
@@ -107,28 +116,22 @@ namespace RainBase.Cameras
         }
 
 
-        public FirstPersonCamera(Vector3 position, Vector3 rotation, float cameraSpeed)
+        public FirstPersonCamera(Vector3 position, Vector3 rotation, float cameraSpeed, GraphicsDevice graphicsDevice)
         {
             this.cameraPosition = position;
             this.cameraRotationAngles = rotation;
             this.cameraSpeed = cameraSpeed;
-
-
+            this.graphicsDevice = graphicsDevice;
+            this.Projection = Matrix.CreatePerspectiveFieldOfView(
+                MathHelper.PiOver4, graphicsDevice.Viewport.AspectRatio,
+                0.05f,
+                1000f
+            );
             this.velocity = new Vector3(0f, 0f, 0f);
             this.acceleration = new Vector3(0f, 0f, 0f);
-
             this.previousMouseState = Mouse.GetState();
         }
 
-        public void SetGraphicsDevice(GraphicsDevice graphicsDevice)
-        {
-            this.graphicsDevice = graphicsDevice;
-            this.Projection = Matrix.CreatePerspectiveFieldOfView(
-    MathHelper.PiOver4, graphicsDevice.Viewport.AspectRatio,
-    0.05f,
-    1000f
-    );
-        }
 
         // METHODS & FUNCTIONS
         // -----------------------------------------------------------------------------------------------
@@ -250,8 +253,6 @@ namespace RainBase.Cameras
             Mouse.SetPosition(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
 
             previousMouseState = currentMouseState;
-
-
         }
 
 
@@ -259,7 +260,7 @@ namespace RainBase.Cameras
         {
             //Position = pos;
 
-            //cameraPosition = pos;
+            cameraPosition = pos;
             rotationMatrix = Matrix.CreateFromQuaternion(q);
             Vector3 transformedCameraReference = Vector3.Transform(cameraReference, rotationMatrix);
 
