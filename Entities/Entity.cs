@@ -8,7 +8,7 @@ using RainBase.EntityComponents;
 using Microsoft.Xna.Framework.Graphics;
 namespace RainBase.Entities
 {
-    class Entity
+    public class Entity
     {
         protected Graphics graphics;
         private bool hasGraphics = false;

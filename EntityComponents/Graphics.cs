@@ -12,7 +12,7 @@ using RainBase.VertexType;
 
 namespace RainBase.EntityComponents
 {
-    class Graphics
+   public class Graphics
     {
 
         protected VertexBuffer vertexBuffer;

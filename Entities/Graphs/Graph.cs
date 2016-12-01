@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RainBase.Entities.Graphs
 {
-    class Graph
+    public class Graph
     {
         private short numberOfNodes = 0;
         private short numberOfEdges = 0;

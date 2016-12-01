@@ -16,7 +16,7 @@ using RainBase.Entities.GraphComponents;
 
 namespace RainBase.Controller
 {
-    class WorldContainer
+    public class WorldContainer
     {
         //TODO: implement tango stuff
         private Room room;
@@ -39,7 +39,7 @@ namespace RainBase.Controller
             this.graphs = room.GetGraphs();
 
 
-            for(int i = 0; i < 500; i++)
+            /*for(int i = 0; i < 5; i++)
             {
                 float x = (float)random.NextDouble()*room.Width;
                 float y = (float)random.NextDouble()*room.Height;
@@ -47,13 +47,23 @@ namespace RainBase.Controller
 
 
                 nodes.Add(new Node(new Vector3(x, y, z), GetRandomColor(), GraphComponent.DisplayType.MODEL3D, 0.1f));
-            }
+            }*/
 
 
 
-            Node origin = new Node(Vector3.Zero, Color.Red, GraphComponent.DisplayType.MODEL3D);
+            Node origin = new Node(Vector3.Zero, Color.White, GraphComponent.DisplayType.MODEL3D);
+
+            Node posX = new Node(Vector3.UnitX, Color.Red, GraphComponent.DisplayType.MODEL3D);
+            Node posY = new Node(Vector3.UnitY, Color.Green, GraphComponent.DisplayType.MODEL3D);
+            Node posZ = new Node(Vector3.UnitZ, Color.Blue, GraphComponent.DisplayType.MODEL3D);
 
             nodes.Add(origin);
+
+            nodes.Add(posX);
+            nodes.Add(posY);
+            nodes.Add(posZ);
+
+
             Floor floor = room.GetFloor();
 
             RegisterEntity(floor);
@@ -64,11 +74,11 @@ namespace RainBase.Controller
             }
 
 
-            for(int i = 0; i < 800; i++)
+           /* for(int i = 0; i < 37; i++)
             {
                 Edge e = new Edge(nodes[random.Next(0, nodes.Count - 1)], nodes[random.Next(0, nodes.Count - 1)], 0.0075f, GraphComponent.DisplayType.MODEL3D, GetRandomColor());
                 RegisterEntity(e);
-            }
+            }*/
 
             /*
             Edge a = new Edge(nodes[0], nodes[1],0.01f, GraphComponent.DisplayType.MODEL3D);

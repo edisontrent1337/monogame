@@ -9,7 +9,7 @@ using RainBase.Entities.Graphs;
 
 namespace RainBase.Entities.Room
 {
-    class Room
+    public class Room
     {
 
         private Vector3 origin;

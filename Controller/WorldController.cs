@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace RainBase.Controller
 {
-    class WorldController
+    public class WorldController
     {
 
         private WorldContainer worldContainer;

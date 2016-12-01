@@ -69,7 +69,9 @@ namespace RainBase.Main
              **/
             worldContainer = new WorldContainer();
             worldController = new WorldController(this, worldContainer);
-            renderingEngine = new RenderingEngine(OS, worldContainer, GraphicsDevice);
+            renderingEngine = new RenderingEngine(OS, worldContainer);
+
+            renderingEngine.SetGraphicsDevice(GraphicsDevice);
 
             basicEffect = new BasicEffect(GraphicsDevice);
             basicEffect.Alpha = 1f;

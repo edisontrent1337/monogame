@@ -16,7 +16,7 @@ using RainBase.VertexType;
 
 namespace RainBase.Entities.Room
 {
-    class Floor : Entity
+    public class Floor : Entity
     {
 
         private Color pink = new Color(1f, 0f, 195f / 255f, 1f);

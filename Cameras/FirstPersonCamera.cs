@@ -11,18 +11,29 @@ namespace RainBase.Cameras
     class FirstPersonCamera
     {
         private Vector3 cameraPosition;
-        private Vector3 cameraRotation;
+
+        // holds the camera rotation along the main axis as eucledian angles in radians
+        private Vector3 cameraRotationAngles;
+
+        private Matrix rotationMatrix = Matrix.Identity;
+
         private float cameraSpeed;
         private Vector3 lookAt;
 
         private Vector3 velocity;
         private Vector3 acceleration;
 
-        private Vector3 mouseRotationBuffer;
+        private Vector3 mouseRotationBuffer = new Vector3(0,0,0);
+
+        private Vector3 cameraReference = Vector3.UnitZ;
+
         private MouseState currentMouseState;
         private MouseState previousMouseState;
 
         private GraphicsDevice graphicsDevice;
+
+
+        private const float SENSITIVITY = 0.01f;
 
         public Vector3 Velocity
         {
@@ -71,11 +82,11 @@ namespace RainBase.Cameras
         {
             get
             {
-                return cameraRotation;
+                return cameraRotationAngles;
             }
             set
             {
-                cameraRotation = value;
+                cameraRotationAngles = value;
                 UpdateLookAt();
             }
         }
@@ -84,7 +95,7 @@ namespace RainBase.Cameras
         public Matrix Projection
         {
             get;
-            protected set;
+            set;
         }
 
         public Matrix View
@@ -96,24 +107,28 @@ namespace RainBase.Cameras
         }
 
 
-        public FirstPersonCamera(Vector3 position, Vector3 rotation, float cameraSpeed, GraphicsDevice device)
+        public FirstPersonCamera(Vector3 position, Vector3 rotation, float cameraSpeed)
         {
             this.cameraPosition = position;
-            this.cameraRotation = rotation;
+            this.cameraRotationAngles = rotation;
             this.cameraSpeed = cameraSpeed;
-            this.graphicsDevice = device;
-            this.Projection = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.PiOver4, graphicsDevice.Viewport.AspectRatio,
-                0.05f,
-                1000f
-                );
+
 
             this.velocity = new Vector3(0f, 0f, 0f);
             this.acceleration = new Vector3(0f, 0f, 0f);
 
             this.previousMouseState = Mouse.GetState();
         }
-        
+
+        public void SetGraphicsDevice(GraphicsDevice graphicsDevice)
+        {
+            this.graphicsDevice = graphicsDevice;
+            this.Projection = Matrix.CreatePerspectiveFieldOfView(
+    MathHelper.PiOver4, graphicsDevice.Viewport.AspectRatio,
+    0.05f,
+    1000f
+    );
+        }
 
         // METHODS & FUNCTIONS
         // -----------------------------------------------------------------------------------------------
@@ -131,13 +146,13 @@ namespace RainBase.Cameras
         private void UpdateLookAt()
         {
             // ROTATIONSMATRIX
-            Matrix rotationMatrix = Matrix.CreateRotationX(cameraRotation.X) * Matrix.CreateRotationY(cameraRotation.Y);
+            rotationMatrix = Matrix.CreateRotationX(cameraRotationAngles.X) * Matrix.CreateRotationY(cameraRotationAngles.Y);
+            Vector3 transformedCameraReference = Vector3.Transform(cameraReference, rotationMatrix);
 
-            Vector3 lookAtOffset = Vector3.Transform(Vector3.UnitZ, rotationMatrix);
-
-            lookAt = cameraPosition + lookAtOffset;
+            lookAt = cameraPosition + transformedCameraReference;
 
         }
+
 
         // UPDATE METHOD
         public void Update(GameTime gameTime)
@@ -145,9 +160,7 @@ namespace RainBase.Cameras
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             currentMouseState = Mouse.GetState();
-
             acceleration = Vector3.Zero;
-
 
             KeyboardState state = Keyboard.GetState();
 
@@ -213,19 +226,20 @@ namespace RainBase.Cameras
 
             if(currentMouseState != previousMouseState)
             {
-                //Cache mouse location
+
                 deltaX = currentMouseState.X - (graphicsDevice.Viewport.Width / 2);
                 deltaY = currentMouseState.Y - (graphicsDevice.Viewport.Height / 2);
 
-                mouseRotationBuffer.X -= 0.1f * deltaX * delta;
-                mouseRotationBuffer.Y -= 0.1f * deltaY * delta;
+                mouseRotationBuffer.X -= SENSITIVITY * deltaX * delta;
+                mouseRotationBuffer.Y -= SENSITIVITY * deltaY * delta;
 
                 if (mouseRotationBuffer.Y < MathHelper.ToRadians(-75.0f))
-                    mouseRotationBuffer.Y = mouseRotationBuffer.Y - (mouseRotationBuffer.Y - MathHelper.ToRadians(-75.0f));
+                    mouseRotationBuffer.Y = MathHelper.ToRadians(-75.0f);
 
                 if (mouseRotationBuffer.Y > MathHelper.ToRadians(75.0f))
-                    mouseRotationBuffer.Y = mouseRotationBuffer.Y + (mouseRotationBuffer.Y - MathHelper.ToRadians(75.0f));
+                    mouseRotationBuffer.Y = MathHelper.ToRadians(75.0f);
             }
+            //Console.WriteLine("MOUSE ROTATION BUFER Y :" + mouseRotationBuffer.Y);
 
             Rotation = new Vector3(-MathHelper.Clamp(mouseRotationBuffer.Y, MathHelper.ToRadians(-75.0f), MathHelper.ToRadians(75.0f)),
                 MathHelper.WrapAngle(mouseRotationBuffer.X), 0);
@@ -238,13 +252,23 @@ namespace RainBase.Cameras
             previousMouseState = currentMouseState;
 
 
-
         }
 
 
+        public void Update(Vector3 pos, Quaternion q)
+        {
+            //Position = pos;
+
+            //cameraPosition = pos;
+            rotationMatrix = Matrix.CreateFromQuaternion(q);
+            Vector3 transformedCameraReference = Vector3.Transform(cameraReference, rotationMatrix);
+
+            lookAt = cameraPosition + transformedCameraReference;
+        }
+
         private Vector3 PreviewMove(Vector3 amount, float delta)
         {
-            Matrix rotate = Matrix.CreateRotationY(cameraRotation.Y);
+            Matrix rotate = Matrix.CreateRotationY(cameraRotationAngles.Y);
 
             Vector3 movement = new Vector3(amount.X, amount.Y, amount.Z);
             movement *= delta;
@@ -258,6 +282,7 @@ namespace RainBase.Cameras
         {
             MoveTo(PreviewMove(scale, delta), Rotation);
         }
+
 
     }
 }

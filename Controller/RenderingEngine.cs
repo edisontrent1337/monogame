@@ -10,10 +10,12 @@ using RainBase.Entities;
 using RainBase.EntityComponents;
 using RainBase.VertexType;
 using Microsoft.Xna.Framework;
+using Com.Google.Atap.Tangoservice;
+using Rain.Utilities;
 
 namespace RainBase.Controller
 {
-    class RenderingEngine
+   public class RenderingEngine
     {
 
         private FirstPersonCamera camera;
@@ -22,18 +24,33 @@ namespace RainBase.Controller
         private BasicEffect basicEffect;
         private WorldContainer worldContainer;
         private string OS;
+
+        private Matrix tangoPositionTransform = new Matrix(
+            new Vector4(-1, 0, 0, 1),
+            new Vector4(0, 0, 1, 0),
+            new Vector4(0, 1, 0, 0),
+            new Vector4(0, 0, 0, 1)
+            );
+
         // CONSTRUCTOR
         // -----------------------------------------------
-        public RenderingEngine(string OS, WorldContainer worldContainer, GraphicsDevice graphicsDevice)
+        public RenderingEngine(string OS, WorldContainer worldContainer)
         {
             this.OS = OS;
-            this.graphicsDevice = graphicsDevice;
             this.worldContainer = worldContainer;
-            this.camera = new FirstPersonCamera(new Vector3(0, 1f, 0f), Vector3.Zero, 3, graphicsDevice);
+            this.camera = new FirstPersonCamera(new Vector3(0, 1f, 0f), Vector3.UnitZ, 3);
+
+
+        }
+
+
+        public void SetGraphicsDevice(GraphicsDevice graphicsDevice)
+        {
+            this.graphicsDevice = graphicsDevice;
+            camera.SetGraphicsDevice(graphicsDevice);
             this.sb = new SpriteBatch(graphicsDevice);
             this.basicEffect = new BasicEffect(graphicsDevice);
         }
-
 
         // METHODS & FUNCTIONS
         // -----------------------------------------------
@@ -71,7 +88,45 @@ namespace RainBase.Controller
                 if(e.HasGraphics())
                     e.Draw(graphicsDevice, basicEffect);
             }
+
+           // Console.WriteLine("ROTATION " +  camera.Rotation);
         }
+
+
+        public void SetProjectionMatrix(TangoCameraIntrinsics i)
+        {
+            Matrix projectionMatrix = ScenePoseCalculator.calculateProjectionMatrix(i.Width,
+                i.Height, i.Fx, i.Fy, i.Cx, i.Cy);
+            camera.Projection = projectionMatrix;
+        }
+
+        public void Draw(GameTime gameTime, Vector3 pos, Quaternion q)
+        {
+
+
+
+            //camera.Position = Vector3.Transform(pos, tangoPositionTransform);
+
+            camera.Update(Vector3.Transform(pos, tangoPositionTransform), q);
+
+            basicEffect.VertexColorEnabled = true;
+            basicEffect.Projection = camera.Projection;
+            basicEffect.EnableDefaultLighting();
+            basicEffect.View = camera.View;
+            basicEffect.World = Matrix.Identity;
+
+
+            if (OS == "ANDROID")
+                graphicsDevice.Clear(Color.Transparent);
+
+
+            foreach (Entity e in worldContainer.GetEntities().Values)
+            {
+                if (e.HasGraphics())
+                    e.Draw(graphicsDevice, basicEffect);
+            }
+        }
+
 
         // PROPERTIES
         // -----------------------------------------------
