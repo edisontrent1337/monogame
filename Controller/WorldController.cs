@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using RainBase.Entities.Room;
+using RainBase.Entities.RoomComponents;
 using RainBase.Main;
 using Microsoft.Xna.Framework;
 

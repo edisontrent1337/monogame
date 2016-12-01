@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RainBase.Cameras
 {
-    class Camera
+    public class Camera
     {
     }
 }

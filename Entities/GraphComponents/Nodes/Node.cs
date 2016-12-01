@@ -14,7 +14,9 @@ namespace RainBase.Entities.GraphComponents.Nodes
 {
     class Node : GraphComponent
     {
+        private readonly int GRAPH_ID;
 
+        private readonly int NODE_ID;
         // Center position of the cube
         private Vector3 position;
         private float size = 0;
@@ -29,17 +31,35 @@ namespace RainBase.Entities.GraphComponents.Nodes
         // -----------------------------------------------
 
         // Default display type is 2D
-        public Node(Vector3 position, Color color, DisplayType displayType = DisplayType.MODEL3D, float size = 0.03f)
+        public Node(Vector3 position, int graphId, DisplayType displayType = DisplayType.MODEL3D, float size = 0.03f)
         {
+            GRAPH_ID = graphId;
             this.position = position;
             this.displayType = displayType;
-
+            this.color = GetRandomColor();
             this.size = size;
 
             float x = position.X;
             float y = position.Y;
             float z = position.Z;
 
+            SetupGraphicsComponent();
+
+        }
+
+        public Node(Vector3 position, int graphId, Color color, DisplayType displayType, float size) :
+            this(position, graphId,displayType,size)
+        {
+            this.color = color;
+            SetupGraphicsComponent();
+        }
+
+        // METHODS & FUNCTIONS
+        // -----------------------------------------------
+
+
+        private void SetupGraphicsComponent()
+        {
             int numberOfPrimitives = 12;
 
             graphics = new Graphics(this, PrimitiveType.TriangleList);
@@ -47,7 +67,7 @@ namespace RainBase.Entities.GraphComponents.Nodes
 
             if (displayType.Equals(DisplayType.MODEL3D))
             {
-                Cube cube = new Cube(position, color , 0.03f);
+                Cube cube = new Cube(position, Color.White, size);
                 graphics.SetVertexPositionNormalColor(cube.GetVertexPositionNormalColor());
             }
             else
@@ -55,11 +75,6 @@ namespace RainBase.Entities.GraphComponents.Nodes
 
             }
         }
-
-
-        // METHODS & FUNCTIONS
-        // -----------------------------------------------
-
 
         public void AddEdge(Edge e)
         {

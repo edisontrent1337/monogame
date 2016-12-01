@@ -14,7 +14,7 @@ using RainBase.Entities;
 using RainBase.EntityComponents;
 using RainBase.VertexType;
 
-namespace RainBase.Entities.Room
+namespace RainBase.Entities.RoomComponents
 {
     public class Floor : Entity
     {

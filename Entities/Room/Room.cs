@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using RainBase.Entities.Graphs;
 
-namespace RainBase.Entities.Room
+namespace RainBase.Entities.RoomComponents
 {
     public class Room
     {
@@ -15,7 +15,7 @@ namespace RainBase.Entities.Room
         private Vector3 origin;
         private const int ID = 1;
         private float width, height, depth;
-        private HashSet<Graph> graphs;
+        private HashSet<Graph> graphs = new HashSet<Graph>();
 
         private Floor floor;
 
@@ -29,6 +29,8 @@ namespace RainBase.Entities.Room
             this.depth = depth;
 
             floor = new Floor(origin, width, depth);
+
+
         }
 
 

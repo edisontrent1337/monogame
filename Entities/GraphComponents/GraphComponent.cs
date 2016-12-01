@@ -16,11 +16,17 @@ using RainBase.EntityComponents;
 
 namespace RainBase.Entities.GraphComponents
 {
-    class GraphComponent : Entity
+    public class GraphComponent : Entity
     {
-        private Color color;
+
+        public static int componentCount = 0;
+        protected Color color;
         private Texture2D texture;
         private float distanceToCamera;
+
+        protected readonly int ID;
+
+        private Random random = new Random();
 
 
         public enum DisplayType
@@ -36,7 +42,8 @@ namespace RainBase.Entities.GraphComponents
         // -----------------------------------------------
         public GraphComponent()
         {
-           
+            ID = componentCount;
+            componentCount++;
         }
 
         public GraphComponent(Texture2D texture)
@@ -55,6 +62,15 @@ namespace RainBase.Entities.GraphComponents
         public void SetDistanceToCamera(Camera camera)
         {
             //TODO: implement this.
+        }
+
+        public Color GetRandomColor()
+        {
+            int r = random.Next(0, 255);
+            int g = random.Next(0, 255);
+            int b = random.Next(0, 255);
+
+            return new Color(r, g, b, 255);
         }
 
 
@@ -78,5 +94,9 @@ namespace RainBase.Entities.GraphComponents
             this.displayType = displayType;
         }
 
+        public int GetID()
+        {
+            return ID;
+        }
     }
 }

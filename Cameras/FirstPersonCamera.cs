@@ -32,6 +32,8 @@ namespace RainBase.Cameras
 
         private GraphicsDevice graphicsDevice;
 
+        private Vector3 moveDir = Vector3.Zero;
+
 
         private Matrix tangoPositionTransform = new Matrix(
             //new Vector4(-1, 0, 0, 1),
@@ -42,7 +44,7 @@ namespace RainBase.Cameras
     );
 
 
-        private const float SENSITIVITY = 0.01f;
+        private const float SENSITIVITY = 0.1f;
 
         public Vector3 Velocity
         {
@@ -68,8 +70,8 @@ namespace RainBase.Cameras
             }
         }
 
-        private const float ACCELERATION_RATE = 32;
-        private const float MAX_VELOCITY = 25;
+        private const float ACCELERATION_RATE = 4;
+        private const float MAX_VELOCITY = 2.3f;
         private const float DAMPING = 0.45f;
 
 
@@ -123,7 +125,7 @@ namespace RainBase.Cameras
             this.cameraSpeed = cameraSpeed;
             this.graphicsDevice = graphicsDevice;
             this.Projection = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.PiOver4, graphicsDevice.Viewport.AspectRatio,
+                MathHelper.Pi/4f, graphicsDevice.Viewport.AspectRatio,
                 0.05f,
                 1000f
             );
@@ -162,13 +164,21 @@ namespace RainBase.Cameras
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            bool buttonPressed = false;
+
             currentMouseState = Mouse.GetState();
             acceleration = Vector3.Zero;
 
             KeyboardState state = Keyboard.GetState();
+            int scale = 1;
 
+            Vector3 transformedCameraReference = Vector3.Transform(cameraReference, rotationMatrix);
+            Vector3 transformedCameraPosition = Vector3.Transform(cameraPosition, rotationMatrix);
+
+           // Console.WriteLine("TRANSFORMED CAMERA REFERENCE " + transformedCameraReference);
             if (state.IsKeyDown(Keys.W))
             {
+                buttonPressed = true;
                 acceleration.Z = ACCELERATION_RATE;
             }
 
@@ -182,13 +192,24 @@ namespace RainBase.Cameras
 
             if (state.IsKeyDown(Keys.S))
             {
+                buttonPressed = true;
                 acceleration.Z = -ACCELERATION_RATE;
             }
+
 
 
             if (state.IsKeyDown(Keys.D))
             {
                 acceleration.X = -ACCELERATION_RATE;
+            }
+
+
+            if (buttonPressed)
+            {
+                acceleration.Y = transformedCameraReference.Y;
+                if (Math.Abs(MathHelper.ToDegrees(transformedCameraReference.Y)) > 30)
+                    moveDir.Y = (transformedCameraPosition.Y - transformedCameraReference.Y) * scale;
+                buttonPressed = false;
             }
 
 
@@ -220,10 +241,14 @@ namespace RainBase.Cameras
                 velocity.X *= DAMPING;
             if (acceleration.Z == 0)
                 velocity.Z *= DAMPING;
+            if (acceleration.Y == 0)
+                velocity.Y *= DAMPING;
 
-            Move(velocity, delta);
+            Move(velocity + moveDir, delta);
 
+            Console.WriteLine("VELOCITY" + (velocity));
 
+            moveDir = Vector3.Zero;
             float deltaX;
             float deltaY;
 
@@ -272,6 +297,7 @@ namespace RainBase.Cameras
             Matrix rotate = Matrix.CreateRotationY(cameraRotationAngles.Y);
 
             Vector3 movement = new Vector3(amount.X, amount.Y, amount.Z);
+
             movement *= delta;
             movement = Vector3.Transform(movement, rotate);
 
@@ -282,6 +308,7 @@ namespace RainBase.Cameras
         public void Move(Vector3 scale, float delta)
         {
             MoveTo(PreviewMove(scale, delta), Rotation);
+            moveDir = Vector3.Zero;
         }
 
 

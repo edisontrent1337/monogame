@@ -39,7 +39,7 @@ namespace RainBase.Controller
             this.OS = OS;
             this.worldContainer = worldContainer;
             this.graphicsDevice = graphicsDevice;
-            this.camera = new FirstPersonCamera(new Vector3(3, 1, 3), Vector3.UnitY, 3, graphicsDevice);
+            this.camera = new FirstPersonCamera(new Vector3(3, 1.8f, 3), Vector3.UnitY, 3, graphicsDevice);
             this.sb = new SpriteBatch(graphicsDevice);
             this.basicEffect = new BasicEffect(graphicsDevice);
         }
@@ -62,6 +62,7 @@ namespace RainBase.Controller
         {
 
             camera.Update(gameTime);
+
 
             basicEffect.VertexColorEnabled = true;
             basicEffect.Projection = camera.Projection;

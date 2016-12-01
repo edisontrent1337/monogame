@@ -23,7 +23,7 @@ namespace RainBase.Entities.GraphComponents.Egde
         private List<LineSegment> linesegments = new List<LineSegment>();
         enum QUALITY_LEVEL
         {
-            LOW = 128,
+            LOW = 256,
             MEDIUM = 128,
             HIGH = 256,
             ULTRA = 2048,
@@ -44,12 +44,11 @@ namespace RainBase.Entities.GraphComponents.Egde
         private List<VertexPositionNormalColor> vertexPositionNormalColor;
 
         private float length = 0;
-        private Color color;
 
         // CONSTRUCTOR
         // -----------------------------------------------
 
-        public Edge(Node source, Node destination, float thickness, DisplayType displayType, Color color)
+        public Edge(Node source, Node destination, float thickness, DisplayType displayType)
         {
             this.source = source;
             this.destination = destination;
@@ -58,11 +57,18 @@ namespace RainBase.Entities.GraphComponents.Egde
             this.startPoint = source.GetPosition();
             this.endPoint = destination.GetPosition();
             this.displayType = displayType;
-            this.color = color;
+            this.color = GetRandomColor();
             SetupLinesegment();
 
         }
 
+        public Edge(Node source, Node destination, float thickness, DisplayType displayType, Color color) :
+            this(source, destination,thickness,displayType)
+        {
+            this.color = color;
+            SetupLinesegment();
+
+        }
 
 
 

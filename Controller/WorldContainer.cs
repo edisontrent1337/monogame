@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using RainBase.Entities.Room;
+using RainBase.Entities.RoomComponents;
 using Microsoft.Xna.Framework;
 using RainBase.Entities.Graphs;
 using RainBase.Entities;
@@ -35,44 +35,26 @@ namespace RainBase.Controller
         public WorldContainer()
         {
             //this.room = new Room(Vector3.Zero, 5f,3.5f,10f);
-            this.room = new Room(Vector3.Zero, 25f,25f,25f);
+            this.room = new Room(Vector3.Zero, 10f,3f,10f);
+            Graph g = new Graph(30, 30, room);
+
+            g.PopulateRandomly();
             this.graphs = room.GetGraphs();
-
-
-            /*for(int i = 0; i < 5; i++)
-            {
-                float x = (float)random.NextDouble()*room.Width;
-                float y = (float)random.NextDouble()*room.Height;
-                float z = (float)random.NextDouble()*room.Depth;
-
-
-                nodes.Add(new Node(new Vector3(x, y, z), GetRandomColor(), GraphComponent.DisplayType.MODEL3D, 0.1f));
-            }*/
-
-
-
-            Node origin = new Node(Vector3.Zero, Color.White, GraphComponent.DisplayType.MODEL3D);
-
-            Node posX = new Node(Vector3.UnitX, Color.Red, GraphComponent.DisplayType.MODEL3D);
-            Node posY = new Node(Vector3.UnitY, Color.Green, GraphComponent.DisplayType.MODEL3D);
-            Node posZ = new Node(Vector3.UnitZ, Color.Blue, GraphComponent.DisplayType.MODEL3D);
-
-            nodes.Add(origin);
-
-            nodes.Add(posX);
-            nodes.Add(posY);
-            nodes.Add(posZ);
-
 
             Floor floor = room.GetFloor();
 
             RegisterEntity(floor);
 
-            foreach(Node n in nodes)
-            {
-                RegisterEntity(n);
-            }
 
+            foreach(Graph graph in graphs) {
+
+                foreach (GraphComponent gc in graph.GetGraphComponents())
+                {
+                    RegisterEntity(gc);
+                }
+
+            }
+   
 
            /* for(int i = 0; i < 37; i++)
             {
@@ -136,7 +118,7 @@ namespace RainBase.Controller
 
         public void RegisterEntity(Entity e)
         {
-            entities.Add(e.GetID(), e);
+            entities.Add(e.GetEntityID(), e);
         }
 
 

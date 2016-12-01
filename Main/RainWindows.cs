@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RainBase.Controller;
-using RainBase.Entities.Room;
+using RainBase.Entities.RoomComponents;
 using System;
 
 using RainBase.Entities;
@@ -39,7 +39,7 @@ namespace RainBase.Main
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = BUFFER_WIDTH;
             graphics.PreferredBackBufferHeight = BUFFER_HEIGHT;
-            graphics.PreferMultiSampling = true;
+            //graphics.PreferMultiSampling = true;
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
 
@@ -114,7 +114,7 @@ namespace RainBase.Main
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            base.Update(gameTime);
+
         }
 
         /// <summary>

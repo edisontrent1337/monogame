@@ -15,7 +15,7 @@ namespace RainBase.Entities
 
         public static short entityCount = 0;
 
-        private short ID;
+        private readonly short ENTITY_ID;
 
  
 
@@ -23,7 +23,7 @@ namespace RainBase.Entities
         public Entity()
         {
 
-            ID = (short) (entityCount + 1);
+            ENTITY_ID = (short) (entityCount + 1);
 
             /*byte[] guidAsBytes = ID.ToByteArray();
             int test = new int(guidAsBytes);*/
@@ -58,9 +58,9 @@ namespace RainBase.Entities
             return graphics;
         }
 
-        public int GetID()
+        public int GetEntityID()
         {
-            return ID;
+            return ENTITY_ID;
         }
 
     }
