@@ -80,7 +80,15 @@ namespace RainBase.Entities.Graphs
                     adjacencyMatrix[nodeA.GetID(), nodeB.GetID()] = true;
                 }
             }
+            Node posX = new Node(new Vector3(1,0,0), GRAPH_ID, Color.Red, GraphComponent.DisplayType.MODEL3D, 0.03f);
+            Node posY = new Node(new Vector3(0,1,0), GRAPH_ID, Color.Green, GraphComponent.DisplayType.MODEL3D, 0.03f);
+            Node posZ = new Node(new Vector3(0,0,1), GRAPH_ID, Color.Blue, GraphComponent.DisplayType.MODEL3D, 0.03f);
+            Node origin = new Node(new Vector3(0,0,0), GRAPH_ID, GraphComponent.DisplayType.MODEL3D, 0.03f);
 
+            nodes.Add(posX);
+            nodes.Add(posY);
+            nodes.Add(posZ);
+            nodes.Add(origin);
             graphComponents.UnionWith(nodes);
             graphComponents.UnionWith(edges);
 

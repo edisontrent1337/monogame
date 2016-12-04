@@ -34,6 +34,8 @@ namespace RainBase.Cameras
 
         private Vector3 moveDir = Vector3.Zero;
 
+        private Vector3 offSet = new Vector3(5, 1.8f, 5);
+
 
         private Matrix tangoPositionTransform = new Matrix(
             //new Vector4(-1, 0, 0, 1),
@@ -278,6 +280,8 @@ namespace RainBase.Cameras
             Mouse.SetPosition(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
 
             previousMouseState = currentMouseState;
+
+ 
         }
 
 
@@ -285,13 +289,16 @@ namespace RainBase.Cameras
         {
             //Position = pos;
 
-            cameraPosition = pos;
+            cameraPosition = pos + offSet;
             rotationMatrix = Matrix.CreateFromQuaternion(q);
             Vector3 transformedCameraReference = Vector3.Transform(cameraReference, rotationMatrix);
-
             lookAt = cameraPosition + transformedCameraReference;
-        }
 
+        }
+        public Vector3 GetLookAt()
+        {
+            return lookAt;
+        }
         private Vector3 PreviewMove(Vector3 amount, float delta)
         {
             Matrix rotate = Matrix.CreateRotationY(cameraRotationAngles.Y);

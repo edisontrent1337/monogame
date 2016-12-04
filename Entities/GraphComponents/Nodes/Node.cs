@@ -67,7 +67,7 @@ namespace RainBase.Entities.GraphComponents.Nodes
 
             if (displayType.Equals(DisplayType.MODEL3D))
             {
-                Cube cube = new Cube(position, Color.White, size);
+                Cube cube = new Cube(position, color, size);
                 graphics.SetVertexPositionNormalColor(cube.GetVertexPositionNormalColor());
             }
             else

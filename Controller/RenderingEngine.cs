@@ -10,6 +10,8 @@ using RainBase.Entities;
 using RainBase.EntityComponents;
 using RainBase.VertexType;
 using Microsoft.Xna.Framework;
+using Com.Google.Atap.Tangoservice;
+using Rain.Utilities;
 
 
 namespace RainBase.Controller
@@ -25,10 +27,9 @@ namespace RainBase.Controller
         private string OS;
 
         private Matrix tangoPositionTransform = new Matrix(
-            //new Vector4(-1, 0, 0, 1),
-            new Vector4(0, 1, 0, 1),
-            new Vector4(0, 0, -1, 0),
-            new Vector4(1, 0, 0, 0),
+            new Vector4(-1, 0, 0, 1),
+            new Vector4(0, 0, 1, 0),
+            new Vector4(0, 1, 0, 0),
             new Vector4(0, 0, 0, 1)
             );
 
@@ -39,7 +40,7 @@ namespace RainBase.Controller
             this.OS = OS;
             this.worldContainer = worldContainer;
             this.graphicsDevice = graphicsDevice;
-            this.camera = new FirstPersonCamera(new Vector3(3, 1.8f, 3), Vector3.UnitY, 3, graphicsDevice);
+            this.camera = new FirstPersonCamera(new Vector3(5, 1.80f, 5), Vector3.UnitZ, 3, graphicsDevice);
             this.sb = new SpriteBatch(graphicsDevice);
             this.basicEffect = new BasicEffect(graphicsDevice);
         }
@@ -86,20 +87,19 @@ namespace RainBase.Controller
         }
 
 
-        /*public void SetProjectionMatrix(TangoCameraIntrinsics i)
+        public void SetProjectionMatrix(TangoCameraIntrinsics i)
         {
             Matrix projectionMatrix = ScenePoseCalculator.calculateProjectionMatrix(i.Width,
                 i.Height, i.Fx, i.Fy, i.Cx, i.Cy);
             camera.Projection = projectionMatrix;
-        }*/
+        }
 
         public void Draw(GameTime gameTime, Vector3 pos, Quaternion q)
         {
 
             //camera.Position = Vector3.Transform(pos, tangoPositionTransform);
-
-            camera.Update(pos, q);
-           // camera.Update(pos, q);
+            //q = Quaternion.Identity;
+            camera.Update(Vector3.Transform(pos, tangoPositionTransform), q);
 
             basicEffect.VertexColorEnabled = true;
             basicEffect.Projection = camera.Projection;
@@ -122,5 +122,10 @@ namespace RainBase.Controller
 
         // PROPERTIES
         // -----------------------------------------------
+
+        public Vector3 GetCameraLookAt()
+        {
+            return camera.GetLookAt();
+        }
     }
 }
