@@ -5,7 +5,7 @@ using RainBase.VertexType;
 
 namespace RainBase.Entities.Primitives
 {
-    public class Cube
+    public class CubePrimitive
     {
         private const float DEFAULT_SIZE = 1.0f;
         public static int NUMBER_OF_PRIMITIVES = 12;
@@ -24,7 +24,7 @@ namespace RainBase.Entities.Primitives
         private Color color;
 
 
-        public Cube(Vector3 position, Color color, float size = DEFAULT_SIZE)
+        public CubePrimitive(Vector3 position, Color color, float size = DEFAULT_SIZE)
         {
             this.position = position;
             this.width = size;
@@ -37,7 +37,7 @@ namespace RainBase.Entities.Primitives
             SetupVertexAndFaceData();
         }
 
-        public Cube(Vector3 position, Color color, float width, float height, float depth, Matrix rotation)
+        public CubePrimitive(Vector3 position, Color color, float width, float height, float depth, Matrix rotation)
         {
             this.position = position;
             this.width = width;
@@ -70,8 +70,9 @@ namespace RainBase.Entities.Primitives
 
 
             Matrix combined = scaling * rotation  * translation;
-            //SCALING
 
+            // SCALING, ROTATION & TRANSLATION
+            // Applies scaling, rotation and translation to each vertex.
             for (int i = 0; i < vertices.Length; i++)
             {
                 vertices[i] = Vector3.Transform(vertices[i], combined);

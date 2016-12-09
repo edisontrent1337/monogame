@@ -16,17 +16,17 @@ namespace RainBase.EntityComponents
     {
 
         protected VertexBuffer vertexBuffer;
-        protected VertexPositionColor[] vertexPositionColor;
+        protected IndexBuffer indexBuffer;
+
         protected VertexPositionNormalColor[] vertexPositionNormalColor;
+        protected List<ushort> indices;
         protected PrimitiveType primitiveType;
+
+        private bool indexedRendering = false;
 
         private int primitiveCount = 0;
         private Entity entity;
 
-        public VertexBuffer VertexBuffer {
-            get { return vertexBuffer; }
-            set { vertexBuffer = value; }
-        }
 
 
         public Graphics(Entity entity, PrimitiveType type)
@@ -36,38 +36,45 @@ namespace RainBase.EntityComponents
             entity.EnableGraphics();
         }
 
-        public Graphics(Entity entity, PrimitiveType type, VertexPositionColor[] vertexPositionColor, int primitiveCount)
+        public Graphics(Entity entity, PrimitiveType type, VertexPositionNormalColor[] vertexPositionNormalColor, List<ushort> indices, int primitiveCount)
         {
             this.entity = entity;
-            this.vertexPositionColor = vertexPositionColor;
+            this.vertexPositionNormalColor = vertexPositionNormalColor;
+            this.indices = indices;
             this.primitiveCount = primitiveCount;
             entity.EnableGraphics();
         }
 
-        public void SetVertexBuffer(VertexBuffer vertexBuffer)
+        /**
+         * Sets the vertex buffer for this graphics component.
+         * Immediatly fills the vertex buffer with vertex position normal color data.
+         * This method should only be called if vertexPositionNormalColor was initialized.
+         **/
+        public void SetUpVertexBufferAndData(VertexBuffer vertexBuffer)
         {
             this.vertexBuffer = vertexBuffer;
             vertexBuffer.SetData<VertexPositionNormalColor>(vertexPositionNormalColor);
         }
 
-        public void SetVertexPositionColor(VertexPositionColor[] vertexPositionColor)
-        {
-            this.vertexPositionColor = vertexPositionColor;
-        }
 
         public void SetVertexPositionNormalColor(VertexPositionNormalColor[] vertexPositionNormalColor)
         {
             this.vertexPositionNormalColor = vertexPositionNormalColor;
         }
 
-        public VertexPositionColor[] GetVertexPositionColor()
-        {
-            return vertexPositionColor;
-        }
-
 
         public VertexPositionNormalColor[] GetVertexPositionNormalColor() {
             return vertexPositionNormalColor;
+        }
+
+        public List<ushort> GetIndices()
+        {
+            return indices;
+        }
+
+        public void SetIndices(List<ushort> indices)
+        {
+            this.indices = indices;
         }
 
         public void SetPrimitiveCount(int primitiveCount)
@@ -90,7 +97,32 @@ namespace RainBase.EntityComponents
             return primitiveType;
         }
 
+        public void SetUpIndicesAndData(IndexBuffer indexBuffer)
+        {
+            this.indexBuffer = indexBuffer;
+            indexBuffer.SetData<ushort>(indices.ToArray());
+        }
 
+        // PROPERTIES
+        // --------------------------------------------------------------------------------
+
+        // controls, whether or not an index buffer shall be used for rendering
+        public bool IndexedRendering
+        {
+            get { return indexedRendering; }
+            set { indexedRendering = value; }
+        }
+
+
+        public VertexBuffer VertexBuffer
+        {
+            get { return vertexBuffer; }
+        }
+
+        public IndexBuffer IndexBuffer
+        {
+            get { return indexBuffer; }
+        }
 
     }
 }

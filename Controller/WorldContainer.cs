@@ -12,7 +12,9 @@ using RainBase.Entities;
 using RainBase.Entities.GraphComponents.Egde;
 using RainBase.Entities.GraphComponents.Nodes;
 using RainBase.Entities.GraphComponents;
-
+using RainBase.EntityComponents;
+using Microsoft.Xna.Framework.Graphics;
+using RainBase.VertexType;
 
 namespace RainBase.Controller
 {
@@ -20,86 +22,52 @@ namespace RainBase.Controller
     {
         //TODO: implement tango stuff
         private Room room;
-        private HashSet<Graph> graphs = new HashSet<Graph>();
+        //private HashSet<Graph> graphs = new HashSet<Graph>();
+        //private Graph graph;
         private Dictionary<int,Entity> entities = new Dictionary<int,Entity>();
 
-        // TESTING
-
-        private Node source, destination, test;
-        Random random = new Random();
-
-        private List<Node> nodes = new List<Node>();
+        private Dictionary<int, Graph> graphs = new Dictionary<int, Graph>();
+        private Game rain;
         // CONSTRUCTOR
         // -----------------------------------------------
 
-        public WorldContainer()
+        public WorldContainer(Game rain)
         {
             //this.room = new Room(Vector3.Zero, 5f,3.5f,10f);
-            this.room = new Room(Vector3.Zero, 10f,3f,10f);
-            Graph g = new Graph(30, 30, room);
+            this.room = new Room(Vector3.Zero, 10f, 3f, 10f);
+            Graph g1 = new Graph(6, 13, room);
+            Graph g2 = new Graph(5, 4, room);
+            g1.PopulateRandomly();
+            g2.PopulateRandomly();
+            this.rain = rain;
 
-            g.PopulateRandomly();
-            this.graphs = room.GetGraphs();
+            foreach(Graph g in room.GetGraphs())
+            {
+                graphs.Add(g.GetID(), g); 
+            }
 
             Floor floor = room.GetFloor();
 
             RegisterEntity(floor);
 
-
-            foreach(Graph graph in graphs) {
+            foreach (Graph graph in graphs.Values) {
 
                 foreach (GraphComponent gc in graph.GetGraphComponents())
                 {
-                    RegisterEntity(gc);
+                   RegisterEntity(gc);
                 }
 
             }
    
-
-           /* for(int i = 0; i < 37; i++)
-            {
-                Edge e = new Edge(nodes[random.Next(0, nodes.Count - 1)], nodes[random.Next(0, nodes.Count - 1)], 0.0075f, GraphComponent.DisplayType.MODEL3D, GetRandomColor());
-                RegisterEntity(e);
-            }*/
-
-            /*
-            Edge a = new Edge(nodes[0], nodes[1],0.01f, GraphComponent.DisplayType.MODEL3D);
-            Edge b = new Edge(nodes[0], nodes[1], 0.01f, GraphComponent.DisplayType.MODEL2D);
-            Edge c = new Edge(nodes[2], nodes[1], 0.01f, GraphComponent.DisplayType.MODEL3D);
-            Edge d = new Edge(nodes[1], origin, 0.01f, GraphComponent.DisplayType.MODEL3D);
-            RegisterEntity(a);
-            RegisterEntity(b);
-            RegisterEntity(c);
-            RegisterEntity(d);
-            /*RegisterEntity(new Edge(source, destination));
-            RegisterEntity(new Edge(test, destination));
-            RegisterEntity(new Edge(test, source));*/
-            //RegisterEntity(new Edge(new Vector3(1,2,2), destination.GetPosition()));
-            //RegisterEntity(new Edge(new Vector3(1,2,2), source.GetPosition()));
-
-
-            //Console.WriteLine("ENTITY COUNT :" + Entity.entityCount);
         }
 
-
-
-        public WorldContainer(int width, int height, int depth)
+        /*public WorldContainer(int width, int height, int depth)
         {
             this.room = new Room(Vector3.Zero, width, height, depth);
-            this.graphs = room.GetGraphs();
-        }
+        }*/
 
         // METHODS & FUNCTIONS
         // -----------------------------------------------
-
-        private Color GetRandomColor()
-        {
-            int r = random.Next(0, 255);
-            int g = random.Next(0, 255);
-            int b = random.Next(0, 255);
-
-            return new Color(r, g, b, 255);
-        }
 
         public Room GetRoom()
         {
@@ -116,12 +84,48 @@ namespace RainBase.Controller
             return new List<Entity>(entities.Values);
         }
 
+        /// <summary>
+        /// Registers an entity in the main entity Dictionary that is used to render the whole
+        /// scene.
+        /// </summary>
+        /// <param name="e">Entity to be added</param>
         public void RegisterEntity(Entity e)
         {
             entities.Add(e.GetEntityID(), e);
         }
 
+        /**
+         * TODO: Either provide two vertexbuffers, one for 2d and one for 3d,
+         * or implement a function like the one below that flips a primitive from 2d to 3d and vice versa.
+         * TODO: implement function Flip(int entityID, DisplayType displayType)
+         * TODO: implement funtion EnableBezier(int edgeID)
+         * TODO: implement Update() function for Graph, so that the entities hashmap of the worldcontainer
+         * is consistent with the graphcomponents set in each graph
+         * TODO: implement GetGraphComponentByID(int ID) method so that we can grab an edge or node by its id and
+         * modify it.
+         * 
+         * FLIP works but it is shit.
+        **/
+  
 
+        public Dictionary<int,Graph> GetGraphs()
+        {
+            return graphs;
+        }
+
+        /// <summary>
+        /// Returns the graph specified by the given id.
+        /// If the id is invalid, a new ArgumentOutOfRangeException is thrown.
+        /// </summary>
+        /// <param name="ID">Id of the graph</param>
+        /// <returns>Graph g</returns>
+        public Graph GetGraphById(int ID)
+        {
+            if (graphs.ContainsKey(ID))
+                return graphs[ID];
+            else
+                throw new ArgumentOutOfRangeException("THE GRAPH SPECIFIED BY THE ID " + ID + " DOES NOT EXIST");
+        }
         // PROPERTIES
         // -----------------------------------------------
 

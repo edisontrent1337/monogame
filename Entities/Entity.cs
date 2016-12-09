@@ -12,7 +12,7 @@ namespace RainBase.Entities
     {
         protected Graphics graphics;
         private bool hasGraphics = false;
-
+        protected float distanceToCamera;
         public static short entityCount = 0;
 
         private readonly short ENTITY_ID;

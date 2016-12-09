@@ -16,23 +16,25 @@ namespace RainBase.Entities.GraphComponents.Egde
 
 
 
-    class Edge : GraphComponent
+    public class Edge : GraphComponent
     {
 
         private Node source, destination;
+        private readonly int GRAPH_ID;
+        private readonly int EDGE_ID;
         private List<LineSegment> linesegments = new List<LineSegment>();
-        enum QUALITY_LEVEL
+        public enum Smoothness
         {
-            LOW = 256,
+            NONE = 1,
+            LOW = 64,
             MEDIUM = 128,
             HIGH = 256,
-            ULTRA = 2048,
-            MAX = 4096
+            ULTRA = 512,
+            MAX = 1024
         }
 
-        private float thickness = 0.01f;
-        private QUALITY_LEVEL levelOfQuality = QUALITY_LEVEL.LOW;
-        private short segmentQuality = 2;
+        private float thickness = 0.008f;
+        private Smoothness levelOfSmoothness = Smoothness.LOW;
 
 
         private List<Vector3> points = new List<Vector3>();
@@ -48,25 +50,28 @@ namespace RainBase.Entities.GraphComponents.Egde
         // CONSTRUCTOR
         // -----------------------------------------------
 
-        public Edge(Node source, Node destination, float thickness, DisplayType displayType)
+        public Edge(Node source, Node destination, int graphID, int edgeID, DisplayType displayType)
         {
             this.source = source;
             this.destination = destination;
-            this.thickness = thickness;
+
+            this.GRAPH_ID = graphID;
+            this.EDGE_ID = edgeID;
+
             this.displayType = displayType;
             this.startPoint = source.GetPosition();
             this.endPoint = destination.GetPosition();
             this.displayType = displayType;
             this.color = GetRandomColor();
-            SetupLinesegment();
+            SetupGraphicsComponent();
 
         }
 
-        public Edge(Node source, Node destination, float thickness, DisplayType displayType, Color color) :
-            this(source, destination,thickness,displayType)
+        public Edge(Node source, Node destination, int graphID, int edgeID, DisplayType displayType, Color color) :
+            this(source, destination,graphID, edgeID,displayType)
         {
             this.color = color;
-            SetupLinesegment();
+            SetupGraphicsComponent();
 
         }
 
@@ -75,17 +80,20 @@ namespace RainBase.Entities.GraphComponents.Egde
         // METHODS & FUNCTIONS
         // -----------------------------------------------
 
-        private void SetupLinesegment()
+        public override void SetupGraphicsComponent()
         {
             Vector3 controlPointAxis = CalculateMinimumDisplacementAxis(startPoint, endPoint);
-            //Vector3 controlPointAxis = Vector3.UnitY;
             controlPoint = (endPoint - startPoint) / 2 + startPoint + controlPointAxis * 2;
-            //controlPoint = (endPoint - startPoint) / 2 + startPoint + new Vector3(0, 3, 0);
+
+            linesegments.Clear();
+            points.Clear();
+            vertexPositionNormalColor = new List<VertexPositionNormalColor>();
+            length = 0;
+
             linesegments.Add(new LineSegment(startPoint, controlPoint, endPoint));
 
-
             Matrix rotation;
-            for (float step = 0; step <= 1; step += 1f / (int)levelOfQuality)
+            for (float step = 0; step <= 1; step += 1f / (int)levelOfSmoothness)
             {
                 points.Add(GetQuadraticBezierPoint(linesegments[0], step));
             }
@@ -99,7 +107,6 @@ namespace RainBase.Entities.GraphComponents.Egde
             // 2D DATA
             if (displayType.Equals(DisplayType.MODEL2D))
             {
-
                 graphics = new Graphics(this, PrimitiveType.LineStrip);
                 vertexPositionNormalColor = new List<VertexPositionNormalColor>();
                 for (int i = 0; i < points.Count; i++)
@@ -107,11 +114,13 @@ namespace RainBase.Entities.GraphComponents.Egde
                     vertexPositionNormalColor.Add(new VertexPositionNormalColor(points[i], Vector3.UnitY, color));
                 }
                 graphics.SetPrimitiveCount(points.Count - 1); // points - 1 line primitives
+
             }
 
             // 3D DATA
             else if (displayType.Equals(DisplayType.MODEL3D))
             {
+
                 graphics = new Graphics(this, PrimitiveType.TriangleList);
                 vertexPositionNormalColor = new List<VertexPositionNormalColor>();
 
@@ -125,15 +134,13 @@ namespace RainBase.Entities.GraphComponents.Egde
                     Vector3 dir = lineEnd - lineStart;
                     dir.Normalize();
                     Vector3 rotationAxis = Vector3.Cross(controlPointAxis, dir);
-                    //Vector3 rotationAxis = Vector3.Cross(Vector3.UnitY, dir);
                     rotationAxis.Normalize();
 
                     float angle = (float)Math.Acos(Vector3.Dot(controlPointAxis, dir));
-                   // float angle = (float)Math.Acos(Vector3.Dot(Vector3.UnitY, dir));
 
                     rotation = Matrix.CreateFromAxisAngle(rotationAxis, angle);
 
-                    float size = length / ((int)levelOfQuality - 2);
+                    float size = length / ((int)levelOfSmoothness - 2);
 
                     Vector3 cubeDimensions = Vector3.Zero;
 
@@ -158,9 +165,7 @@ namespace RainBase.Entities.GraphComponents.Egde
                     }
 
 
-                    //
-                    Cube cube = new Cube(position, color, cubeDimensions.X, cubeDimensions.Y , cubeDimensions.Z, rotation);
-                   // Cube cube = new Cube(position, Color.Green, 0.01f, size, 0.01f, rotation);
+                    CubePrimitive cube = new CubePrimitive(position, color, cubeDimensions.X, cubeDimensions.Y , cubeDimensions.Z, rotation);
 
                     foreach (VertexPositionNormalColor vpc in cube.GetVertexPositionNormalColor())
                     {
@@ -169,14 +174,28 @@ namespace RainBase.Entities.GraphComponents.Egde
 
                 }
 
-                graphics.SetPrimitiveCount((points.Count - 1) * Cube.NUMBER_OF_PRIMITIVES * 3);
+                graphics.SetPrimitiveCount((points.Count - 1) * CubePrimitive.NUMBER_OF_PRIMITIVES * 3);
 
             }
 
             graphics.SetVertexPositionNormalColor(vertexPositionNormalColor.ToArray());
         }
 
+        public override void SetupGraphicsComponent(DisplayType displayType)
+        {
+            this.displayType = displayType;
+            SetupGraphicsComponent();
+        }
 
+
+        /// <summary>
+        /// Calculates the axis on which the displacement between the two nodes of
+        /// the egdes is the smallest, e.g. the minimum of each coordinate pairs of the
+        /// positions of the nodes.
+        /// </summary>
+        /// <param name="v1">position of node A</param>
+        /// <param name="v2">position of node B</param>
+        /// <returns> minimum displacement axis</returns>
         private Vector3 CalculateMinimumDisplacementAxis(Vector3 v1, Vector3 v2)
         {
             float x = Math.Abs(v2.X - v1.X);
@@ -197,7 +216,7 @@ namespace RainBase.Entities.GraphComponents.Egde
 
         public override void Draw(GraphicsDevice graphicsDevice, BasicEffect effect)
         {
-            effect.EnableDefaultLighting();
+            //effect.EnableDefaultLighting();
             if (displayType.Equals(DisplayType.MODEL2D) || displayType.Equals(DisplayType.MODEL3D))
             {
                 foreach (EffectPass pass in effect.CurrentTechnique.Passes)
@@ -246,6 +265,26 @@ namespace RainBase.Entities.GraphComponents.Egde
             return new Vector3(x, y, z);
         }
 
+
+        public override string ToString()
+        {
+            return "EDGE ID: " + EDGE_ID + " FROM NODE " + source.GetID() + " TO NODE " + destination.GetID() + " COMPONENT OF GRAPH: " + GRAPH_ID;
+        }
+
+        public override int GetID()
+        {
+            return EDGE_ID;
+        }
+
+        public void SetLevelOfSmoothness(Smoothness levelOfSmoothness)
+        {
+            this.levelOfSmoothness = levelOfSmoothness;
+        }
+
+        public Smoothness GetLevelOfSmoothness()
+        {
+            return levelOfSmoothness;
+        }
         // PROPERTIES
         // -----------------------------------------------
 

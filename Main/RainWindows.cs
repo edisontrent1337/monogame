@@ -6,6 +6,8 @@ using RainBase.Entities.RoomComponents;
 using System;
 
 using RainBase.Entities;
+using RainBase.Entities.Graphs;
+using RainBase.Entities.GraphComponents;
 
 namespace RainBase.Main
 
@@ -18,6 +20,7 @@ namespace RainBase.Main
         private RenderingEngine renderingEngine;
         private WorldContainer worldContainer;
         private WorldController worldController;
+        private WindowsInputHandler inputHandler;
 
         private const short BUFFER_WIDTH = 1280;
         private const short BUFFER_HEIGHT = 720;
@@ -29,6 +32,7 @@ namespace RainBase.Main
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         BasicEffect basicEffect;
+        KeyboardState oldState = Keyboard.GetState();
 
         private static string OS = "WINDOWS";
 
@@ -65,9 +69,10 @@ namespace RainBase.Main
              * Controllers can be created only here, not in Game1's constructor,
              * because GraphicsDevice has not been initialized up there yet.
              **/
-            worldContainer = new WorldContainer();
+            worldContainer = new WorldContainer(this);
             worldController = new WorldController(this, worldContainer);
             renderingEngine = new RenderingEngine(OS, worldContainer, GraphicsDevice);
+            inputHandler = new WindowsInputHandler(renderingEngine.GetCamera(), worldController, worldContainer);
 
             basicEffect = new BasicEffect(GraphicsDevice);
             basicEffect.Alpha = 1f;
@@ -79,6 +84,8 @@ namespace RainBase.Main
             {
                 renderingEngine.InitGraphics(e);
             }
+
+
             base.Initialize();
 
         }
@@ -114,7 +121,8 @@ namespace RainBase.Main
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
+            inputHandler.Update(gameTime);
+            worldController.Update();
         }
 
         /// <summary>

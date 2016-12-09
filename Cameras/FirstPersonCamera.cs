@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 namespace RainBase.Cameras
 {
-    class FirstPersonCamera
+    public class FirstPersonCamera
     {
         private Vector3 cameraPosition;
 
@@ -172,12 +172,10 @@ namespace RainBase.Cameras
             acceleration = Vector3.Zero;
 
             KeyboardState state = Keyboard.GetState();
-            int scale = 1;
 
             Vector3 transformedCameraReference = Vector3.Transform(cameraReference, rotationMatrix);
             Vector3 transformedCameraPosition = Vector3.Transform(cameraPosition, rotationMatrix);
 
-           // Console.WriteLine("TRANSFORMED CAMERA REFERENCE " + transformedCameraReference);
             if (state.IsKeyDown(Keys.W))
             {
                 buttonPressed = true;
@@ -210,7 +208,7 @@ namespace RainBase.Cameras
             {
                 acceleration.Y = transformedCameraReference.Y;
                 if (Math.Abs(MathHelper.ToDegrees(transformedCameraReference.Y)) > 30)
-                    moveDir.Y = (transformedCameraPosition.Y - transformedCameraReference.Y) * scale;
+                    moveDir.Y = transformedCameraPosition.Y - transformedCameraReference.Y;
                 buttonPressed = false;
             }
 
@@ -248,7 +246,6 @@ namespace RainBase.Cameras
 
             Move(velocity + moveDir, delta);
 
-            Console.WriteLine("VELOCITY" + (velocity));
 
             moveDir = Vector3.Zero;
             float deltaX;
@@ -316,6 +313,21 @@ namespace RainBase.Cameras
         {
             MoveTo(PreviewMove(scale, delta), Rotation);
             moveDir = Vector3.Zero;
+        }
+
+        public Vector3 GetAcceleration()
+        {
+            return acceleration;
+        }
+
+        public void SetAcceleration(Vector3 acceleration)
+        {
+            this.acceleration = acceleration;
+        }
+
+        public Vector3 GetVelocity()
+        {
+            return velocity;
         }
 
 

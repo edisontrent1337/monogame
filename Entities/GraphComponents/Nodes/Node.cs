@@ -9,46 +9,46 @@ using Microsoft.Xna.Framework.Graphics;
 using RainBase.Entities.GraphComponents.Egde;
 using RainBase.EntityComponents;
 using RainBase.Entities.Primitives;
+using RainBase.VertexType;
 
 namespace RainBase.Entities.GraphComponents.Nodes
 {
-    class Node : GraphComponent
+    public class Node : GraphComponent
     {
         private readonly int GRAPH_ID;
-
         private readonly int NODE_ID;
         // Center position of the cube
         private Vector3 position;
         private float size = 0;
 
-        private VertexPositionColor[] faceData;
         private Vector3[] vertices = new Vector3[8];
         // Set of edges this node belongs to
         private Dictionary<int, Edge> edges = new Dictionary<int, Edge>();
+
+        public enum NodeType
+        {
+            CUBE,
+            BALL
+        }
 
 
         // CONSTRUCTOR
         // -----------------------------------------------
 
         // Default display type is 2D
-        public Node(Vector3 position, int graphId, DisplayType displayType = DisplayType.MODEL3D, float size = 0.03f)
+        public Node(Vector3 position, int graphId, int nodeId, DisplayType displayType = DisplayType.MODEL3D, float size = 0.03f)
         {
             GRAPH_ID = graphId;
+            NODE_ID = nodeId;
             this.position = position;
             this.displayType = displayType;
             this.color = GetRandomColor();
             this.size = size;
-
-            float x = position.X;
-            float y = position.Y;
-            float z = position.Z;
-
             SetupGraphicsComponent();
-
         }
 
-        public Node(Vector3 position, int graphId, Color color, DisplayType displayType, float size) :
-            this(position, graphId,displayType,size)
+        public Node(Vector3 position, int graphId, int nodeId, Color color, DisplayType displayType, float size) :
+            this(position, graphId, nodeId, displayType, size)
         {
             this.color = color;
             SetupGraphicsComponent();
@@ -57,23 +57,39 @@ namespace RainBase.Entities.GraphComponents.Nodes
         // METHODS & FUNCTIONS
         // -----------------------------------------------
 
-
-        private void SetupGraphicsComponent()
+        /// <summary>
+        /// Sets up the graphics component for this node.
+        /// Distinguishes between a 2D and a 3D case.
+        /// </summary>
+        public override void SetupGraphicsComponent()
         {
-            int numberOfPrimitives = 12;
-
-            graphics = new Graphics(this, PrimitiveType.TriangleList);
-            graphics.SetPrimitiveCount(numberOfPrimitives);
 
             if (displayType.Equals(DisplayType.MODEL3D))
             {
-                Cube cube = new Cube(position, color, size);
-                graphics.SetVertexPositionNormalColor(cube.GetVertexPositionNormalColor());
+                graphics = new Graphics(this, PrimitiveType.TriangleList);
+
+                SpherePrimitive sphere = new SpherePrimitive(position, color, 0.05f, 16);
+                graphics.SetPrimitiveCount(sphere.GetPrimitiveCount());
+                graphics.IndexedRendering = true;
+                graphics.SetVertexPositionNormalColor(sphere.GetVertexPositionNormalColor().ToArray());
+                graphics.SetIndices(sphere.GetIndices());
+
             }
             else
             {
+                graphics = new Graphics(this, PrimitiveType.TriangleList);
+                graphics.IndexedRendering = false;
+                CubePrimitive cube = new CubePrimitive(position, color, 0.02f);
+                graphics.SetPrimitiveCount(CubePrimitive.NUMBER_OF_PRIMITIVES);
+                graphics.SetVertexPositionNormalColor(cube.GetVertexPositionNormalColor());
 
             }
+        }
+
+        public override void SetupGraphicsComponent(DisplayType displayType)
+        {
+            this.displayType = displayType;
+            SetupGraphicsComponent();
         }
 
         public void AddEdge(Edge e)
@@ -90,21 +106,22 @@ namespace RainBase.Entities.GraphComponents.Nodes
 
         public override void Draw(GraphicsDevice graphicsDevice, BasicEffect effect)
         {
-            if (displayType.Equals(DisplayType.MODEL2D))
+
+            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
-
-            }
-
-            else if (displayType.Equals(DisplayType.MODEL3D))
-            {
-
-
-                foreach(EffectPass pass in effect.CurrentTechnique.Passes)
+                pass.Apply();
+                graphicsDevice.SetVertexBuffer(graphics.VertexBuffer);
+                if (graphics.IndexedRendering)
                 {
-                    pass.Apply();
-                    graphicsDevice.SetVertexBuffer(graphics.VertexBuffer);
+                    graphicsDevice.Indices = graphics.IndexBuffer;
+                    graphicsDevice.DrawIndexedPrimitives(graphics.GetPrimitiveType(), 0, 0, graphics.GetPrimitiveCount() * 2);
+                }
+                else
+                {
+
                     graphicsDevice.DrawPrimitives(graphics.GetPrimitiveType(), 0, graphics.GetPrimitiveCount());
                 }
+
             }
 
             base.Draw(graphicsDevice, effect);
@@ -122,6 +139,15 @@ namespace RainBase.Entities.GraphComponents.Nodes
             return position;
         }
 
+        public override string ToString()
+        {
+            return "NODE : " + NODE_ID + " POSITION: " + position + " COMPONENT OF GRAPH: " + GRAPH_ID;
+        }
+
+        public override int GetID()
+        {
+            return NODE_ID;
+        }
 
         // PROPERTIES
         // -----------------------------------------------

@@ -22,7 +22,6 @@ namespace RainBase.Entities.GraphComponents
         public static int componentCount = 0;
         protected Color color;
         private Texture2D texture;
-        private float distanceToCamera;
 
         protected readonly int ID;
 
@@ -94,9 +93,35 @@ namespace RainBase.Entities.GraphComponents
             this.displayType = displayType;
         }
 
-        public int GetID()
+        public virtual int GetID()
         {
-            return ID;
+            return -1;
+        }
+
+        public override void Draw(GraphicsDevice graphicsDevice, BasicEffect effect)
+        {
+            base.Draw(graphicsDevice, effect);
+        }
+
+
+        public virtual void SetupGraphicsComponent()
+        {
+
+        }
+
+        public virtual void SetupGraphicsComponent(DisplayType displayType)
+        {
+
+        }
+
+        public Color GetColor()
+        {
+            return color;
+        }
+
+        public DisplayType GetDisplayType()
+        {
+            return displayType;
         }
     }
 }

@@ -10,12 +10,14 @@ using RainBase.Entities;
 using RainBase.EntityComponents;
 using RainBase.VertexType;
 using Microsoft.Xna.Framework;
-using Com.Google.Atap.Tangoservice;
-using Rain.Utilities;
 
 
 namespace RainBase.Controller
 {
+    /**
+     * Class that renders all entities registered at any given time.
+     * Holds a reference to the graphics device and uses a first person camera.
+     **/
    public class RenderingEngine
     {
 
@@ -48,13 +50,23 @@ namespace RainBase.Controller
         // METHODS & FUNCTIONS
         // -----------------------------------------------
 
+        /**
+         * Initializes the graphics component of an entity so it can be rendered properly.
+         * Assigns a vertexbuffer to the graphics component of the specified entity.
+         **/
         public void InitGraphics(Entity e)
         {
             if (e.HasGraphics())
             {
+                
                 Graphics g = e.GetGraphics();
                 VertexBuffer vb = new VertexBuffer(graphicsDevice, typeof(VertexPositionNormalColor), g.GetVertexPositionNormalColor().Length, BufferUsage.WriteOnly);
-                g.SetVertexBuffer(vb);
+                g.SetUpVertexBufferAndData(vb);
+                if (g.IndexedRendering) {
+                    IndexBuffer ib = new IndexBuffer(graphicsDevice, typeof(ushort), g.GetIndices().Count, BufferUsage.WriteOnly);
+                    g.SetUpIndicesAndData(ib);
+                 }
+ 
             }
         }
 
@@ -63,8 +75,6 @@ namespace RainBase.Controller
         {
 
             camera.Update(gameTime);
-
-
             basicEffect.VertexColorEnabled = true;
             basicEffect.Projection = camera.Projection;
             basicEffect.EnableDefaultLighting();
@@ -83,22 +93,17 @@ namespace RainBase.Controller
                     e.Draw(graphicsDevice, basicEffect);
             }
 
-           // Console.WriteLine("ROTATION " +  camera.Rotation);
         }
 
 
-        public void SetProjectionMatrix(TangoCameraIntrinsics i)
+        public void SetProjectionMatrix(Matrix projectionMatrix)
         {
-            Matrix projectionMatrix = ScenePoseCalculator.calculateProjectionMatrix(i.Width,
-                i.Height, i.Fx, i.Fy, i.Cx, i.Cy);
             camera.Projection = projectionMatrix;
         }
 
         public void Draw(GameTime gameTime, Vector3 pos, Quaternion q)
         {
 
-            //camera.Position = Vector3.Transform(pos, tangoPositionTransform);
-            //q = Quaternion.Identity;
             camera.Update(Vector3.Transform(pos, tangoPositionTransform), q);
 
             basicEffect.VertexColorEnabled = true;
@@ -114,7 +119,7 @@ namespace RainBase.Controller
 
             foreach (Entity e in worldContainer.GetEntities().Values)
             {
-                if (e.HasGraphics())
+                if (e.HasGraphics()) 
                     e.Draw(graphicsDevice, basicEffect);
             }
         }
@@ -126,6 +131,11 @@ namespace RainBase.Controller
         public Vector3 GetCameraLookAt()
         {
             return camera.GetLookAt();
+        }
+
+        public FirstPersonCamera GetCamera()
+        {
+            return camera;
         }
     }
 }
