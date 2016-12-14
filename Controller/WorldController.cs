@@ -47,12 +47,13 @@ namespace RainBase.Controller
         // METHODS & FUNCTIONS
         // -----------------------------------------------
 
-        public void ProcessTangoData()
-        {
 
-        }
-
-
+        // 2D / 3D TOGGLING
+        // -----------------------------------------------
+        /// <summary>
+        /// Toggles 3D rendering state for a whole graph g.
+        /// </summary>
+        /// <param name="g">Graph to be modified.</param>
         public void Toggle3D(Graph g)
         {
             foreach(GraphComponent gc in g.GetGraphComponents())
@@ -68,71 +69,130 @@ namespace RainBase.Controller
         /// <param name="component">Edge or Node to be modified.</param>
         public void Toggle3D(GraphComponent component)
         {
-            Graphics g = component.GetGraphics(); 
-            g.VertexBuffer.Dispose();
+            Graphics graphics = component.GetGraphics(); 
+            graphics.VertexBuffer.Dispose();
 
-            if(component.GetDisplayType().Equals(DisplayType.MODEL3D))
-                component.SetupGraphicsComponent(DisplayType.MODEL2D);
+            // If the current display type is 3D, change it to 2D
+            if(component.GetRenderState().Equals(RenderState.MODEL3D))
+               graphics = component.SetupGraphicsComponent(RenderState.MODEL2D);
 
+            // If the current display type is 2D, change it to 3D
             else
-                component.SetupGraphicsComponent(DisplayType.MODEL3D);
+                graphics = component.SetupGraphicsComponent(RenderState.MODEL3D);
 
-            g = component.GetGraphics();
-            VertexBuffer vertexBuffer = new VertexBuffer(rain.GraphicsDevice, typeof(VertexPositionNormalColor), g.GetVertexPositionNormalColor().Length, BufferUsage.WriteOnly);
-            g.SetUpVertexBufferAndData(vertexBuffer);
+            // get the graph components graphic component and modify its vertex buffer
+            VertexBuffer vertexBuffer = new VertexBuffer(rain.GraphicsDevice, typeof(VertexPositionNormalColor), graphics.GetVertexPositionNormalColor().Length, BufferUsage.WriteOnly);
+            graphics.SetUpVertexBufferAndData(vertexBuffer);
 
-            if (g.IndexedRendering)
+            // if the underlying primitives use indexed rendering, initialize an indexbuffer and set it up accordingly.
+            if (graphics.IndexedRendering)
             {
-                IndexBuffer ib = new IndexBuffer(rain.GraphicsDevice, typeof(ushort), g.GetIndices().Count, BufferUsage.WriteOnly);
-                g.SetUpIndicesAndData(ib);
+                IndexBuffer ib = new IndexBuffer(rain.GraphicsDevice, typeof(ushort), graphics.GetIndices().Count, BufferUsage.WriteOnly);
+                graphics.SetUpIndicesAndData(ib);
             }
         }
 
-
+        /// <summary>
+        /// Toggles 3D rendering state for a whole graph.
+        /// </summary>
+        /// <param name="graphID">ID that specifies the graph to be modified.</param>
         public void Toggle3D(int graphID)
         {
             Toggle3D(worldContainer.GetGraphById(graphID));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
         public void ToggleTaperedEgde(Edge e)
         {
 
         }
 
+
+        // BEZIER CURVES
+        // -----------------------------------------------
+
+        /// <summary>
+        /// Toogles between a curved and a straight representation of edges for a whole graph.
+        /// </summary>
+        /// <param name="graphID">ID that specifies the graph to be modified.</param>
         public void ToggleBezier(int graphID)
         {
             Graph g = worldContainer.GetGraphById(graphID);
             ToggleBezier(g);
         }
 
+        /// <summary>
+        /// Toogles between a curved and a straight representation of edges for a whole graph.
+        /// </summary>
+        /// <param name="g">The graph to be modified.</param>
         public void ToggleBezier(Graph g)
         {
             foreach (Edge e in g.GetEdges())
                 ToggleBezier(e);
         }
 
+        /// <summary>
+        /// Toogles between a curved and a straight representation of an edge.
+        /// </summary>
+        /// <param name="e">The edge to be modified.</param>
         public void ToggleBezier(Edge e)
         {
-            DisplayType currentDisplayType = e.GetDisplayType();
-            Graphics g = e.GetGraphics();
-            Smoothness smoothness = e.GetLevelOfSmoothness();
-            g.VertexBuffer.Dispose();
+            Graphics graphics = e.GetGraphics();
+            int smoothness = e.GetLevelOfSmoothness();
+            graphics.VertexBuffer.Dispose();
 
-
-            if(!smoothness.Equals(Smoothness.NONE))
+            if(smoothness != (int) Smoothness.NONE)
             {
-                e.SetLevelOfSmoothness(Smoothness.NONE);
+                e.SetLevelOfSmoothness((int)Smoothness.NONE);
             }
             else
             {
-                e.SetLevelOfSmoothness(Smoothness.LOW);
+                e.SetLevelOfSmoothness((int)Smoothness.LOW);
             }
-            e.SetupGraphicsComponent();
 
-            g = e.GetGraphics();
-            VertexBuffer vertexBuffer = new VertexBuffer(rain.GraphicsDevice, typeof(VertexPositionNormalColor), g.GetVertexPositionNormalColor().Length, BufferUsage.WriteOnly);
-            g.SetUpVertexBufferAndData(vertexBuffer);
+            graphics = e.SetupGraphicsComponent();
+            VertexBuffer vertexBuffer = new VertexBuffer(rain.GraphicsDevice, typeof(VertexPositionNormalColor), graphics.GetVertexPositionNormalColor().Length, BufferUsage.WriteOnly);
+            graphics.SetUpVertexBufferAndData(vertexBuffer);
 
+        }
+
+
+        private void ChangeSmoothness(Edge e, int direction)
+        {
+            // early exit this function, if the change in smoothness is 0
+            if(direction == 0)
+            {
+                return;
+            }
+
+            Graphics graphics = e.GetGraphics();
+            int smoothness = e.GetLevelOfSmoothness();
+
+            // We do not allow negative values of smoothness or values above the maximum smoothness
+            if (smoothness + direction <= 0 || smoothness + direction > (int)Smoothness.MAX)
+                return;
+
+            graphics.VertexBuffer.Dispose();
+
+            e.SetLevelOfSmoothness(smoothness + direction);
+            graphics = e.SetupGraphicsComponent();
+
+            VertexBuffer vertexBuffer = new VertexBuffer(rain.GraphicsDevice, typeof(VertexPositionNormalColor), graphics.GetVertexPositionNormalColor().Length, BufferUsage.WriteOnly);
+            graphics.SetUpVertexBufferAndData(vertexBuffer);
+        }
+
+
+        public void EnhanceSmoothness(Edge e)
+        {
+            ChangeSmoothness(e, 4);
+        }
+
+        public void DecreaseSmoothness(Edge e)
+        {
+            ChangeSmoothness(e, -4);
         }
         /// <summary>
         /// Adds a node to the graph specified by the graphID.
@@ -141,7 +201,7 @@ namespace RainBase.Controller
         /// <param name="graphID">The graph the new node should be added to.</param>
         public void AddNode(Vector3 position, int graphID)
         {
-            Graph g = worldContainer.GetGraphs()[graphID];
+            Graph g = worldContainer.GetGraphById(graphID);
             Node newNode = g.AddNode(position);
             worldContainer.RegisterEntity(newNode);
         }

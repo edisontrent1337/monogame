@@ -33,7 +33,7 @@ namespace RainBase.Entities.Graphs
         private HashSet<GraphComponent> graphComponents = new HashSet<GraphComponent>();
         private List<Node> nodes = new List<Node>();
         private List<Edge> edges = new List<Edge>();
-        private bool[,] adjacencyMatrix;
+        private short[,] adjacencyMatrix;
 
         private Node root;
 
@@ -49,7 +49,7 @@ namespace RainBase.Entities.Graphs
             this.numberOfEdges = numberOfEdges;
         
             this.room = room;
-            adjacencyMatrix = new bool[numberOfNodes, numberOfNodes];
+            adjacencyMatrix = new short[numberOfNodes, numberOfNodes];
 
             GRAPH_ID = idCounter;
             idCounter++;
@@ -75,7 +75,7 @@ namespace RainBase.Entities.Graphs
                 float x = (float)random.NextDouble() * room.Width;
                 float y = (float)random.NextDouble() * room.Height;
                 float z = (float)random.NextDouble() * room.Depth;
-                nodes.Add(new Node(new Vector3(x, y, z), GRAPH_ID, i, GraphComponent.DisplayType.MODEL2D, 0.005f));
+                nodes.Add(new Node(new Vector3(x, y, z), GRAPH_ID, i, GraphComponent.RenderState.MODEL3D, 0.005f));
             }
 
             // Try to add edges as long as there are not enough of them.
@@ -88,15 +88,15 @@ namespace RainBase.Entities.Graphs
 
                     // If there is no connection yet between the nodes A & B, and if A is not the same node as B,
                     // create a new edge, setup its graphics component and add it to the edges list.
-                    if (!adjacencyMatrix[nodeA.GetID(), nodeB.GetID()] & !adjacencyMatrix[nodeB.GetID(), nodeA.GetID()] & !(nodeA.Equals(nodeB)))
+                    if (adjacencyMatrix[nodeA.GetID(), nodeB.GetID()] == 0 && adjacencyMatrix[nodeB.GetID(), nodeA.GetID()] == 0 & !(nodeA.Equals(nodeB)))
                     {
-                        Edge e = new Edge(nodeA, nodeB, GRAPH_ID, edges.Count, GraphComponent.DisplayType.MODEL2D, GetRandomColor(random));
+                        Edge e = new Edge(nodeA, nodeB, GRAPH_ID, edges.Count, GraphComponent.RenderState.MODEL3D, GetRandomColor(random));
                         edges.Add(e);
-                        adjacencyMatrix[nodeA.GetID(), nodeB.GetID()] = true;
+                        adjacencyMatrix[nodeA.GetID(), nodeB.GetID()] = 1;
                     }
                 }
             }
-            totalComponents = (short) (nodes.Count + edges.Count);
+            totalComponents = (short)(nodes.Count + edges.Count);
 
             graphComponents.UnionWith(nodes);
             graphComponents.UnionWith(edges);
@@ -109,8 +109,46 @@ namespace RainBase.Entities.Graphs
             foreach (Edge e in edges)
                 Console.WriteLine("\t\t" + e);
             Console.WriteLine("\t TOTAL NUMBER OF COMPONENTS: " + totalComponents);
+            PrintAdjacencyMatrix();
+        }
+
+        /// <summary>
+        /// Prints the adjacency matrix of the graph.
+        /// </summary>
+        private void PrintAdjacencyMatrix()
+        {
+            Console.WriteLine("\t ADJACENCY MATRIX FOR GRAPH :" + GRAPH_ID);
+
+            for (int x = -1; x < numberOfNodes; x++)
+            {
+
+                if (x == -1)
+                {
+                    for (int i = 0; i < numberOfNodes; i++)
+                    {
+                        if (i == 0)
+                            Console.Write("\t\t" + "    i" + i);
+                        else
+                            Console.Write("\t" + "    i" + i);
+
+                    }
+                    Console.WriteLine("");
+                }
+                else
+                {
+                    for (int y = -1; y < numberOfNodes; y++)
+                    {
+                        if (y == -1)
+                            Console.Write("\t i" + x + "\t");
+                        else
+                            Console.Write("\t" + adjacencyMatrix[x, y] + "\t");
+                    }
+                    Console.WriteLine("");
+                }
+            }
 
         }
+    
 
         public short GetNumberOfEdges()
         {
@@ -169,6 +207,11 @@ namespace RainBase.Entities.Graphs
         public List<Edge> GetEdges()
         {
             return edges;
+        }
+
+        public Edge GetEdgeByID(int ID)
+        {
+            return edges[0];
         }
 
         public List<Node> GetNodes()

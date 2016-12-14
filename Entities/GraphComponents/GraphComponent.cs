@@ -22,20 +22,21 @@ namespace RainBase.Entities.GraphComponents
         public static int componentCount = 0;
         protected Color color;
         private Texture2D texture;
+        protected List<BoundingBox> boundingBoxes = new List<BoundingBox>();
 
         protected readonly int ID;
 
         private Random random = new Random();
 
 
-        public enum DisplayType
+        public enum RenderState
         {
             MODEL2D,
             MODEL3D
         }
 
 
-        protected DisplayType displayType;
+        protected RenderState renderState;
 
         // CONSTRUCTOR
         // -----------------------------------------------
@@ -88,9 +89,9 @@ namespace RainBase.Entities.GraphComponents
         }
         
 
-        public void SetDisplayType(DisplayType displayType)
+        public void SetDisplayType(RenderState displayType)
         {
-            this.displayType = displayType;
+            this.renderState = displayType;
         }
 
         public virtual int GetID()
@@ -104,14 +105,19 @@ namespace RainBase.Entities.GraphComponents
         }
 
 
-        public virtual void SetupGraphicsComponent()
+        public virtual Graphics SetupGraphicsComponent()
         {
-
+            return graphics;
         }
 
-        public virtual void SetupGraphicsComponent(DisplayType displayType)
+        public virtual Graphics SetupGraphicsComponent(RenderState displayType)
         {
+            return graphics;
+        }
 
+        public virtual List<BoundingBox> GetBoundingBoxes()
+        {
+            return boundingBoxes;
         }
 
         public Color GetColor()
@@ -119,9 +125,9 @@ namespace RainBase.Entities.GraphComponents
             return color;
         }
 
-        public DisplayType GetDisplayType()
+        public RenderState GetRenderState()
         {
-            return displayType;
+            return renderState;
         }
     }
 }

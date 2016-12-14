@@ -45,6 +45,7 @@ namespace RainBase.Cameras
     new Vector4(0, 0, 0, 1)
     );
 
+        private Viewport viewport;
 
         private const float SENSITIVITY = 0.1f;
 
@@ -134,12 +135,18 @@ namespace RainBase.Cameras
             this.velocity = new Vector3(0f, 0f, 0f);
             this.acceleration = new Vector3(0f, 0f, 0f);
             this.previousMouseState = Mouse.GetState();
+            this.viewport = graphicsDevice.Viewport;
         }
 
 
         // METHODS & FUNCTIONS
         // -----------------------------------------------------------------------------------------------
 
+
+        public Viewport GetViewport()
+        {
+            return viewport;
+        }
         private void MoveTo(Vector3 position, Vector3 rotation)
         {
             // CHANGES THE PROPERTIES Position AND Rotation
@@ -155,9 +162,7 @@ namespace RainBase.Cameras
             // ROTATIONSMATRIX
             rotationMatrix = Matrix.CreateRotationX(cameraRotationAngles.X) * Matrix.CreateRotationY(cameraRotationAngles.Y);
             Vector3 transformedCameraReference = Vector3.Transform(cameraReference, rotationMatrix);
-
             lookAt = cameraPosition + transformedCameraReference;
-
         }
 
 
@@ -230,6 +235,11 @@ namespace RainBase.Cameras
                 velocity.Z = MAX_VELOCITY;
             if (velocity.Z < -MAX_VELOCITY)
                 velocity.Z = -MAX_VELOCITY;
+
+            if (velocity.Y > MAX_VELOCITY)
+                velocity.Y = MAX_VELOCITY;
+            if (velocity.Y < -MAX_VELOCITY)
+                velocity.Y = -MAX_VELOCITY;
 
             if (velocity.Length() > MAX_VELOCITY)
             {

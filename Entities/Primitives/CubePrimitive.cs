@@ -23,6 +23,9 @@ namespace RainBase.Entities.Primitives
 
         private Color color;
 
+        private BoundingBox boundingBox;
+        private Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        private Vector3 max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
 
         public CubePrimitive(Vector3 position, Color color, float size = DEFAULT_SIZE)
         {
@@ -76,8 +79,11 @@ namespace RainBase.Entities.Primitives
             for (int i = 0; i < vertices.Length; i++)
             {
                 vertices[i] = Vector3.Transform(vertices[i], combined);
+                min = Vector3.Min(min, vertices[i]);
+                max = Vector3.Max(max, vertices[i]);
             }
 
+            boundingBox = new BoundingBox(min, max);
             // BOTTOM FACE
 
             normals[0] = new Vector3(0f, -1f, 0);
@@ -148,6 +154,11 @@ namespace RainBase.Entities.Primitives
         public VertexPositionNormalColor[] GetVertexPositionNormalColor()
         {
             return faceData;
+        }
+
+        public BoundingBox GetBoundingBox()
+        {
+            return boundingBox;
         }
     }
 }

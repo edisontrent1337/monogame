@@ -98,7 +98,7 @@ namespace RainBase.Main
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            renderingEngine.Font = Content.Load<SpriteFont>("Arial");
             // TODO: use this.Content to load your game content here
         }
 
@@ -136,7 +136,6 @@ namespace RainBase.Main
 
             base.Draw(gameTime);
         }
-
 
     }
 }

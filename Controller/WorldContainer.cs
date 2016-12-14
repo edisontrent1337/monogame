@@ -35,10 +35,10 @@ namespace RainBase.Controller
         {
             //this.room = new Room(Vector3.Zero, 5f,3.5f,10f);
             this.room = new Room(Vector3.Zero, 10f, 3f, 10f);
-            Graph g1 = new Graph(6, 13, room);
-            Graph g2 = new Graph(5, 4, room);
+            Graph g1 = new Graph(24, 50, room);
+           // Graph g2 = new Graph(5, 4, room);
             g1.PopulateRandomly();
-            g2.PopulateRandomly();
+            //g2.PopulateRandomly();
             this.rain = rain;
 
             foreach(Graph g in room.GetGraphs())

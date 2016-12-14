@@ -11,6 +11,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RainBase.VertexType;
 #endregion
 
 namespace RainBase.Entities.Primitives
@@ -27,7 +28,9 @@ namespace RainBase.Entities.Primitives
 
         private Matrix translation, scaling, rotation;
         private Color color;
-
+        private BoundingBox boundingBox;
+        private Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        private Vector3 max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
         /// <summary>
         /// Constructs a new sphere primitive, using default settings.
         /// </summary>
@@ -87,6 +90,14 @@ namespace RainBase.Entities.Primitives
             AddVertex(Vector3.Transform(Vector3.Up * radius, combined), Vector3.Up);
 
 
+            foreach (VertexPositionNormalColor vpc in vertices)
+            {
+                min = Vector3.Min(min, vpc.Position);
+                max = Vector3.Max(max, vpc.Position);
+            }
+
+            boundingBox = new BoundingBox(min, max);
+
             // Create a fan connecting the bottom vertex to the bottom latitude ring.
             for (int i = 0; i < horizontalSegments; i++)
             {
@@ -121,6 +132,13 @@ namespace RainBase.Entities.Primitives
                 AddIndex(CurrentVertex - 2 - i);
             }
 
+           
+
+        }
+
+        public BoundingBox GetBoundingBox()
+        {
+            return boundingBox;
         }
     }
 }

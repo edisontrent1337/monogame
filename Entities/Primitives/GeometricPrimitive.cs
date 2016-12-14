@@ -34,7 +34,7 @@ namespace RainBase.Entities.Primitives
 
         // During the process of constructing a primitive model, vertex
         // and index data is stored on the CPU in these managed lists.
-        List<VertexPositionNormalColor> vertices = new List<VertexPositionNormalColor>();
+        protected List<VertexPositionNormalColor> vertices = new List<VertexPositionNormalColor>();
         List<ushort> indices = new List<ushort>();
 
         #endregion

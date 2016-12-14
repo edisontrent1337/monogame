@@ -20,7 +20,6 @@ namespace RainBase.Entities.GraphComponents.Nodes
         // Center position of the cube
         private Vector3 position;
         private float size = 0;
-
         private Vector3[] vertices = new Vector3[8];
         // Set of edges this node belongs to
         private Dictionary<int, Edge> edges = new Dictionary<int, Edge>();
@@ -36,18 +35,18 @@ namespace RainBase.Entities.GraphComponents.Nodes
         // -----------------------------------------------
 
         // Default display type is 2D
-        public Node(Vector3 position, int graphId, int nodeId, DisplayType displayType = DisplayType.MODEL3D, float size = 0.03f)
+        public Node(Vector3 position, int graphId, int nodeId, RenderState displayType = RenderState.MODEL3D, float size = 0.03f)
         {
             GRAPH_ID = graphId;
             NODE_ID = nodeId;
             this.position = position;
-            this.displayType = displayType;
+            this.renderState = displayType;
             this.color = GetRandomColor();
             this.size = size;
             SetupGraphicsComponent();
         }
 
-        public Node(Vector3 position, int graphId, int nodeId, Color color, DisplayType displayType, float size) :
+        public Node(Vector3 position, int graphId, int nodeId, Color color, RenderState displayType, float size) :
             this(position, graphId, nodeId, displayType, size)
         {
             this.color = color;
@@ -61,14 +60,16 @@ namespace RainBase.Entities.GraphComponents.Nodes
         /// Sets up the graphics component for this node.
         /// Distinguishes between a 2D and a 3D case.
         /// </summary>
-        public override void SetupGraphicsComponent()
+        public override Graphics SetupGraphicsComponent()
         {
-
-            if (displayType.Equals(DisplayType.MODEL3D))
+            boundingBoxes.Clear();
+            if (renderState.Equals(RenderState.MODEL3D))
             {
                 graphics = new Graphics(this, PrimitiveType.TriangleList);
 
                 SpherePrimitive sphere = new SpherePrimitive(position, color, 0.05f, 16);
+                boundingBoxes.Add(sphere.GetBoundingBox());
+                //Console.WriteLine("NODE:" + NODE_ID + " BB: " + boundingBox.ToString());
                 graphics.SetPrimitiveCount(sphere.GetPrimitiveCount());
                 graphics.IndexedRendering = true;
                 graphics.SetVertexPositionNormalColor(sphere.GetVertexPositionNormalColor().ToArray());
@@ -80,27 +81,38 @@ namespace RainBase.Entities.GraphComponents.Nodes
                 graphics = new Graphics(this, PrimitiveType.TriangleList);
                 graphics.IndexedRendering = false;
                 CubePrimitive cube = new CubePrimitive(position, color, 0.02f);
+                boundingBoxes.Add(cube.GetBoundingBox());
+                //Console.WriteLine("NODE:" + NODE_ID + " BB: " + boundingBox.ToString());
                 graphics.SetPrimitiveCount(CubePrimitive.NUMBER_OF_PRIMITIVES);
                 graphics.SetVertexPositionNormalColor(cube.GetVertexPositionNormalColor());
 
             }
+
+            return graphics;
         }
 
-        public override void SetupGraphicsComponent(DisplayType displayType)
+        public override Graphics SetupGraphicsComponent(RenderState displayType)
         {
-            this.displayType = displayType;
-            SetupGraphicsComponent();
+            this.renderState = displayType;
+            return SetupGraphicsComponent();
         }
 
+        /// <summary>
+        /// Adds an edge to the set of edges of this node.
+        /// </summary>
+        /// <param name="e"></param>
         public void AddEdge(Edge e)
         {
-            //edges.Add(e.Get)
+          //  edges.Add(e.GetID(), e);
         }
 
 
         public void RemoveEdge(Edge e)
         {
-
+            if (edges.ContainsKey(e.GetID()))
+                edges.Remove(e.GetID());
+            else
+                throw new ArgumentException("THE SPECIFIED EDGE " + e.GetID() + " WAS NEVER A LINK BETWEEN THE CURRENT NODE " + NODE_ID + "AND ANOTHER NODE.");
         }
 
 
@@ -148,6 +160,7 @@ namespace RainBase.Entities.GraphComponents.Nodes
         {
             return NODE_ID;
         }
+
 
         // PROPERTIES
         // -----------------------------------------------
