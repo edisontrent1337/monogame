@@ -36,8 +36,10 @@ namespace RainBase.Controller
             //this.room = new Room(Vector3.Zero, 5f,3.5f,10f);
             this.room = new Room(Vector3.Zero, 10f, 3f, 10f);
             Graph g1 = new Graph(24, 50, room);
+            Graph d = new Graph(19, 21, room);
            // Graph g2 = new Graph(5, 4, room);
             g1.PopulateRandomly();
+            d.PopulateRandomly();
             //g2.PopulateRandomly();
             this.rain = rain;
 
@@ -60,11 +62,6 @@ namespace RainBase.Controller
             }
    
         }
-
-        /*public WorldContainer(int width, int height, int depth)
-        {
-            this.room = new Room(Vector3.Zero, width, height, depth);
-        }*/
 
         // METHODS & FUNCTIONS
         // -----------------------------------------------
