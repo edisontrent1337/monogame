@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Development/Bachelorarbeit/da_thalmann_code/Rain/monogame/Content/Arial.spritefont</SourceFile>
-  <SourceTime>2016-03-30T08:36:08+02:00</SourceTime>
-  <DestFile>C:/Development/Bachelorarbeit/da_thalmann_code/Rain/monogame/Content/bin/Windows/Arial.xnb</DestFile>
-  <DestTime>2016-12-13T10:46:15.2765934+01:00</DestTime>
+  <SourceFile>D:/Development/Bachelorarbeit RAIN/da_thalmann_code/Rain/monogame/Content/Arial.spritefont</SourceFile>
+  <SourceTime>2017-01-11T22:43:25.6854763+01:00</SourceTime>
+  <DestFile>D:/Development/Bachelorarbeit RAIN/da_thalmann_code/Rain/monogame/Content/bin/Windows/Arial.xnb</DestFile>
+  <DestTime>2017-01-11T22:45:36.969693+01:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2016-03-30T08:36:08+02:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>
