@@ -12,11 +12,10 @@ using RainBase.Entities.Graphs;
 using RainBase.Entities.GraphComponents.Egde;
 using RainBase.Entities.GraphComponents.Nodes;
 using RainBase.Entities.GraphComponents;
-using static RainBase.Entities.GraphComponents.GraphComponent;
 using RainBase.EntityComponents;
 using Microsoft.Xna.Framework.Graphics;
 using RainBase.VertexType;
-using static RainBase.Entities.GraphComponents.Egde.Edge;
+
 
 namespace RainBase.Controller
 {
@@ -73,12 +72,12 @@ namespace RainBase.Controller
             graphics.VertexBuffer.Dispose();
 
             // If the current display type is 3D, change it to 2D
-            if(component.GetRenderState().Equals(RenderState.MODEL3D))
-               graphics = component.SetupGraphicsComponent(RenderState.MODEL2D);
+            if(component.GetRenderState().Equals(GraphComponent.RenderState.MODEL3D))
+               graphics = component.SetupGraphicsComponent(GraphComponent.RenderState.MODEL2D);
 
             // If the current display type is 2D, change it to 3D
             else
-                graphics = component.SetupGraphicsComponent(RenderState.MODEL3D);
+                graphics = component.SetupGraphicsComponent(GraphComponent.RenderState.MODEL3D);
 
             // get the graph components graphic component and modify its vertex buffer
             VertexBuffer vertexBuffer = new VertexBuffer(rain.GraphicsDevice, typeof(VertexPositionNormalColor), graphics.GetVertexPositionNormalColor().Length, BufferUsage.WriteOnly);
@@ -144,13 +143,13 @@ namespace RainBase.Controller
             int smoothness = e.GetLevelOfSmoothness();
             graphics.VertexBuffer.Dispose();
 
-            if(smoothness != (int) Smoothness.NONE)
+            if(smoothness != (int) Edge.Smoothness.NONE)
             {
-                e.SetLevelOfSmoothness((int)Smoothness.NONE);
+                e.SetLevelOfSmoothness((int)Edge.Smoothness.NONE);
             }
             else
             {
-                e.SetLevelOfSmoothness((int)Smoothness.LOW);
+                e.SetLevelOfSmoothness((int)Edge.Smoothness.LOW);
             }
 
             graphics = e.SetupGraphicsComponent();
@@ -172,7 +171,7 @@ namespace RainBase.Controller
             int smoothness = e.GetLevelOfSmoothness();
 
             // We do not allow negative values of smoothness or values above the maximum smoothness
-            if (smoothness + direction <= 0 || smoothness + direction > (int)Smoothness.MAX)
+            if (smoothness + direction <= 0 || smoothness + direction > (int)Edge.Smoothness.MAX)
                 return;
 
             graphics.VertexBuffer.Dispose();
