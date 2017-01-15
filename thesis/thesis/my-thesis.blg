@@ -1,0 +1,23 @@
+[0] Config.pm:354> INFO - This is Biber 2.7
+[0] Config.pm:357> INFO - Logfile is 'my-thesis.blg'
+[35] biber-MSWIN64:303> INFO - === 
+[62] Biber.pm:359> INFO - Reading 'my-thesis.bcf'
+[168] Biber.pm:835> INFO - Found 10 citekeys in bib section 0
+[184] Biber.pm:3670> INFO - Processing section 0
+[208] Biber.pm:3840> INFO - Looking for bibtex format file 'bib-refs.bib' for section 0
+[212] bibtex.pm:1435> INFO - Decoding LaTeX character macros into UTF-8
+[218] bibtex.pm:1292> INFO - Found BibTeX data source 'bib-refs.bib'
+[248] Utils.pm:164> WARN - I didn't find a database entry for 'Jurgens:2000' (section 0)
+[248] Utils.pm:164> WARN - I didn't find a database entry for 'Jurgens:1995' (section 0)
+[248] Utils.pm:164> WARN - I didn't find a database entry for 'Miede:2011' (section 0)
+[248] Utils.pm:164> WARN - I didn't find a database entry for 'Kohm:2011' (section 0)
+[248] Utils.pm:164> WARN - I didn't find a database entry for 'Apple:keynote:2010' (section 0)
+[248] Utils.pm:164> WARN - I didn't find a database entry for 'Apple:numbers:2010' (section 0)
+[248] Utils.pm:164> WARN - I didn't find a database entry for 'Apple:pages:2010' (section 0)
+[262] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[262] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[262] Biber.pm:3499> INFO - Sorting list 'anyt/global/' of type 'entry' with scheme 'anyt' and locale 'de-DE'
+[262] Biber.pm:3505> INFO - No sort tailoring available for locale 'de-DE'
+[267] bbl.pm:608> INFO - Writing 'my-thesis.bbl' with encoding 'UTF-8'
+[268] bbl.pm:712> INFO - Output to my-thesis.bbl
+[273] Biber.pm:109> INFO - WARNINGS: 7

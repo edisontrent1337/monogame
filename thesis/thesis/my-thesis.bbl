@@ -1,0 +1,131 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.8 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist[entry]{anyt/global/}
+    \entry{Feiner1997}{article}{}
+      \name{author}{3}{}{%
+        {{hash=4b3462cefe1c5b2c7537ae21555c665a}{%
+           family={Feiner},
+           familyi={F\bibinitperiod},
+           given={Steven},
+           giveni={S\bibinitperiod}}}%
+        {{hash=af08dbcbaed9c0c262b59ec1f2ea8e75}{%
+           family={Macintyre},
+           familyi={M\bibinitperiod},
+           given={Blair},
+           giveni={B\bibinitperiod}}}%
+        {{hash=3af86c1b99bb201b13aae812ba498c7d}{%
+           family={Webster},
+           familyi={W\bibinitperiod},
+           given={Anthony},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{8a14d88bc40c91c32f5508f19278a87c}
+      \strng{fullhash}{e8847e5eb98f6a11b9e91dd3eee01e83}
+      \strng{authornamehash}{8a14d88bc40c91c32f5508f19278a87c}
+      \strng{authorfullhash}{e8847e5eb98f6a11b9e91dd3eee01e83}
+      \field{labelalpha}{FMW97}
+      \field{sortinit}{F}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{0818681926}
+      \field{title}{{A Touring Machine: Prototyping 3D Mobile Augmented Reality Systems for Exploring the Urban Environment}}
+      \field{volume}{97}
+      \field{year}{1997}
+      \field{pages}{74\bibrangedash 81}
+      \range{pages}{8}
+      \verb{file}
+      \verb :C$\backslash$:/Users/Sinthu/AppData/Local/Mendeley Ltd./Mendeley Desktop/Downloaded/Feiner, Macintyre, Webster - 1997 - A Touring Machine Prototyping 3D Mobile Augmented Reality Systems for Exploring the Urban Environmen.pdf:pdf
+      \endverb
+    \endentry
+    \entry{Perey2013}{article}{}
+      \name{author}{2}{}{%
+        {{hash=b9913ec6fcea7df4d2ade625ce83f024}{%
+           family={Perey},
+           familyi={P\bibinitperiod},
+           given={Christine},
+           giveni={C\bibinitperiod}}}%
+        {{hash=244d50bf276d38eaa46ad28ff0e96a95}{%
+           family={Terenzi},
+           familyi={T\bibinitperiod},
+           given={Graziano},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{8a1147c60cdb94381441bbddf67e4d65}
+      \strng{fullhash}{8a1147c60cdb94381441bbddf67e4d65}
+      \strng{authornamehash}{8a1147c60cdb94381441bbddf67e4d65}
+      \strng{authorfullhash}{8a1147c60cdb94381441bbddf67e4d65}
+      \field{labelalpha}{PT13}
+      \field{sortinit}{P}
+      \field{sortinithash}{24100cef455d7974167575052c29146e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{October}
+      \field{title}{{Augmented Reality-Assisted 3D Visualization for Urban Professional Users}}
+      \field{year}{2013}
+      \verb{file}
+      \verb :C$\backslash$:/Users/Sinthu/AppData/Local/Mendeley Ltd./Mendeley Desktop/Downloaded/Perey, Terenzi - 2013 - Augmented Reality-Assisted 3D Visualization for Urban Professional Users.pdf:pdf
+      \endverb
+    \endentry
+    \entry{Sutherland1968}{article}{}
+      \name{author}{1}{}{%
+        {{hash=f74ffac0979e617db7997184349ec351}{%
+           family={Sutherland},
+           familyi={S\bibinitperiod},
+           given={Ivan\bibnamedelima E},
+           giveni={I\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \strng{namehash}{f74ffac0979e617db7997184349ec351}
+      \strng{fullhash}{f74ffac0979e617db7997184349ec351}
+      \strng{authornamehash}{f74ffac0979e617db7997184349ec351}
+      \strng{authorfullhash}{f74ffac0979e617db7997184349ec351}
+      \field{labelalpha}{Sut68}
+      \field{sortinit}{S}
+      \field{sortinithash}{3c1547c63380458f8ca90e40ed14b83e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Sutherland, Ivan E., A Head-Mounted, Three-Dimensional Display,” AFIPS Proceedings of the Fall Joint Computer Conference, Part I, pp. 757-764, 1968.}
+      \field{isbn}{158113052X}
+      \field{journaltitle}{AFIPS Proceedings of the Fall Joint Computer Conference}
+      \field{number}{16}
+      \field{title}{{A Head-Mounted, Three-Dimensional Display}}
+      \field{volume}{Part I}
+      \field{year}{1968}
+      \field{pages}{757\bibrangedash 764}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1145/1476589.1476686
+      \endverb
+      \verb{file}
+      \verb :C$\backslash$:/Users/Sinthu/AppData/Local/Mendeley Ltd./Mendeley Desktop/Downloaded/Sutherland - 1968 - A Head-Mounted, Three-Dimensional Display.pdf:pdf
+      \endverb
+    \endentry
+  \endsortlist
+  \missing{Kohm:2011}
+  \missing{Jurgens:1995}
+  \missing{Miede:2011}
+  \missing{Apple:pages:2010}
+  \missing{Jurgens:2000}
+  \missing{Apple:keynote:2010}
+  \missing{Apple:numbers:2010}
+\endrefsection
+\endinput
+

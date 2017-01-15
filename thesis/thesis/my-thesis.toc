@@ -1,6 +1,6 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \defcounter {refsection}{0}\relax 
-\select@language {english}
+\select@language {ngerman}
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {1}Einleitung}{1}{chapter.1}
 \defcounter {refsection}{0}\relax 
@@ -20,17 +20,17 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.2.2}Stand der Technik}{6}{section*.13}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.3}Informationsnetze}{8}{section*.14}
+\contentsline {section}{\numberline {2.3}Graphvisualisierung}{8}{section*.14}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.4}Visualisierung von Informationsnetzen}{9}{section*.15}
+\contentsline {subsection}{\numberline {2.3.1}Graphen}{8}{section*.15}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.4.1}Informationsnetzanalyse}{9}{section*.16}
+\contentsline {subsection}{\numberline {2.3.2}Aufgaben der Visualisierung: Visual Queries}{8}{section*.16}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.4.2}Eigenschaften guter Visualisierung}{9}{section*.17}
+\contentsline {subsection}{\numberline {2.3.3}Eigenschaften guter Graphvisualisierung}{8}{section*.17}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.4.3}Strategien zur Vermeidung von Clutter}{10}{section*.18}
+\contentsline {subsection}{\numberline {2.3.4}Strategien zur Vermeidung von Clutter}{8}{section*.18}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.4.4}Bestehende Ans\IeC {\"a}tze im Bereich AR}{10}{section*.19}
+\contentsline {subsection}{\numberline {2.3.5}Bestehende Ans\IeC {\"a}tze im Bereich Augmented Reality}{8}{section*.19}
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {3}Anforderungsanalyse und Anwendungsgebiete}{11}{chapter.3}
 \defcounter {refsection}{0}\relax 
@@ -44,48 +44,50 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.1}Basiskonzept}{13}{section*.25}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Motion Tracking}{14}{section*.26}
+\contentsline {section}{\numberline {4.2}Motion Tracking}{15}{section*.26}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.3}Visualisierung}{16}{section*.27}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.1}Graphmodelle}{17}{section*.28}
+\contentsline {subsection}{\numberline {4.3.1}Graphmodelle}{18}{section*.28}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.2}Auswahl geeigneter Strategien}{17}{section*.29}
+\contentsline {subsection}{\numberline {4.3.2}Auswahl geeigneter Strategien}{18}{section*.29}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.3}Proximity-based Level of Detail}{17}{section*.30}
+\contentsline {subsection}{\numberline {4.3.3}Proximity-based Level of Detail}{18}{section*.30}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.4}2D vs 3D}{17}{section*.31}
+\contentsline {subsection}{\numberline {4.3.4}2D vs 3D}{18}{section*.31}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.5}Gerichtete Graphen}{17}{section*.32}
+\contentsline {subsection}{\numberline {4.3.5}Gerichtete Graphen}{18}{section*.32}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.6}Multivariate Daten}{17}{section*.33}
+\contentsline {subsection}{\numberline {4.3.6}Multivariate Daten}{18}{section*.33}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.3.7}Tiefenwahrnehmung}{18}{section*.34}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.4}Diskussion}{18}{section*.35}
+\contentsline {section}{\numberline {4.4}Diskussion}{19}{section*.35}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Prototyp RAIN}{19}{chapter.5}
+\contentsline {chapter}{\numberline {5}Prototyp RAIN}{21}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}Toolchain}{19}{section*.37}
+\contentsline {section}{\numberline {5.1}Toolchain}{21}{section*.37}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1.1}Hardware}{19}{section*.38}
+\contentsline {subsection}{\numberline {5.1.1}Hardware}{21}{section*.38}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1.2}Software}{19}{section*.39}
+\contentsline {subsection}{\numberline {5.1.2}Software}{22}{section*.39}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.2}Umgesetzte Konzepte}{21}{section*.41}
+\contentsline {section}{\numberline {5.2}Umgesetzte Konzepte}{23}{section*.41}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Fazit}{23}{chapter.6}
+\contentsline {chapter}{\numberline {6}Fazit}{25}{chapter.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.1}Unbeleuchtete Aspekte}{23}{section*.44}
+\contentsline {section}{\numberline {6.1}Unbeleuchtete Aspekte}{25}{section*.44}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.2}Verbesserungsvorschl\IeC {\"a}ge}{24}{section*.45}
+\contentsline {section}{\numberline {6.2}Verbesserungsvorschl\IeC {\"a}ge}{26}{section*.45}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.3}Aussicht}{25}{section*.46}
+\contentsline {section}{\numberline {6.3}Aussicht}{28}{section*.46}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {7}Zusammenfassung}{27}{chapter.7}
+\contentsline {chapter}{\numberline {7}Zusammenfassung}{31}{chapter.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {A}Example Appendix}{29}{appendix.A}
+\contentsline {chapter}{\numberline {A}Example Appendix}{33}{appendix.A}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {A.1}Appendix Section 1}{29}{section*.49}
+\contentsline {section}{\numberline {A.1}Appendix Section 1}{33}{section*.49}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {A.2}Appendix Section 2}{29}{section*.51}
+\contentsline {section}{\numberline {A.2}Appendix Section 2}{34}{section*.51}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\nonumberline Literatur}{35}{chapter*.53}

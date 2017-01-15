@@ -127,7 +127,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>sortlocale</bcf:key>
-      <bcf:value>english</bcf:value>
+      <bcf:value>ngerman</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>sortscheme</bcf:key>
@@ -2152,6 +2152,10 @@
     <bcf:citekey order="1">Apple:keynote:2010</bcf:citekey>
     <bcf:citekey order="1">Apple:numbers:2010</bcf:citekey>
     <bcf:citekey order="1">Apple:pages:2010</bcf:citekey>
+    <bcf:citekey order="2">Sutherland1968</bcf:citekey>
+    <bcf:citekey order="3">Feiner1997</bcf:citekey>
+    <bcf:citekey order="4">Perey2013</bcf:citekey>
+    <bcf:citekey order="5">Feiner1997</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="anyt/global/" type="entry" sortscheme="anyt" sortnamekeyscheme="global" labelprefix="">
   <bcf:sorting>
