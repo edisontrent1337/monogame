@@ -22,8 +22,8 @@ namespace RainBase.Main
         private WorldController worldController;
         private WindowsInputHandler inputHandler;
 
-        private const short BUFFER_WIDTH = 1280;
-        private const short BUFFER_HEIGHT = 720;
+        private const short BUFFER_WIDTH = 1920;
+        private const short BUFFER_HEIGHT = 1080;
 
         private const float SPEED = 0.3f;
         
@@ -32,9 +32,12 @@ namespace RainBase.Main
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         BasicEffect basicEffect;
+
         KeyboardState oldState = Keyboard.GetState();
 
         private static string OS = "WINDOWS";
+
+        private Effect effect;
 
         // CONSTRUCTOR
         // -----------------------------------------------
@@ -43,6 +46,7 @@ namespace RainBase.Main
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = BUFFER_WIDTH;
             graphics.PreferredBackBufferHeight = BUFFER_HEIGHT;
+            //graphics.IsFullScreen = true;
             //graphics.PreferMultiSampling = true;
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
@@ -69,9 +73,10 @@ namespace RainBase.Main
              * Controllers can be created only here, not in Game1's constructor,
              * because GraphicsDevice has not been initialized up there yet.
              **/
+            effect = Content.Load<Effect>("TransparencyShader");
             worldContainer = new WorldContainer(this);
             worldController = new WorldController(this, worldContainer);
-            renderingEngine = new RenderingEngine(OS, worldContainer, GraphicsDevice);
+            renderingEngine = new RenderingEngine(OS, worldContainer, GraphicsDevice,effect);
             inputHandler = new WindowsInputHandler(renderingEngine.GetCamera(), worldController, worldContainer);
 
             basicEffect = new BasicEffect(GraphicsDevice);
@@ -79,6 +84,8 @@ namespace RainBase.Main
             basicEffect.VertexColorEnabled = true;
             basicEffect.LightingEnabled = false;
 
+
+            
 
             foreach (Entity e in worldContainer.GetEntityList())
             {

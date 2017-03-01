@@ -67,15 +67,18 @@ namespace RainBase.Entities.RoomComponents
 
         // DRAW METHOD
 
-        public override void Draw(GraphicsDevice graphicsDevice, BasicEffect effect)
+        public override void Draw(GraphicsDevice graphicsDevice, BasicEffect effect, Effect custom)
         {
-
+            graphicsDevice.BlendState = BlendState.Opaque;
             foreach(EffectPass pass in effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
+                effect.Alpha = 1;
+
                 graphicsDevice.SetVertexBuffer(graphics.VertexBuffer);
                 graphicsDevice.DrawPrimitives(graphics.GetPrimitiveType(), 0, graphics.GetPrimitiveCount());
             }
+            graphicsDevice.BlendState = BlendState.AlphaBlend;
         }
 
 

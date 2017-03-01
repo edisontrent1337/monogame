@@ -62,7 +62,7 @@ namespace RainBase.Entities.Primitives
             float radius = diameter / 2;
 
             // Start with a single vertex at the bottom of the sphere.
-            AddVertex(Vector3.Transform(Vector3.Down * radius, combined), Vector3.Down);
+            AddVertex(Vector3.Transform(Vector3.Down * radius, combined), Vector3.Down,color);
 
             // Create rings of vertices at progressively higher latitudes.
             for (int i = 0; i < verticalSegments - 1; i++)
@@ -82,12 +82,12 @@ namespace RainBase.Entities.Primitives
 
                     Vector3 normal = new Vector3(dx, dy, dz);
 
-                    AddVertex(Vector3.Transform(normal * radius, combined), normal);
+                    AddVertex(Vector3.Transform(normal * radius, combined), normal, color);
                 }
             }
 
             // Finish with a single vertex at the top of the sphere.
-            AddVertex(Vector3.Transform(Vector3.Up * radius, combined), Vector3.Up);
+            AddVertex(Vector3.Transform(Vector3.Up * radius, combined), Vector3.Up, color);
 
 
             foreach (VertexPositionNormalColor vpc in vertices)

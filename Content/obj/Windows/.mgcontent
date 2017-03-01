@@ -5,5 +5,6 @@
   <Config />
   <SourceFiles>
     <File>D:/Development/Bachelorarbeit RAIN/da_thalmann_code/Rain/monogame/Content/Arial.spritefont</File>
+    <File>D:/Development/Bachelorarbeit RAIN/da_thalmann_code/Rain/monogame/Content/TransparencyShader.fx</File>
   </SourceFiles>
 </SourceFileCollection>

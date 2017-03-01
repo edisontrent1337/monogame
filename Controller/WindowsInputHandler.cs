@@ -71,6 +71,9 @@ namespace RainBase.Controller
                     if (currentGraphComponent.GetType().Equals(typeof(Edge)))
                         worldController.DecreaseSmoothness((Edge)currentGraphComponent);
                 }
+
+ 
+
             }
 
             oldKeyboardState = currentKeyboardState;
@@ -153,7 +156,7 @@ namespace RainBase.Controller
 
                 if (result != null)
                 {
-                    Console.WriteLine(result);
+                   // Console.WriteLine(result);
                 }
             }
             return result;

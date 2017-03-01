@@ -24,6 +24,9 @@ namespace RainBase.Entities.GraphComponents
         private Texture2D texture;
         protected List<BoundingBox> boundingBoxes = new List<BoundingBox>();
 
+
+        
+
         protected readonly int ID;
 
         private Random random = new Random();
@@ -99,9 +102,9 @@ namespace RainBase.Entities.GraphComponents
             return -1;
         }
 
-        public override void Draw(GraphicsDevice graphicsDevice, BasicEffect effect)
+        public override void Draw(GraphicsDevice graphicsDevice, BasicEffect effect, Effect custom)
         {
-            base.Draw(graphicsDevice, effect);
+            base.Draw(graphicsDevice, effect, custom);
         }
 
 

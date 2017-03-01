@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using RainBase.EntityComponents;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 namespace RainBase.Entities
 {
     public class Entity
@@ -17,8 +18,8 @@ namespace RainBase.Entities
 
         private readonly short ENTITY_ID;
 
- 
 
+        public List<Effect> effects = new List<Effect>();
 
         public Entity()
         {
@@ -48,10 +49,16 @@ namespace RainBase.Entities
 
         }
 
-        public virtual void Draw(GraphicsDevice graphicsDevice, BasicEffect effect)
+        public virtual void Draw(GraphicsDevice graphicsDevice, BasicEffect effect, Effect custom)
         {
 
         }
+
+
+        public virtual void Draw(GraphicsDevice graphicsDevice) {
+
+        }
+
 
         public Graphics GetGraphics()
         {
@@ -63,5 +70,9 @@ namespace RainBase.Entities
             return ENTITY_ID;
         }
 
+        public virtual void UpdateDistanceToCamera(Vector3 cameraPosition)
+        {
+
+        }
     }
 }

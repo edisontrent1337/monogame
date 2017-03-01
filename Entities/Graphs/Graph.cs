@@ -28,6 +28,7 @@ namespace RainBase.Entities.Graphs
         private Room room;
 
         private const int MAX_TRIES = 1000;
+        //private const int MAX_TRIES = 0;
         private readonly int GRAPH_ID;
 
         private HashSet<GraphComponent> graphComponents = new HashSet<GraphComponent>();
@@ -61,21 +62,64 @@ namespace RainBase.Entities.Graphs
         // METHODS & FUNCTIONS
         // -----------------------------------------------
 
+
         /**
          * Populates a graph data structure randomly by executing the following steps:
-         * 1) Place node at random positions
+         * 1) Place node at random attribute based positions
          * 2) As long as there are not enough edges, choose two nodes and try to establish a connection.
          **/
         public void PopulateRandomly()
         {
             Random random = new Random();
-
+            float wOffset = room.Width/2;
+            float dOffset = room.Depth/2;
             for (int i = 0; i < numberOfNodes; i++)
             {
                 float x = (float)random.NextDouble() * room.Width;
-                float y = (float)random.NextDouble() * room.Height;
+                //float y = (float)random.NextDouble() * room.Height;
+                float y = 0.2f + (float)random.NextDouble() * 0.5f;
                 float z = (float)random.NextDouble() * room.Depth;
-                nodes.Add(new Node(new Vector3(x, y, z), GRAPH_ID, i, GraphComponent.RenderState.MODEL3D, 0.005f));
+                int nodeType = 0;
+               
+                //first quadrant
+                if (x - wOffset > 0 && z - dOffset > 0)
+                {
+                    if (z > x)
+                        nodeType = 0;
+                    else
+                        nodeType = 1;
+
+                }
+
+                //second quadrant
+                else if (x - wOffset > 0 && z - dOffset <= 0)
+                {
+                    if (Math.Abs(x - wOffset) > Math.Abs(z - dOffset))
+                        nodeType = 2;
+                    else
+                        nodeType = 3;
+                }
+
+                //third quadrant
+                else if (x - wOffset <= 0 && z - dOffset <= 0)
+                {
+                    if (Math.Abs(z - dOffset) > Math.Abs(x - wOffset))
+                        nodeType = 4;
+                    else
+                        nodeType = 5;
+                }
+
+                //fourth quadrant
+                else if (x - wOffset <= 0 && z - dOffset > 0)
+                {
+                    if (Math.Abs(x - wOffset) > Math.Abs(z - dOffset))
+                        nodeType = 6;
+                    else
+                        nodeType = 7;
+                }
+
+                Node n = new Node(new Vector3(x, y, z), GRAPH_ID, i, nodeType, GraphComponent.RenderState.MODEL3D, 0.005f);
+                nodes.Add(n);
             }
 
             // Try to add edges as long as there are not enough of them.
@@ -173,7 +217,7 @@ namespace RainBase.Entities.Graphs
         /// <returns>the newly created node</returns>
         public Node AddNode(Vector3 position)
         {
-            Node n = new Node(position, GRAPH_ID, nodes.Count + 1);
+            Node n = new Node(position, GRAPH_ID, 0, nodes.Count + 1);
             nodes.Add(n);
             return n;
         }

@@ -19,6 +19,9 @@ namespace RainBase.Entities.GraphComponents.Egde
     public class Edge : GraphComponent
     {
 
+        private const int STARTSEGMENT_LENGTH = 5;
+        private const int ENDSEGMENT_LENGTH = 5;
+
         private Node source, destination;
         private readonly int GRAPH_ID;
         private readonly int EDGE_ID;
@@ -46,6 +49,8 @@ namespace RainBase.Entities.GraphComponents.Egde
         private List<VertexPositionNormalColor> vertexPositionNormalColor;
 
         private float length = 0;
+
+        private float weight = 0;
 
         // CONSTRUCTOR
         // -----------------------------------------------
@@ -161,14 +166,18 @@ namespace RainBase.Entities.GraphComponents.Egde
                 {
 
                     CubePrimitive cube = GenerateHitbox(i, controlPointAxis);
+                    int x = 0;
                     foreach (VertexPositionNormalColor vpc in cube.GetVertexPositionNormalColor())
                     {
-                        vertexPositionNormalColor.Add(vpc);
+                       if ((x > 5 && x < 12) || x > 17)
+                            vertexPositionNormalColor.Add(vpc);
+                        x++;
                     }
 
                 }
 
-                graphics.SetPrimitiveCount((points.Count - 1) * CubePrimitive.NUMBER_OF_PRIMITIVES * 3);
+                //graphics.SetPrimitiveCount((points.Count - 1) * CubePrimitive.NUMBER_OF_PRIMITIVES * 3);
+                graphics.SetPrimitiveCount((points.Count - 1) * 24);
 
             }
 
@@ -216,8 +225,17 @@ namespace RainBase.Entities.GraphComponents.Egde
 
             }
 
+            // TODO HIER COLOR ÄNDERN DER KANTEN
+            CubePrimitive cube;
+            if(i <= STARTSEGMENT_LENGTH)
+                cube = new CubePrimitive(position, new Color(45,45,45), cubeDimensions.X, cubeDimensions.Y, cubeDimensions.Z, rotation);
 
-            CubePrimitive cube = new CubePrimitive(position, color, cubeDimensions.X, cubeDimensions.Y, cubeDimensions.Z, rotation);
+            else if(i> STARTSEGMENT_LENGTH && i < points.Count - ENDSEGMENT_LENGTH)
+                cube = new CubePrimitive(position, color, cubeDimensions.X, cubeDimensions.Y, cubeDimensions.Z, rotation);
+
+            else
+                cube = new CubePrimitive(position, Color.White, cubeDimensions.X, cubeDimensions.Y, cubeDimensions.Z, rotation);
+
             boundingBoxes.Add(cube.GetBoundingBox());
             return cube;
         }
@@ -231,8 +249,8 @@ namespace RainBase.Entities.GraphComponents.Egde
 
         /// <summary>
         /// Calculates the axis on which the displacement between the two nodes of
-        /// the egdes is the smallest, e.g. the minimum of each coordinate pairs of the
-        /// positions of the nodes.
+        /// the egdes is the smallest, e.g. the minimum of the difference of each coordinate pairs of the
+        /// nodes positions.
         /// </summary>
         /// <param name="v1">position of node A</param>
         /// <param name="v2">position of node B</param>
@@ -254,8 +272,32 @@ namespace RainBase.Entities.GraphComponents.Egde
 
         }
 
+        public override void Draw(GraphicsDevice graphicsDevice, BasicEffect effect, Effect custom)
+        {
+            //graphicsDevice.BlendState = BlendState.AlphaBlend;
+            /*float alpha = (10 - distanceToCamera) / 10;
+            if (alpha < 0)
+                alpha = 0;
+            effect.Alpha = alpha;*/
+            if (renderState.Equals(RenderState.MODEL2D) || renderState.Equals(RenderState.MODEL3D))
+            {
+                foreach (EffectPass pass in custom.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    graphicsDevice.SetVertexBuffer(graphics.VertexBuffer);
+                    graphicsDevice.DrawPrimitives(graphics.GetPrimitiveType(), 0, graphics.GetPrimitiveCount());
+                }
+            }
+            else if (renderState.Equals(RenderState.MODEL3D))
+            {
 
-        public override void Draw(GraphicsDevice graphicsDevice, BasicEffect effect)
+            }
+            base.Draw(graphicsDevice, effect, custom);
+            //graphicsDevice.BlendState = BlendState.Opaque;
+        }
+
+
+        /*public override void Draw(GraphicsDevice graphicsDevice, Effect effect)
         {
             //effect.EnableDefaultLighting();
             if (renderState.Equals(RenderState.MODEL2D) || renderState.Equals(RenderState.MODEL3D))
@@ -272,7 +314,7 @@ namespace RainBase.Entities.GraphComponents.Egde
 
             }
             base.Draw(graphicsDevice, effect);
-        }
+        }*/
 
         public override void Update()
         {
@@ -325,6 +367,16 @@ namespace RainBase.Entities.GraphComponents.Egde
         public int GetLevelOfSmoothness()
         {
             return levelOfSmoothness;
+        }
+
+        public float GetWeight()
+        {
+            return weight;
+        }
+
+        public void SetWeight(float weight)
+        {
+            this.weight = weight;
         }
         // PROPERTIES
         // -----------------------------------------------

@@ -340,6 +340,10 @@ namespace RainBase.Cameras
             return velocity;
         }
 
+        public Vector3 CameraTarget()
+        {
+            return lookAt;
+        }
 
     }
 }

@@ -46,9 +46,9 @@ namespace RainBase.Entities.Primitives
         /// Adds a new vertex to the primitive model. This should only be called
         /// during the initialization process, before InitializePrimitive.
         /// </summary>
-        protected void AddVertex(Vector3 position, Vector3 normal)
+        protected void AddVertex(Vector3 position, Vector3 normal, Color color)
         {
-            vertices.Add(new VertexPositionNormalColor(position, normal, Color.White));
+            vertices.Add(new VertexPositionNormalColor(position, normal, color));
         }
 
 

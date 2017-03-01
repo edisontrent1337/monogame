@@ -34,12 +34,12 @@ namespace RainBase.Controller
         public WorldContainer(Game rain)
         {
             //this.room = new Room(Vector3.Zero, 5f,3.5f,10f);
-            this.room = new Room(Vector3.Zero, 10f, 3f, 10f);
-            Graph g1 = new Graph(24, 50, room);
-            Graph d = new Graph(19, 21, room);
+            this.room = new Room(Vector3.Zero, 15f, 3f, 15f);
+            Graph g1 = new Graph(15, 40, room);
+            //Graph d = new Graph(19, 21, room);
            // Graph g2 = new Graph(5, 4, room);
             g1.PopulateRandomly();
-            d.PopulateRandomly();
+            //d.PopulateRandomly();
             //g2.PopulateRandomly();
             this.rain = rain;
 
@@ -52,6 +52,10 @@ namespace RainBase.Controller
 
             RegisterEntity(floor);
 
+            /**
+             * Register each GraphComponent as entities in the system
+             * so they can be drawn.
+             **/
             foreach (Graph graph in graphs.Values) {
 
                 foreach (GraphComponent gc in graph.GetGraphComponents())

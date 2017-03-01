@@ -25,6 +25,7 @@ namespace RainBase.Controller
         private GraphicsDevice graphicsDevice;
         private SpriteBatch sb;
         private BasicEffect basicEffect;
+        private Effect effect;
         private WorldContainer worldContainer;
         private SpriteFont spriteFont;
         private string OS;
@@ -45,7 +46,7 @@ namespace RainBase.Controller
 
         // CONSTRUCTOR
         // -----------------------------------------------
-        public RenderingEngine(string OS, WorldContainer worldContainer, GraphicsDevice graphicsDevice)
+        public RenderingEngine(string OS, WorldContainer worldContainer, GraphicsDevice graphicsDevice,Effect effect)
         {
             this.OS = OS;
             this.worldContainer = worldContainer;
@@ -53,6 +54,9 @@ namespace RainBase.Controller
             this.camera = new FirstPersonCamera(new Vector3(5, 1.80f, 5), Vector3.UnitZ, 3, graphicsDevice);
             this.sb = new SpriteBatch(graphicsDevice);
             this.basicEffect = new BasicEffect(graphicsDevice);
+
+            this.effect = effect;
+  
         }
 
         // METHODS & FUNCTIONS
@@ -75,8 +79,11 @@ namespace RainBase.Controller
                     IndexBuffer ib = new IndexBuffer(graphicsDevice, typeof(ushort), g.GetIndices().Count, BufferUsage.WriteOnly);
                     g.SetUpIndicesAndData(ib);
                  }
- 
+                
             }
+            e.effects.Add(basicEffect);
+           // e.effects.Add(effect);
+
         }
 
 
@@ -87,8 +94,25 @@ namespace RainBase.Controller
             basicEffect.VertexColorEnabled = true;
             basicEffect.Projection = camera.Projection;
             basicEffect.EnableDefaultLighting();
+            //basicEffect.DiffuseColor = new Vector3(1, 1, 1);
+            basicEffect.AmbientLightColor = new Vector3(0.6f, 0.5f, 0.6f);
             basicEffect.View = camera.View;
             basicEffect.World = Matrix.Identity;
+            basicEffect.FogEnabled = false;
+
+            effect.Parameters["Projection"].SetValue(camera.Projection);
+            effect.Parameters["View"].SetValue(camera.View);
+            effect.Parameters["World"].SetValue(Matrix.Identity);
+
+            /*effect.Parameters["AmbientColor"].SetValue(Color.Green.ToVector4());
+            effect.Parameters["AmbientIntensity"].SetValue(0.5f);*/
+
+            Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(Matrix.Identity));
+            effect.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransposeMatrix);
+
+            effect.Parameters["CameraPosition"].SetValue(camera.Position);
+            effect.Parameters["ViewVector"].SetValue(camera.CameraTarget() - camera.Position);
+
 
 
             if (OS == "WINDOWS")
@@ -99,8 +123,14 @@ namespace RainBase.Controller
 
             foreach (Entity e in worldContainer.GetEntities().Values)
             {
-                if(e.HasGraphics())
-                    e.Draw(graphicsDevice, basicEffect);
+                if (e.HasGraphics())
+                {
+                    e.UpdateDistanceToCamera(camera.Position);
+                    graphicsDevice.BlendState = BlendState.AlphaBlend;
+                    e.Draw(graphicsDevice, basicEffect, effect);
+                    basicEffect.Alpha = 1;
+                    graphicsDevice.BlendState = BlendState.Opaque;
+                }
             }
             sb.Begin();
             {
@@ -165,12 +195,12 @@ namespace RainBase.Controller
                 builder.Length = 0;
 
                 Vector2 originX = spriteFont.MeasureString("X") / 2;
-                sb.DrawString(spriteFont, "X", new Vector2(640, 360), Color.White, 0, originX, 1.0f,SpriteEffects.None,0.5f);
+                sb.DrawString(spriteFont, "X", new Vector2(960, 540), Color.White, 0, originX, 1.0f,SpriteEffects.None,0.5f);
                 builder.Length = 0;
 
             }
             sb.End();
-            graphicsDevice.BlendState = BlendState.Opaque;
+
             graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
         }
@@ -186,11 +216,13 @@ namespace RainBase.Controller
 
             camera.Update(Vector3.Transform(pos, tangoPositionTransform), q);
 
+
             basicEffect.VertexColorEnabled = true;
             basicEffect.Projection = camera.Projection;
             basicEffect.EnableDefaultLighting();
             basicEffect.View = camera.View;
             basicEffect.World = Matrix.Identity;
+ 
 
 
             if (OS == "ANDROID")
@@ -200,7 +232,7 @@ namespace RainBase.Controller
             foreach (Entity e in worldContainer.GetEntities().Values)
             {
                 if (e.HasGraphics()) 
-                    e.Draw(graphicsDevice, basicEffect);
+                    e.Draw(graphicsDevice, basicEffect, effect);
             }
 
         }
